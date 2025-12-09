@@ -1,0 +1,11 @@
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\bin\Debug\net9.0\Cirurgico.Domain.deps.json
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\bin\Debug\net9.0\Cirurgico.Domain.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\bin\Debug\net9.0\Cirurgico.Domain.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\obj\Debug\net9.0\Cirurgico.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\obj\Debug\net9.0\Cirurgico.Domain.AssemblyInfoInputs.cache
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\obj\Debug\net9.0\Cirurgico.Domain.AssemblyInfo.cs
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\obj\Debug\net9.0\Cirurgico.Domain.csproj.CoreCompileInputs.cache
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\obj\Debug\net9.0\Cirurgico.Domain.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\obj\Debug\net9.0\refint\Cirurgico.Domain.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\obj\Debug\net9.0\Cirurgico.Domain.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Domain\obj\Debug\net9.0\ref\Cirurgico.Domain.dll
