@@ -1,3 +1,6 @@
+using Agendamentos.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
@@ -14,6 +17,13 @@ builder.Services.AddSwaggerGen(settings =>
         Description = "API para gerenciamento de agendamentos em um sistema hospitalar.",
     });
 });
+
+var conn = builder.Configuration.GetConnectionString("AgendamentosDb");
+builder.Services.AddDbContext<AgendamentosDbContext>(opt =>
+    opt.UseMySql(conn, ServerVersion.AutoDetect(conn)));
+
+builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+
 
 var app = builder.Build();
 

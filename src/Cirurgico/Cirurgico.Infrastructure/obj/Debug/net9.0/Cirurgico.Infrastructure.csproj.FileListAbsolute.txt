@@ -9,3 +9,6 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurg
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Infrastructure\obj\Debug\net9.0\refint\Cirurgico.Infrastructure.dll
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Infrastructure\obj\Debug\net9.0\Cirurgico.Infrastructure.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Infrastructure\obj\Debug\net9.0\ref\Cirurgico.Infrastructure.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Infrastructure\bin\Debug\net9.0\Cirurgico.Infrastructure.runtimeconfig.json
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Infrastructure\obj\Debug\net9.0\Cirurgico.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Infrastructure\obj\Debug\net9.0\Cirurgico.Infrastructure.genruntimeconfig.cache

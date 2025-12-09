@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net9.0": {}
+    "net9.0": {
+      "Agendamentos.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Agendamentos.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Agendamentos.Domain.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Agendamentos.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Agendamentos.Domain/Agendamentos.Domain.csproj",
+      "msbuildProject": "../Agendamentos.Domain/Agendamentos.Domain.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net9.0": []
+    "net9.0": [
+      "Agendamentos.Domain >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\dscw\\.nuget\\packages\\": {}
@@ -13,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Application\\Agendamentos.Application.csproj",
+      "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.Application\\Agendamentos.Application.csproj",
       "projectName": "Agendamentos.Application",
-      "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Application\\Agendamentos.Application.csproj",
+      "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.Application\\Agendamentos.Application.csproj",
       "packagesPath": "C:\\Users\\dscw\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Application\\obj\\",
+      "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\dscw\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -31,7 +50,11 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.Domain\\Agendamentos.Domain.csproj": {
+              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.Domain\\Agendamentos.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
