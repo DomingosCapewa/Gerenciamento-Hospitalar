@@ -1,0 +1,11 @@
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\bin\Debug\net9.0\Agendamentos.Infrastructure.deps.json
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\bin\Debug\net9.0\Agendamentos.Infrastructure.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\bin\Debug\net9.0\Agendamentos.Infrastructure.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\Agendamentos.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\Agendamentos.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\Agendamentos.Infrastructure.AssemblyInfo.cs
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\Agendamentos.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\Agendamentos.Infrastructure.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\refint\Agendamentos.Infrastructure.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\Agendamentos.Infrastructure.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\ref\Agendamentos.Infrastructure.dll

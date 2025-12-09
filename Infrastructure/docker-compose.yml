@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  mysql_agendamentos:
+    image: mysql:8.0
+    container_name: mysql_agendamentos
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword_ag
+      MYSQL_DATABASE: agendamentos_db
+      MYSQL_USER: agend_user
+      MYSQL_PASSWORD: agend_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_agendamentos_data:/var/lib/mysql
+    networks:
+      - hospital-net
+
+  mysql_clinica:
+    image: mysql:8.0
+    container_name: mysql_clinica
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword_cl
+      MYSQL_DATABASE: clinica_db
+      MYSQL_USER: clin_user
+      MYSQL_PASSWORD: clin_pass
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_clinica_data:/var/lib/mysql
+    networks:
+      - hospital-net
+
+  mysql_cirurgico:
+    image: mysql:8.0
+    container_name: mysql_cirurgico
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword_cg
+      MYSQL_DATABASE: cirurgico_db
+      MYSQL_USER: ciru_user
+      MYSQL_PASSWORD: ciru_pass
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_cirurgico_data:/var/lib/mysql
+    networks:
+      - hospital-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"   
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - hospital-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: start-dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    networks:
+      - hospital-net
+
+networks:
+  hospital-net:
+
+volumes:
+  mysql_agendamentos_data:
+  mysql_clinica_data:
+  mysql_cirurgico_data:
+  rabbitmq_data:
+  keycloak_data:

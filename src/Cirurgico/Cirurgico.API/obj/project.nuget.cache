@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "D4MC+XzyXe0=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.API\\Cirurgico.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\dscw\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.11\\microsoft.aspnetcore.openapi.9.0.11.nupkg.sha512",
+    "C:\\Users\\dscw\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
