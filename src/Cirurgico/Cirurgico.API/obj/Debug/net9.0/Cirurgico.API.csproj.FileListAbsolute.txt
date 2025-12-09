@@ -30,3 +30,7 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurg
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.API\obj\Debug\net9.0\Cirurgico.API.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.API\obj\Debug\net9.0\Cirurgico.API.genruntimeconfig.cache
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.API\obj\Debug\net9.0\ref\Cirurgico.API.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Annotations.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
