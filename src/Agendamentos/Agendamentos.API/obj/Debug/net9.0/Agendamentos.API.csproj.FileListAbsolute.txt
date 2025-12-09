@@ -30,3 +30,7 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Age
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\obj\Debug\net9.0\Agendamentos.API.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\obj\Debug\net9.0\Agendamentos.API.genruntimeconfig.cache
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\obj\Debug\net9.0\ref\Agendamentos.API.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Annotations.dll
