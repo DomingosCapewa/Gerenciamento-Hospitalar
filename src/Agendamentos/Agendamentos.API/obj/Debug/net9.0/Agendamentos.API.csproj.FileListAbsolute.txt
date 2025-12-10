@@ -145,3 +145,5 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Age
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.API\bin\Debug\net9.0\Agendamentos.Infrastructure.dll
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.API\bin\Debug\net9.0\Agendamentos.Infrastructure.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.API\bin\Debug\net9.0\Agendamentos.Domain.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.API\bin\Debug\net9.0\Agendamentos.Application.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.API\bin\Debug\net9.0\Agendamentos.Application.pdb

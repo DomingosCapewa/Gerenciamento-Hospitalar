@@ -9,3 +9,7 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Age
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Application\obj\Debug\net9.0\refint\Agendamentos.Application.dll
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Application\obj\Debug\net9.0\Agendamentos.Application.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Application\obj\Debug\net9.0\ref\Agendamentos.Application.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.Application\bin\Debug\net9.0\Agendamentos.Domain.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.Application\bin\Debug\net9.0\Agendamentos.Domain.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.Application\obj\Debug\net9.0\Agendamentos.Application.csproj.AssemblyReference.cache
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.Application\obj\Debug\net9.0\Agendame.08C12B14.Up2Date

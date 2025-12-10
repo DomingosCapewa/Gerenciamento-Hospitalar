@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v9.0": {
       "Agendamentos.Infrastructure/1.0.0": {
         "dependencies": {
+          "Agendamentos.Application": "1.0.0",
           "Agendamentos.Domain": "1.0.0",
           "EntityFramework": "6.5.1",
           "Microsoft.EntityFrameworkCore": "9.0.0",
@@ -799,6 +800,17 @@
           }
         }
       },
+      "Agendamentos.Application/1.0.0": {
+        "dependencies": {
+          "Agendamentos.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Agendamentos.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Agendamentos.Domain/1.0.0": {
         "runtime": {
           "Agendamentos.Domain.dll": {
@@ -1227,6 +1239,11 @@
       "sha512": "sha512-IXoJOXIqc39AIe+CIR7koBtRGMiCt/LPM3lI+PELtDIy9XdyeSrwXFdWV9dzJ2Awl0paLWUaknLxFQ5HpHZUog==",
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
+    },
+    "Agendamentos.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Agendamentos.Domain/1.0.0": {
       "type": "project",
