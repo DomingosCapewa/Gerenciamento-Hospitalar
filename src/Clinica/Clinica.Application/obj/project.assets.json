@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net9.0": {}
+    "net9.0": {
+      "Clinica.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Clinica.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Clinica.Domain.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Clinica.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Clinica.Domain/Clinica.Domain.csproj",
+      "msbuildProject": "../Clinica.Domain/Clinica.Domain.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net9.0": []
+    "net9.0": [
+      "Clinica.Domain >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\dscw\\.nuget\\packages\\": {}
@@ -31,7 +50,11 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\Clinica.Domain\\Clinica.Domain.csproj": {
+              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\Clinica.Domain\\Clinica.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

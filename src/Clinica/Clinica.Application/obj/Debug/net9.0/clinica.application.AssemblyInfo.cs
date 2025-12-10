@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("clinica.application")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Clinica.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d3de468c502ff4e774e044f33f5df2092a9e8c0e")]
-[assembly: System.Reflection.AssemblyProductAttribute("clinica.application")]
-[assembly: System.Reflection.AssemblyTitleAttribute("clinica.application")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+973b3f52b025ca52e559dfd26ea6e23dc141d7fb")]
+[assembly: System.Reflection.AssemblyProductAttribute("Clinica.Application")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Clinica.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.

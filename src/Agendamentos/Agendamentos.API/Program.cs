@@ -37,11 +37,5 @@ app.MapControllers();
 app.UseSwaggerUI();
 app.UseSwagger();
 
-app.MapGet("/", () =>
-{
-   
-    return "Agendaementos API is running, write /swagger to acess the documentation!";
-});
-
 app.Run();
 

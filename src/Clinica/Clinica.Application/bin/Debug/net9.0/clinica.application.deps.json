@@ -6,15 +6,31 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "clinica.application/1.0.0": {
+      "Clinica.Application/1.0.0": {
+        "dependencies": {
+          "Clinica.Domain": "1.0.0"
+        },
         "runtime": {
-          "clinica.application.dll": {}
+          "Clinica.Application.dll": {}
+        }
+      },
+      "Clinica.Domain/1.0.0": {
+        "runtime": {
+          "Clinica.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
   },
   "libraries": {
-    "clinica.application/1.0.0": {
+    "Clinica.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Clinica.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

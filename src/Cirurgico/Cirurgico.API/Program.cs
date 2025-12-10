@@ -30,11 +30,4 @@ app.MapControllers();
 app.UseSwaggerUI();
 app.UseSwagger();
 
-app.MapGet("/", () =>
-{
-    
-    
-    return "Cirurgico API is running, access swagger with /swagger!";
-});
-
 app.Run();

@@ -1,8 +1,25 @@
+using Microsoft.EntityFrameworkCore;
+using Clinica.Application.Interfaces;
+using Clinica.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+});
+
+var conn = builder.Configuration.GetConnectionString("ClinicaDb");
+builder.Services.AddDbContext<ClinicaDbContext>(opt => opt.UseMySql(conn, ServerVersion.AutoDetect(conn)));
+
+builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
+
 
 builder.Services.AddSwaggerGen(settings =>
 {
@@ -23,14 +40,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 app.MapControllers();
-app.UseSwaggerUI();
-app.UseSwagger();
 
-app.MapGet("/", () =>
-{
-   return "Clinica API is running, access swagger with /swagger!";
-})
-.WithName("GetStatus");
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.Run();
