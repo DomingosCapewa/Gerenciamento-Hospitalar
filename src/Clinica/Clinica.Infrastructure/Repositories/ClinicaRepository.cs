@@ -1,4 +1,4 @@
-
+using Clinica.Infrastructure.Persistence;
 
 
 namespace Clinica.Infrastructure.Repositories

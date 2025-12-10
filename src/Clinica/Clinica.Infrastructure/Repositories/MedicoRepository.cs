@@ -1,6 +1,9 @@
 
 
 using Clinica.Application.Interfaces;
+using Clinica.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Clinica.Domain.Entities;
 
 namespace Clinica.Infrastructure.Repositories
 {
@@ -12,13 +15,13 @@ namespace Clinica.Infrastructure.Repositories
             _context = context;
         }
 
-        public Task<Medico> AddMedicoAsync(Medico medico)
+        public async Task<Medico> AddMedicoAsync(Medico medico)
         {
            try
            {
-                _context.Medicos.Add(medico);
-                _context.SaveChanges();
-                return Task.FromResult(medico);
+                await _context.Medicos.AddAsync(medico);
+                await _context.SaveChangesAsync();
+                return medico;
            }
            catch(Exception ex)
            {
@@ -26,19 +29,19 @@ namespace Clinica.Infrastructure.Repositories
            }
         }
 
-        public Task<bool> DeleteMedicoAsync(int id)
+        public async Task<bool> DeleteMedicoAsync(int id)
         {
             try
             {
-                var medico = _context.Medicos.Find(id);
+                var medico = await _context.Medicos.FindAsync(id);
                 if (medico == null)
                 {
-                    return Task.FromResult(false);
+                    return false;
                 }
 
                 _context.Medicos.Remove(medico);
-                _context.SaveChanges();
-                return Task.FromResult(true);
+                await _context.SaveChangesAsync();
+                return true;
             }
             catch (Exception ex)
             {
@@ -46,25 +49,25 @@ namespace Clinica.Infrastructure.Repositories
             }
         }
 
-        public Task<IEnumerable<Medico>> GetAllMedicosAsync()
+        public async Task<IEnumerable<Medico>> GetAllMedicosAsync()
         {
-            var medicos = _context.Medicos.ToList();
-            return Task.FromResult<IEnumerable<Medico>>(medicos);
+            var medicos = await _context.Medicos.ToListAsync();
+            return medicos;
         }
 
-        public Task<Medico> GetMedicoByIdAsync(int id)
+        public async Task<Medico> GetMedicoByIdAsync(int id)
         {
-            var medico = _context.Medicos.Find(id);
-            return Task.FromResult(medico);
+            var medico = await _context.Medicos.FindAsync(id);
+            return medico;
         }
 
-        public Task<Medico> UpdateMedicoAsync(Medico medico)
+        public async Task<Medico> UpdateMedicoAsync(Medico medico)
         {
             try
             {
                 _context.Medicos.Update(medico);
-                _context.SaveChanges();
-                return Task.FromResult(medico);
+                await _context.SaveChangesAsync();
+                return medico;
             }
             catch (Exception ex)
             {

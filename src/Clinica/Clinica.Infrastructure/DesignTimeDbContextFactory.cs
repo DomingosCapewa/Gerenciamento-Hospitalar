@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Clinica.Infrastructure.Persistence;
 
 namespace Clinica.Infrastructure
 {

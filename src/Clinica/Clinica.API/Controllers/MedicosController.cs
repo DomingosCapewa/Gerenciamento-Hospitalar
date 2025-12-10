@@ -1,6 +1,5 @@
-
-
 using Clinica.Application.Interfaces;
+using Clinica.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -38,7 +37,6 @@ namespace Clinica.API.Controllers
             return Ok(new{ message = "Medico retrieved successfully", data = medico });
         }
         
-
         [HttpPost]
         [SwaggerOperation(Summary = "Add a new medico", Description = "Creates a new medico in the system.")]
         public async Task<IActionResult> AddMedico([FromBody] Medico medico)

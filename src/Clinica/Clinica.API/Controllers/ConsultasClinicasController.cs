@@ -6,10 +6,10 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Clinica.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/clinica/")]
     public class ConsultasClinicasController : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("AtenderConsulta")]
         [SwaggerOperation(Summary = "Check API status", Description = "Returns a message indicating that the ConsultasClinicas API is running.")]
         public IActionResult Get()
         {

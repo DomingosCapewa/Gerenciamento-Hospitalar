@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Clinica.Application.Interfaces;
 using Clinica.Infrastructure.Repositories;
+using Clinica.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
@@ -19,6 +20,7 @@ var conn = builder.Configuration.GetConnectionString("ClinicaDb");
 builder.Services.AddDbContext<ClinicaDbContext>(opt => opt.UseMySql(conn, ServerVersion.AutoDetect(conn)));
 
 builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
+builder.Services.AddScoped<IConsultaClinicaRepository, ConsultaClinicaRepository>();
 
 
 builder.Services.AddSwaggerGen(settings =>
