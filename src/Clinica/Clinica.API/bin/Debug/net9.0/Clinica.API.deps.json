@@ -8,13 +8,13 @@
     ".NETCoreApp,Version=v9.0": {
       "Clinica.API/1.0.0": {
         "dependencies": {
-          "Clinica.Application": "1.0.0",
-          "Clinica.Infrastructure": "1.0.0",
           "Microsoft.AspNetCore.OpenApi": "9.0.11",
           "Swashbuckle.AspNetCore.Annotations": "9.0.0",
           "Swashbuckle.AspNetCore.Swagger": "9.0.0",
           "Swashbuckle.AspNetCore.SwaggerGen": "9.0.0",
-          "Swashbuckle.AspNetCore.SwaggerUI": "9.0.0"
+          "Swashbuckle.AspNetCore.SwaggerUI": "9.0.0",
+          "clinica.application": "1.0.0",
+          "clinica.infrastructure": "1.0.0"
         },
         "runtime": {
           "Clinica.API.dll": {}
@@ -804,37 +804,37 @@
           }
         }
       },
-      "Clinica.Application/1.0.0": {
+      "clinica.application/1.0.0": {
         "dependencies": {
-          "Clinica.Domain": "1.0.0"
+          "clinica.domain": "1.0.0"
         },
         "runtime": {
-          "Clinica.Application.dll": {
+          "clinica.application.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
       },
-      "Clinica.Domain/1.0.0": {
+      "clinica.domain/1.0.0": {
         "runtime": {
-          "Clinica.Domain.dll": {
+          "clinica.domain.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
       },
-      "Clinica.Infrastructure/1.0.0": {
+      "clinica.infrastructure/1.0.0": {
         "dependencies": {
-          "Clinica.Application": "1.0.0",
-          "Clinica.Domain": "1.0.0",
           "EntityFramework": "6.5.1",
           "Microsoft.EntityFrameworkCore": "9.0.0",
           "Microsoft.EntityFrameworkCore.Design": "9.0.0",
           "Microsoft.EntityFrameworkCore.Tools": "9.0.0",
-          "Pomelo.EntityFrameworkCore.MySql": "9.0.0"
+          "Pomelo.EntityFrameworkCore.MySql": "9.0.0",
+          "clinica.application": "1.0.0",
+          "clinica.domain": "1.0.0"
         },
         "runtime": {
-          "Clinica.Infrastructure.dll": {
+          "clinica.infrastructure.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -1303,17 +1303,17 @@
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
     },
-    "Clinica.Application/1.0.0": {
+    "clinica.application/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Clinica.Domain/1.0.0": {
+    "clinica.domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Clinica.Infrastructure/1.0.0": {
+    "clinica.infrastructure/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

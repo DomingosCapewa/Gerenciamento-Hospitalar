@@ -1,7 +1,12 @@
 using Agendamentos.Domain.Entities;
-public interface IPacienteRepository
+
+namespace Agendamentos.Application.Interfaces
 {
-    Task<Paciente> AddAsync(Paciente p);
-    Task<Paciente?> GetByIdAsync(int id);
-    Task<IEnumerable<Paciente>> GetAllAsync();
+    public interface IPacienteRepository
+    {
+        Task<Paciente> AddAsync(Paciente p);
+        Task<Paciente?> GetByIdAsync(int id);
+        Task<IEnumerable<Paciente>> GetAllAsync();
+    }
 }
+

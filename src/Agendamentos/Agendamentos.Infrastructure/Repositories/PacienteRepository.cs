@@ -1,3 +1,4 @@
+using Agendamentos.Application.Interfaces;
 using Agendamentos.Domain.Entities;
 using Agendamentos.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

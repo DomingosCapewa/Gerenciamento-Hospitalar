@@ -5,7 +5,36 @@
    /src
       /Agendamentos.API
       /Clinica.API
-      /Cirurgico.API
+      /Cir
+# Estrutura do projeto 
+````
+/Gerenciamento-hospitalar 
+   /src
+      /Agendamentos
+         /Agendamentos.API
+         /Agendamentos.Application
+         /Agendamentos.Domain
+         /Agendamentos.Infrastructure
+      /Cirurgico
+         /Cirurgico.API
+         /Cirurgico.Application
+         /Cirurgico.Domain
+         /Cirurgico.Infrastructure
+      /Clinica
+         /Clinica.API
+         /Clinica.Application
+         /Clinica.Domain
+         /Clinica.Infrastructure
+      /Gateway
+      /infrastructure	
+         /mysql
+         /rabbitmq
+         /keycloak
+         docker-compose.yml
+      /Shared.Contracts
+      HospitalSolution.sln
+   README.md
+   ````urgico.API
       /Gateway
    /infrastructure	
       /mysql

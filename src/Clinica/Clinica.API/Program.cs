@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Clinica.Application.Interfaces;
 using Clinica.Infrastructure.Repositories;
 using Clinica.Infrastructure.Persistence;
+using System.Net.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
@@ -21,6 +22,11 @@ builder.Services.AddDbContext<ClinicaDbContext>(opt => opt.UseMySql(conn, Server
 
 builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IConsultaClinicaRepository, ConsultaClinicaRepository>();
+builder.Services.AddHttpClient("ClinicaApi", c =>
+{
+    var baseUrl = builder.Configuration["ExternalApis:ClinicaBaseUrl"] ?? "https://localhost:7265";
+    c.BaseAddress = new Uri(baseUrl);
+});
 
 
 builder.Services.AddSwaggerGen(settings =>

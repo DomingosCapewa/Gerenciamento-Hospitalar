@@ -21,6 +21,12 @@ namespace Clinica.Infrastructure.Repositories
                 .AnyAsync(c => c.MedicoId == medicoId && c.DataHora == dataHora);
         }
 
+        public async Task<bool> HorarioOcupadoPorCpfAsync(string cpf, DateTime dataHora)
+        {
+            return await _context.ConsultasClinicas
+                .AnyAsync(c => c.PacienteCPF == cpf && c.DataHora == dataHora);
+        }
+
         public async Task<ConsultaClinica?> GetByIdAsync(int id)
         {
             return await _context.ConsultasClinicas
