@@ -33,14 +33,31 @@ public class AgendamentoRepository : IAgendamentoRepository
         return c;
     }
 
+
     public async Task<Exame> AddExameAsync(Exame e)
     {
         _db.Exames.Add(e);
         await _db.SaveChangesAsync();
         return e;
     }
+
     public async Task<Consulta?> GetConsultaByIdAsync(int id)
     {
         return await _db.Consultas.FindAsync(id);
     }
+    public async Task<Exame?> GetExameByIdAsync(int id)
+    {
+        return await _db.Exames.FindAsync(id);
+    }
+
+    public async Task<Consulta?> GetConsultaByCPFAsync(string cpf)
+    {
+        return await _db.Consultas.FirstOrDefaultAsync(c => c.PacienteCpf == cpf);
+    }
+
+    public async Task<Exame?> GetExameByCPFAsync(string cpf)
+    {
+        return await _db.Exames.FirstOrDefaultAsync(e => e.PacienteCpf == cpf);
+    }
+
 }

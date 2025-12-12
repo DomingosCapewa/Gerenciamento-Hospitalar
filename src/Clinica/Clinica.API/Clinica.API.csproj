@@ -15,8 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    
+    <ProjectReference Include="..\..\Shared.Contracts\Shared.Contracts.csproj" />
+    
     <ProjectReference Include="..\Clinica.Infrastructure\Clinica.Infrastructure.csproj" />
+    
     <ProjectReference Include="..\Clinica.Application\Clinica.Application.csproj" />
+    
+    <ProjectReference Include="..\Clinica.Domain\Clinica.Domain.csproj" />
   </ItemGroup>
 
 </Project>

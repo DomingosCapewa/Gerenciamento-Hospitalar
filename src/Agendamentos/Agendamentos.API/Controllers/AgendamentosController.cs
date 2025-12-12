@@ -4,21 +4,29 @@ using Agendamentos.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Shared.Contracts.Events;
+using Agendamentos.API.HATEOAS;
 
 [ApiController]
-[Route("api/cadastro")]
+[Route("api/agendamentos")]
 public class AgendamentosController : ControllerBase
 {
     private readonly IAgendamentoRepository _repo;
     private readonly IRabbitPublisher _publisher;
+    private HATEOAS HATEOAS;   
 
     public AgendamentosController(IAgendamentoRepository repo, IRabbitPublisher publisher)
     {
         _repo = repo;
         _publisher = publisher;
+        HATEOAS = new HATEOAS();
+        HATEOAS.AddLink("self", "GET", "/api/agendamentos/pesquisar/consultas/{id}");
+        HATEOAS.AddLink("update", "PATCH", "/api/agendamentos/alterar/consultas/{id}");
+        HATEOAS.AddLink("delete", "DELETE", "/api/agendamentos/deletar/consultas/{id}");
     }
 
-    [HttpPost("consulta")]
+    
+
+    [HttpPost("cadastro/consulta")]
     [SwaggerOperation(Summary = "Cadastrar uma nova consulta", Description = "Adiciona uma nova consulta ao sistema.")]
     public async Task<IActionResult> CadastroConsulta([FromBody] CadastroConsultaDto dto)
     {
@@ -49,38 +57,45 @@ public class AgendamentosController : ControllerBase
         return Ok(new { mensagem = $"O medico {criado.MedicoEspecialidade} de {dto.Paciente.Nome} foi marcado para {criado.DataHora:O}", codigo = criado.Id });
     }
 
-    [HttpGet("consultas/{pacienteId}")]
-    [SwaggerOperation(Summary = "Obter detalhes da consulta ", Description = "Recupera os detalhes de uma consulta pelo pacienteId.")]
-    public async Task<IActionResult> ObterConsulta(int pacienteId)
+    [HttpGet("pesquisar/consultas/{pacienteCPF}")]
+    [SwaggerOperation(Summary = "Obter detalhes da consulta ", Description = "Recupera os detalhes de uma consulta pelo pacienteCPF.")]
+    public async Task<IActionResult> ObterConsulta(string pacienteCPF)
     {
         try
         {
-            var consultasPaciente = await _repo.GetConsultaByIdAsync(pacienteId);
+            var consultasPaciente = await _repo.GetConsultaByCPFAsync(pacienteCPF);
             if (consultasPaciente == null)
             {
                 return NotFound(new { mensagem = "Consulta não encontrada." });
             }
-            return Ok(new { mensagem = $"Detalhes da consulta com ID {pacienteId}.", data = consultasPaciente });
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            var container = new AgendamentoContainer
+            {
+                Consulta = consultasPaciente,
+                Links = HATEOAS.GetActions(baseUrl, consultasPaciente.Id.ToString())
+            };
+
+            return Ok(new { mensagem = $"Detalhes da consulta com CPF {pacienteCPF}.", data = container });
         }
         catch (Exception ex)
         {
             return StatusCode(500, new { mensagem = "Erro ao obter detalhes da consulta.", detalhe = ex.Message });
         }
     }
-    [HttpPatch("consultas/{pacienteId}")]
+    [HttpPatch("alterar/consultas/{pacienteId}")]
     [SwaggerOperation(Summary = "Atualizar detalhes da consulta", Description = "Atualiza os detalhes de uma consulta existente pelo pacienteId.")]
     public IActionResult AtualizarConsulta(int pacienteId, [FromBody] object detalhesAtualizados)
     {
         return Ok(new { mensagem = $"Consulta com ID {pacienteId} atualizada com sucesso." });
     }
-    [HttpDelete("consultas/{pacienteId}")]
+    [HttpDelete("deletar/consultas/{pacienteId}")]
     [SwaggerOperation(Summary = "Excluir uma consulta", Description = "Exclui uma consulta existente pelo pacienteId.")]
     public IActionResult ExcluirConsulta(int pacienteId)
     {
         return Ok(new { mensagem = $"Consulta com ID {pacienteId} excluída com sucesso." });
     }
 
-    [HttpPost("exame")]
+    [HttpPost("cadastro/exame")]
     [SwaggerOperation(Summary = "Cadastrar um novo exame", Description = "Adiciona um novo exame ao sistema.")]
     public async Task<IActionResult> CadastroExame([FromBody] CadastroExameDto dto)
     {
@@ -110,22 +125,38 @@ public class AgendamentosController : ControllerBase
 
         return Ok(new { mensagem = $"O exame {criado.TipoExame} de {dto.Paciente.Nome} foi marcado para {criado.DataHora:O}", codigo = criado.Id });
     }
-    [HttpGet("exames/{pacienteId}")]
+    [HttpGet("pesquisar/exames/{pacienteId}")]
     [SwaggerOperation(Summary = "Obter detalhes do exame", Description = "Recupera os detalhes de um exame pelo pacienteId.")]
     public IActionResult ObterExame(int pacienteId)
     {
-        return Ok(new { mensagem = $"Detalhes do exame com ID {pacienteId}." });
+        try{
+            var examesPaciente = _repo.GetExameByIdAsync(pacienteId);
+            if (examesPaciente == null)
+            {
+                return NotFound(new { mensagem = "Exame não encontrado." });
+            }
+            return Ok(new { mensagem = $"Detalhes do exame com ID {pacienteId}.", data = examesPaciente });
+
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { mensagem = "Erro ao obter detalhes do exame.", detalhe = ex.Message });
+        }
     }
-    [HttpPatch("exames/{pacienteId}")]
+
+    [HttpPatch("alterar/exames/{pacienteId}")]
     [SwaggerOperation(Summary = "Atualizar detalhes do exame", Description = "Atualiza os detalhes de um exame existente pelo pacienteId.")]
     public IActionResult AtualizarExame(int pacienteId, [FromBody] object detalhesAtualizados)
     {
         return Ok(new { mensagem = $"Exame com ID {pacienteId} atualizado com sucesso." });
     }
-    [HttpDelete("exames/{pacienteId}")]
+
+    [HttpDelete("deletar/exames/{pacienteId}")]
     [SwaggerOperation(Summary = "Excluir um exame", Description = "Exclui um exame existente pelo pacienteId.")]
     public IActionResult ExcluirExame(int pacienteId)
     {
         return Ok(new { mensagem = $"Exame com ID {pacienteId} excluído com sucesso." });
     }
+
+    
 }

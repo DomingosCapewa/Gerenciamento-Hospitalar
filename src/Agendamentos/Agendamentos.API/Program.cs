@@ -4,8 +4,6 @@ using Agendamentos.Application.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Agendamentos.Application.Validators;
-using FluentValidation.AspNetCore;
-using Agendamentos.Application.Validators;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 

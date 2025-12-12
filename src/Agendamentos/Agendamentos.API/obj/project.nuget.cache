@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BUHeDiOf4Vw=",
+  "dgSpecHash": "pVkH2cT3JKQ=",
   "success": true,
-  "projectFilePath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.API\\Agendamentos.API.csproj",
+  "projectFilePath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.API\\Agendamentos.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dscw\\.nuget\\packages\\entityframework\\6.5.1\\entityframework.6.5.1.nupkg.sha512",
     "C:\\Users\\dscw\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",

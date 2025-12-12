@@ -9,5 +9,7 @@ namespace Agendamentos.Application.Interfaces
         Task<Consulta> AddConsultaAsync(Consulta c);
         Task<Exame> AddExameAsync(Exame e);
         Task<Consulta?> GetConsultaByIdAsync(int id);
+        Task<Consulta?> GetConsultaByCPFAsync(string cpf);
+        Task<Exame?> GetExameByIdAsync(int id);
     }
 }

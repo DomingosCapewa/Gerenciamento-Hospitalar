@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.domain\\clinica.domain.csproj": {}
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Clinica\\Clinica.Domain\\Clinica.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.domain\\clinica.domain.csproj": {
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Clinica\\Clinica.Domain\\Clinica.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.domain\\clinica.domain.csproj",
-        "projectName": "clinica.domain",
-        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.domain\\clinica.domain.csproj",
+        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Clinica\\Clinica.Domain\\Clinica.Domain.csproj",
+        "projectName": "Clinica.Domain",
+        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Clinica\\Clinica.Domain\\Clinica.Domain.csproj",
         "packagesPath": "C:\\Users\\dscw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.domain\\obj\\",
+        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Clinica\\Clinica.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dscw\\AppData\\Roaming\\NuGet\\NuGet.Config"

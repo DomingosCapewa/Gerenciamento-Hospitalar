@@ -20,7 +20,6 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <ProjectReference Include="..\Agendamentos.Infrastructure\Agendamentos.Infrastructure.csproj" />
     <ProjectReference Include="..\Agendamentos.Domain\Agendamentos.Domain.csproj" />
-    <ProjectReference Include="..\Agendamentos.Application\Agendamentos.Application.csproj" />
     <ProjectReference Include="..\..\Shared.Contracts\Shared.Contracts.csproj" />
   </ItemGroup>
 

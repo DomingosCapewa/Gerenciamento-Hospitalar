@@ -1,9 +1,10 @@
-
-
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using Clinica.Application.Interfaces;
 using Clinica.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Http.Json;
+
+
 
 namespace Clinica.API.Controllers
 {
