@@ -5,6 +5,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Clinica.API.Controllers
 {
+    //apenas admins podem acessar
     [ApiController]
     [Route("api/[controller]")]
     public class MedicosController : ControllerBase
@@ -42,7 +43,7 @@ namespace Clinica.API.Controllers
         public async Task<IActionResult> AddMedico([FromBody] Medico medico)
         {
             var createdMedico = await _medicoRepository.AddMedicoAsync(medico);
-            return CreatedAtAction(nameof(GetMedicoById), new { id = createdMedico.Id }, new { message = "Medico created successfully", data = createdMedico });
+            return CreatedAtAction(nameof(GetMedicoById), new { id = createdMedico.IdMedico }, new { message = "Medico created successfully", data = createdMedico });
         }
     }
 }

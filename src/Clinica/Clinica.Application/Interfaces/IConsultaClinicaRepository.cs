@@ -6,9 +6,9 @@ namespace Clinica.Application.Interfaces
     {
         Task<bool> HorarioOcupadoAsync(int? medicoId, DateTime dataHora);
         Task<bool> HorarioOcupadoPorCpfAsync(string cpf, DateTime dataHora);
-        Task<ConsultaClinica?> GetByIdAsync(int id);
-        Task<ConsultaClinica?> GetByCpfAndDateAsync(string cpf, DateTime dataHora);
-        Task<ConsultaClinica> AddAsync(ConsultaClinica c);
-        Task<ConsultaClinica> UpdateAsync(ConsultaClinica c);
+        Task<ConsultasClinicas?> GetByIdAsync(int id);
+        Task<ConsultasClinicas?> GetByCpfAndDateAsync(string cpf, DateTime dataHora);
+        Task<ConsultasClinicas> AddAsync(ConsultasClinicas c);
+        Task<ConsultasClinicas> UpdateAsync(ConsultasClinicas c);
     }
 }

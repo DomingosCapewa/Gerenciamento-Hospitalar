@@ -14,7 +14,7 @@ public class AgendamentosDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Paciente>().HasIndex(p => p.CPF).IsUnique();
-        modelBuilder.Entity<Consulta>().HasIndex(c => new { c.PacienteCpf, c.DataHora });
-        modelBuilder.Entity<Exame>().HasIndex(e => new { e.PacienteCpf, e.DataHora });
+        modelBuilder.Entity<Consulta>().HasIndex(c => new { c.CpfPaciente, c.Horario });
+        modelBuilder.Entity<Exame>().HasIndex(e => new { e.CpfPaciente, e.Horario });
     }
 }

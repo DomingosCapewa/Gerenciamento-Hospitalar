@@ -6,9 +6,9 @@ namespace Clinica.Application.Interfaces
 {
     public interface IClinicaRepository
     {
-       public Task<ConsultaClinica> AtenderConsulta(ConsultaClinica consulta);
-       public Task<ConsultaClinica?> GetConsultaByIdAsync(int id);
-         public Task<IEnumerable<ConsultaClinica>> GetAllConsultasAsync();
+       public Task<ConsultasClinicas> AtenderConsulta(ConsultasClinicas consulta);
+       public Task<ConsultasClinicas?> GetConsultaByIdAsync(int id);
+         public Task<IEnumerable<ConsultasClinicas>> GetAllConsultasAsync();
 
     }
 }

@@ -30,16 +30,16 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DataHora")
+                    b.Property<string>("CpfPaciente")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("Horario")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("MedicoEspecialidade")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<string>("PacienteCpf")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -47,7 +47,7 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PacienteCpf", "DataHora");
+                    b.HasIndex("CpfPaciente", "Horario");
 
                     b.ToTable("Consultas");
                 });
@@ -60,12 +60,12 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DataHora")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("PacienteCpf")
+                    b.Property<string>("CpfPaciente")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("Horario")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -77,7 +77,7 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PacienteCpf", "DataHora");
+                    b.HasIndex("CpfPaciente", "Horario");
 
                     b.ToTable("Exames");
                 });

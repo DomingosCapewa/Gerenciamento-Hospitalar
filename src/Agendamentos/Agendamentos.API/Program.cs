@@ -4,6 +4,8 @@ using Agendamentos.Application.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Agendamentos.Application.Validators;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +42,16 @@ builder.Services.AddSingleton<IRabbitPublisher>(sp =>
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 var app = builder.Build();
+var culture = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
+var locOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(culture),
+    SupportedCultures = new[] { culture },
+    SupportedUICultures = new[] { culture }
+};
+app.UseRequestLocalization(locOptions);
 app.UseCors("AllowAll");
 if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(); }
 app.UseHttpsRedirection();

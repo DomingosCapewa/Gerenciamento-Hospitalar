@@ -3,6 +3,9 @@ using Clinica.Application.Interfaces;
 using Clinica.Infrastructure.Repositories;
 using Clinica.Infrastructure.Persistence;
 using System.Net.Http;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Clinica.Infrastructure.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
@@ -28,6 +31,17 @@ builder.Services.AddHttpClient("ClinicaApi", c =>
     c.BaseAddress = new Uri(baseUrl);
 });
 
+// Publisher de eventos (RabbitMQ)
+builder.Services.AddSingleton<Clinica.Infrastructure.Messaging.EventPublisher>(sp =>
+{
+    var cfg = builder.Configuration.GetSection("Rabbit");
+    var host = cfg["Host"] ?? "localhost";
+    var port = int.TryParse(cfg["Port"], out var p) ? p : 5672;
+    var user = cfg["User"] ?? "guest";
+    var pass = cfg["Password"] ?? "guest";
+    return new Clinica.Infrastructure.Messaging.EventPublisher(host, port, user, pass);
+});
+
 
 builder.Services.AddSwaggerGen(settings =>
 {
@@ -40,12 +54,26 @@ builder.Services.AddSwaggerGen(settings =>
     });
 });
 
+builder.Services.AddHostedService<Clinica.Infrastructure.Messaging.ConsultaCriadaBackgroundService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+// Cultura padrão pt-BR
+var culture = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
+var locOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(culture),
+    SupportedCultures = new[] { culture },
+    SupportedUICultures = new[] { culture }
+};
+app.UseRequestLocalization(locOptions);
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");

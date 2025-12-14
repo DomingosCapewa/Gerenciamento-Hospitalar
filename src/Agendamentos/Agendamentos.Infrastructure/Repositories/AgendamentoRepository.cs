@@ -21,8 +21,8 @@ public class AgendamentoRepository : IAgendamentoRepository
 
     public async Task<bool> ExistsPacienteAtAsync(string cpf, DateTime hora)
     {
-        var hasConsulta = await _db.Consultas.AnyAsync(c => c.PacienteCpf == cpf && c.DataHora == hora);
-        var hasExame = await _db.Exames.AnyAsync(e => e.PacienteCpf == cpf && e.DataHora == hora);
+        var hasConsulta = await _db.Consultas.AnyAsync(c => c.CpfPaciente == cpf && c.Horario == hora);
+        var hasExame = await _db.Exames.AnyAsync(e => e.CpfPaciente == cpf && e.Horario == hora);
         return hasConsulta || hasExame;
     }
 
@@ -52,12 +52,12 @@ public class AgendamentoRepository : IAgendamentoRepository
 
     public async Task<Consulta?> GetConsultaByCPFAsync(string cpf)
     {
-        return await _db.Consultas.FirstOrDefaultAsync(c => c.PacienteCpf == cpf);
+        return await _db.Consultas.FirstOrDefaultAsync(c => c.CpfPaciente == cpf);
     }
 
     public async Task<Exame?> GetExameByCPFAsync(string cpf)
     {
-        return await _db.Exames.FirstOrDefaultAsync(e => e.PacienteCpf == cpf);
+        return await _db.Exames.FirstOrDefaultAsync(e => e.CpfPaciente == cpf);
     }
 
 }

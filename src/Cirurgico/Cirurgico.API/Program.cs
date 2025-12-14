@@ -1,4 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 
 builder.Services.AddOpenApi();
@@ -25,6 +27,18 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Cultura padrão pt-BR
+var culture = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
+var locOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(culture),
+    SupportedCultures = new[] { culture },
+    SupportedUICultures = new[] { culture }
+};
+app.UseRequestLocalization(locOptions);
 
 app.MapControllers();
 app.UseSwaggerUI();

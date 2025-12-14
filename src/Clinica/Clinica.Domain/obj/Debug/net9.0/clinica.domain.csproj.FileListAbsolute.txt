@@ -1,4 +1,4 @@
-C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Domain\bin\Debug\net9.0\Clinica.Domain.deps.json
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\clinica\Clinica.Domain\bin\Debug\net9.0\Clinica.Domain.deps.json
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Domain\bin\Debug\net9.0\Clinica.Domain.dll
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Domain\bin\Debug\net9.0\Clinica.Domain.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Domain\obj\Debug\net9.0\Clinica.Domain.GeneratedMSBuildEditorConfig.editorconfig
@@ -8,4 +8,4 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Domain\obj\Debug\net9.0\Clinica.Domain.dll
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Domain\obj\Debug\net9.0\refint\Clinica.Domain.dll
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Domain\obj\Debug\net9.0\Clinica.Domain.pdb
-C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Domain\obj\Debug\net9.0\ref\Clinica.Domain.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\clinica\Clinica.Domain\obj\Debug\net9.0\ref\Clinica.Domain.dll

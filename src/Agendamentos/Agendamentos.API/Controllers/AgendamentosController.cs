@@ -42,19 +42,19 @@ public class AgendamentosController : ControllerBase
         var paciente = new Paciente { Nome = dto.Paciente.Nome, CPF = dto.Paciente.CPF, Idade = dto.Paciente.Idade, Sexo = dto.Paciente.Sexo };
         await _repo.EnsurePacienteAsync(paciente);
 
-        var consulta = new Consulta { PacienteCpf = dto.Paciente.CPF, DataHora = dto.Horario, MedicoEspecialidade = dto.Medico };
+        var consulta = new Consulta { CpfPaciente = dto.Paciente.CPF, Horario = dto.Horario, MedicoEspecialidade = dto.Medico };
         var criado = await _repo.AddConsultaAsync(consulta);
 
         var evento = new ConsultaCriadaEvent
         {
             IdAgendamento = criado.Id,
-            PacienteCpf = criado.PacienteCpf,
-            DataHora = criado.DataHora,
+            CpfPaciente = criado.CpfPaciente,
+            Horario = criado.Horario,
             MedicoEspecialidade = criado.MedicoEspecialidade
         };
         _publisher.Publish("clinica-consultas", evento);
 
-        return Ok(new { mensagem = $"O medico {criado.MedicoEspecialidade} de {dto.Paciente.Nome} foi marcado para {criado.DataHora:O}", codigo = criado.Id });
+        return Ok(new { mensagem = $"O medico {criado.MedicoEspecialidade} de {dto.Paciente.Nome} foi marcado para {criado.Horario:dd/MM/yyyy HH:mm}", codigo = criado.Id });
     }
 
     [HttpGet("pesquisar/consultas/{pacienteCPF}")]
@@ -111,19 +111,19 @@ public class AgendamentosController : ControllerBase
         var paciente = new Paciente { Nome = dto.Paciente.Nome, CPF = dto.Paciente.CPF, Idade = dto.Paciente.Idade, Sexo = dto.Paciente.Sexo };
         await _repo.EnsurePacienteAsync(paciente);
 
-        var exame = new Exame { PacienteCpf = dto.Paciente.CPF, DataHora = dto.Horario, TipoExame = dto.Exame };
+        var exame = new Exame { CpfPaciente = dto.Paciente.CPF, Horario = dto.Horario, TipoExame = dto.Exame };
         var criado = await _repo.AddExameAsync(exame);
 
         var eventoExame = new ExameCriadaEvent
         {
             IdAgendamento = criado.Id,
-            PacienteCpf = criado.PacienteCpf,
-            DataHora = criado.DataHora,
+            CpfPaciente = criado.CpfPaciente,
+            Horario = criado.Horario,
             TipoExame = criado.TipoExame
         };
         _publisher.Publish("cirurgico-exames", eventoExame);
 
-        return Ok(new { mensagem = $"O exame {criado.TipoExame} de {dto.Paciente.Nome} foi marcado para {criado.DataHora:O}", codigo = criado.Id });
+        return Ok(new { mensagem = $"O exame {criado.TipoExame} de {dto.Paciente.Nome} foi marcado para {criado.Horario:dd/MM/yyyy HH:mm}", codigo = criado.Id });
     }
     [HttpGet("pesquisar/exames/{pacienteId}")]
     [SwaggerOperation(Summary = "Obter detalhes do exame", Description = "Recupera os detalhes de um exame pelo pacienteId.")]
