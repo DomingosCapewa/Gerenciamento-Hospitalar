@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Shared.Contracts.Events;
 using Agendamentos.API.HATEOAS;
+using Shared.Contracts.Enums;
 
 [ApiController]
 [Route("api/agendamentos")]
@@ -114,14 +115,17 @@ public class AgendamentosController : ControllerBase
         var exame = new Exame { CpfPaciente = dto.Paciente.CPF, Horario = dto.Horario, TipoExame = dto.Exame };
         var criado = await _repo.AddExameAsync(exame);
 
-        var eventoExame = new ExameCriadaEvent
+        var eventoExame = new ProcedimentoExameCriadoEvent
         {
-            IdAgendamento = criado.Id,
+            IdProcedimento = criado.Id,
+            IdExameAgendamento = criado.Id,
             CpfPaciente = criado.CpfPaciente,
             Horario = criado.Horario,
-            TipoExame = criado.TipoExame
+            TipoProcedimento = criado.TipoExame,
+            Prioridade = PrioridadeSintoma.Padrao,
+            Status = "Recebido"
         };
-        _publisher.Publish("cirurgico-exames", eventoExame);
+        _publisher.Publish("cirurgico-procedimentos", eventoExame);
 
         return Ok(new { mensagem = $"O exame {criado.TipoExame} de {dto.Paciente.Nome} foi marcado para {criado.Horario:dd/MM/yyyy HH:mm}", codigo = criado.Id });
     }

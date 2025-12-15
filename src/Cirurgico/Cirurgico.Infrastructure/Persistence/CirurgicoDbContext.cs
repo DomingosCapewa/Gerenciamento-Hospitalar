@@ -7,13 +7,13 @@ public class CirurgicoDbContext : DbContext
 {
     public CirurgicoDbContext(DbContextOptions<CirurgicoDbContext> options) : base(options) { }
 
-    public DbSet<ExamePedido> Exames => Set<ExamePedido>();
+    public DbSet<ProcedimentoExame> Exames => Set<ProcedimentoExame>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<ExamePedido>()
-            .HasIndex(e => new { e.IdAgendamento })
-            .HasDatabaseName("IX_Exame_IdAgendamento");
+        modelBuilder.Entity<ProcedimentoExame>()
+            .HasIndex(e => new { e.IdExameAgendamento })
+            .HasDatabaseName("IX_Exame_IdExameAgendamento");
     }
 }

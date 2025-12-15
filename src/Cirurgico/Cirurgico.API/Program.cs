@@ -32,8 +32,9 @@ if (!string.IsNullOrWhiteSpace(conn))
     builder.Services.AddScoped<IExameRepository, ExameRepository>();
 }
 
-// Consumer RabbitMQ
+// Consumers RabbitMQ
 builder.Services.AddHostedService<Cirurgico.Infrastructure.Messaging.ExameSolicitadoBackgroundService>();
+builder.Services.AddHostedService<Cirurgico.Infrastructure.Messaging.ProcedimentoAtualizacaoBackgroundService>();
 
 var app = builder.Build();
 

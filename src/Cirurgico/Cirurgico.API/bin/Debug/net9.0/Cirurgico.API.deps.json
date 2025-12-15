@@ -850,6 +850,9 @@
         }
       },
       "Cirurgico.Domain/1.0.0": {
+        "dependencies": {
+          "Shared.Contracts": "1.0.0"
+        },
         "runtime": {
           "Cirurgico.Domain.dll": {
             "assemblyVersion": "1.0.0.0",

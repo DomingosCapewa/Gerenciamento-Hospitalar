@@ -21,7 +21,7 @@ public class ExameSolicitadoBackgroundService : BackgroundService
     private IConnection? _connection;
     private IModel? _channel;
 
-    private const string QueueName = "cirurgico-exames";
+    private const string QueueName = "cirurgico-procedimentos";
 
     public ExameSolicitadoBackgroundService(
         ILogger<ExameSolicitadoBackgroundService> logger,
@@ -79,7 +79,7 @@ public class ExameSolicitadoBackgroundService : BackgroundService
                 var body = ea.Body.ToArray();
                 var json = Encoding.UTF8.GetString(body);
 
-                var mensagem = JsonSerializer.Deserialize<ExameCriadaEvent>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                var mensagem = JsonSerializer.Deserialize<ProcedimentoExameCriadoEvent>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 if (mensagem == null)
                 {
                     _logger.LogWarning("[Cirurgico] Mensagem nula recebida.");
@@ -87,25 +87,27 @@ public class ExameSolicitadoBackgroundService : BackgroundService
                     return;
                 }
 
-                var existente = await repo.GetByAgendamentoAsync(mensagem.IdAgendamento);
+                var existente = await repo.GetByExameAgendamentoAsync(mensagem.IdExameAgendamento);
                 if (existente == null)
                 {
-                    var exame = new ExamePedido
+                    var exame = new ProcedimentoExame
                     {
-                        IdAgendamento = mensagem.IdAgendamento,
+                        IdProcedimento = mensagem.IdProcedimento,
+                        IdExameAgendamento = mensagem.IdExameAgendamento,
                         CpfPaciente = mensagem.CpfPaciente,
                         Horario = mensagem.Horario,
-                        TipoExame = mensagem.TipoExame,
-                        Status = "Recebido"
+                        TipoProcedimento = mensagem.TipoProcedimento,
+                        Prioridade = mensagem.Prioridade,
+                        Status = string.IsNullOrWhiteSpace(mensagem.Status) ? "Recebido" : mensagem.Status
                     };
 
                     await repo.AddAsync(exame);
 
-                    _logger.LogInformation("[Cirurgico] Exame inserido: AgId={AgId}, Tipo={Tipo}, Horario={Horario}", mensagem.IdAgendamento, mensagem.TipoExame, mensagem.Horario);
+                    _logger.LogInformation("[Cirurgico] Procedimento inserido: ProcId={ProcId}, ExAgId={ExAgId}, Tipo={Tipo}, Horario={Horario}", mensagem.IdProcedimento, mensagem.IdExameAgendamento, mensagem.TipoProcedimento, mensagem.Horario);
                 }
                 else
                 {
-                    _logger.LogInformation("[Cirurgico] Exame já existente para AgId={AgId}", mensagem.IdAgendamento);
+                    _logger.LogInformation("[Cirurgico] Procedimento já existente para ExAgId={ExAgId}", mensagem.IdExameAgendamento);
                 }
 
                 _channel!.BasicAck(ea.DeliveryTag, multiple: false);
@@ -121,7 +123,7 @@ public class ExameSolicitadoBackgroundService : BackgroundService
         return Task.CompletedTask;
     }
 
-    public Task StopAsync(CancellationToken cancellationToken)
+    public override Task StopAsync(CancellationToken cancellationToken)
     {
         try
         {

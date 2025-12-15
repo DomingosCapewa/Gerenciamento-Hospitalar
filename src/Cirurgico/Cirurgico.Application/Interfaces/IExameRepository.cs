@@ -4,6 +4,8 @@ namespace Cirurgico.Application.Interfaces;
 
 public interface IExameRepository
 {
-    Task<ExamePedido?> GetByAgendamentoAsync(int idAgendamento);
-    Task AddAsync(ExamePedido exame);
+    Task<ProcedimentoExame?> GetByExameAgendamentoAsync(int idExameAgendamento);
+    Task AddAsync(ProcedimentoExame exame);
+    Task<bool> UpdatePrioridadeAsync(int idExameAgendamento, Shared.Contracts.Enums.PrioridadeSintoma? prioridade);
+    Task<bool> UpdateStatusAsync(int idExameAgendamento, string status);
 }

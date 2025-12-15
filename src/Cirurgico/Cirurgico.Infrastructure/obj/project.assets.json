@@ -1347,6 +1347,9 @@
       "Cirurgico.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "Shared.Contracts": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/Cirurgico.Domain.dll": {}
         },
@@ -4126,8 +4129,8 @@
             "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {
               "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj"
             },
-            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
-              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj"
+            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
+              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj"
             },
             "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj": {
               "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj"

@@ -15,8 +15,19 @@
         }
       },
       "Cirurgico.Domain/1.0.0": {
+        "dependencies": {
+          "Shared.Contracts": "1.0.0"
+        },
         "runtime": {
           "Cirurgico.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Shared.Contracts/1.0.0": {
+        "runtime": {
+          "Shared.Contracts.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -31,6 +42,11 @@
       "sha512": ""
     },
     "Cirurgico.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Shared.Contracts/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
