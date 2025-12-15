@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Agendamentos.Infrastructure.Persistence.Migrations
+namespace Agendamentos.Infrastructure.Migrations
 {
     [DbContext(typeof(AgendamentosDbContext))]
-    [Migration("20251209183823_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251215190740_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,25 +33,24 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DataHora")
+                    b.Property<string>("CpfPaciente")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("Horario")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("ExameId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Medico")
+                    b.Property<string>("MedicoEspecialidade")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("PacienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Tipo")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PacienteId", "DataHora");
+                    b.HasIndex("CpfPaciente", "Horario");
 
                     b.ToTable("Consultas");
                 });
@@ -64,19 +63,24 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DataHora")
+                    b.Property<string>("CpfPaciente")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("Horario")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("PacienteId")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<string>("Tipo")
+                    b.Property<string>("TipoExame")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PacienteId", "DataHora");
+                    b.HasIndex("CpfPaciente", "Horario");
 
                     b.ToTable("Exames");
                 });
@@ -93,7 +97,14 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int>("Idade")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Sexo")
                         .IsRequired()
                         .HasColumnType("longtext");
 

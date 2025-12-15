@@ -35,7 +35,7 @@ builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 
 builder.Services.AddSingleton<IRabbitPublisher>(sp =>
 {
-    var cfg = builder.Configuration.GetSection("Rabbit").Get<RabbitOptions>() ?? new RabbitOptions();
+    var cfg = builder.Configuration.GetSection("RabbitMQ").Get<RabbitOptions>() ?? new RabbitOptions();
     return new RabbitPublisher(cfg.Host, cfg.Port, cfg.User, cfg.Password);
 });
 
@@ -56,6 +56,12 @@ app.UseCors("AllowAll");
 if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(); }
 app.UseHttpsRedirection();
 app.MapControllers();
+// Initialize database (create if missing)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AgendamentosDbContext>();
+    try { db.Database.EnsureCreated(); } catch { }
+}
 app.Run();
 
 public record RabbitOptions { public string Host { get; init; } = "localhost"; public int Port { get; init; } = 5672; public string User { get; init; } = "guest"; public string Password { get; init; } = "guest"; }

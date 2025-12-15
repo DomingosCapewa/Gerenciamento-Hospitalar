@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cirurgico.Infrastructure.Migrations
 {
     [DbContext(typeof(CirurgicoDbContext))]
-    [Migration("20251215151332_initial")]
-    partial class initial
+    [Migration("20251215185936_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Cirurgico.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Cirurgico.Domain.Entities.ExamePedido", b =>
+            modelBuilder.Entity("Cirurgico.Domain.Entities.ProcedimentoExame", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,21 +40,27 @@ namespace Cirurgico.Infrastructure.Migrations
                     b.Property<DateTime>("Horario")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("IdAgendamento")
+                    b.Property<int>("IdExameAgendamento")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdProcedimento")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Prioridade")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("TipoExame")
+                    b.Property<string>("TipoProcedimento")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdAgendamento")
-                        .HasDatabaseName("IX_Exame_IdAgendamento");
+                    b.HasIndex("IdExameAgendamento")
+                        .HasDatabaseName("IX_Exame_IdExameAgendamento");
 
                     b.ToTable("Exames");
                 });

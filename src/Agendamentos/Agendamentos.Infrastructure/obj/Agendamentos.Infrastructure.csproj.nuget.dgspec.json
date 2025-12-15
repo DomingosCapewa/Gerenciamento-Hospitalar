@@ -209,7 +209,7 @@
             },
             "RabbitMQ.Client": {
               "target": "Package",
-              "version": "[6.5.0, )"
+              "version": "[6.8.1, )"
             }
           },
           "imports": [

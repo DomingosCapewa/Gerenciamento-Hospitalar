@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cirurgico.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,11 +21,13 @@ namespace Cirurgico.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    IdAgendamento = table.Column<int>(type: "int", nullable: false),
+                    IdProcedimento = table.Column<int>(type: "int", nullable: false),
+                    IdExameAgendamento = table.Column<int>(type: "int", nullable: false),
                     CpfPaciente = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Horario = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    TipoExame = table.Column<string>(type: "longtext", nullable: false)
+                    Prioridade = table.Column<int>(type: "int", nullable: true),
+                    TipoProcedimento = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
@@ -37,9 +39,9 @@ namespace Cirurgico.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exame_IdAgendamento",
+                name: "IX_Exame_IdExameAgendamento",
                 table: "Exames",
-                column: "IdAgendamento");
+                column: "IdExameAgendamento");
         }
 
         /// <inheritdoc />

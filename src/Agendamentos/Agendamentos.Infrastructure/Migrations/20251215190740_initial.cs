@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Agendamentos.Infrastructure.Persistence.Migrations
+namespace Agendamentos.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,13 +21,13 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    PacienteId = table.Column<int>(type: "int", nullable: false),
-                    Medico = table.Column<string>(type: "longtext", nullable: false)
+                    CpfPaciente = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DataHora = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Tipo = table.Column<string>(type: "longtext", nullable: true)
+                    Horario = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    MedicoEspecialidade = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ExameId = table.Column<int>(type: "int", nullable: true)
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -41,10 +41,13 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    PacienteId = table.Column<int>(type: "int", nullable: false),
-                    Tipo = table.Column<string>(type: "longtext", nullable: false)
+                    CpfPaciente = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DataHora = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Horario = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    TipoExame = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -61,6 +64,9 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
                     Nome = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CPF = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Idade = table.Column<int>(type: "int", nullable: false),
+                    Sexo = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -70,14 +76,14 @@ namespace Agendamentos.Infrastructure.Persistence.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Consultas_PacienteId_DataHora",
+                name: "IX_Consultas_CpfPaciente_Horario",
                 table: "Consultas",
-                columns: new[] { "PacienteId", "DataHora" });
+                columns: new[] { "CpfPaciente", "Horario" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exames_PacienteId_DataHora",
+                name: "IX_Exames_CpfPaciente_Horario",
                 table: "Exames",
-                columns: new[] { "PacienteId", "DataHora" });
+                columns: new[] { "CpfPaciente", "Horario" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pacientes_CPF",

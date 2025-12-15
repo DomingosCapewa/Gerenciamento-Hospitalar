@@ -62,4 +62,15 @@ app.MapControllers();
 app.UseSwaggerUI();
 app.UseSwagger();
 
+// Ensure database exists (no migrations yet for Cirúrgico)
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<CirurgicoDbContext>();
+        db.Database.EnsureCreated();
+    }
+    catch { }
+}
+
 app.Run();

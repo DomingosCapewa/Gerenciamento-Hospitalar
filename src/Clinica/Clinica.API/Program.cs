@@ -36,7 +36,7 @@ builder.Services.AddHttpClient("ClinicaApi", c =>
 // Publisher de eventos (RabbitMQ)
 builder.Services.AddSingleton<Clinica.Infrastructure.Messaging.EventPublisher>(sp =>
 {
-    var cfg = builder.Configuration.GetSection("Rabbit");
+    var cfg = builder.Configuration.GetSection("RabbitMQ");
     var host = cfg["Host"] ?? "localhost";
     var port = int.TryParse(cfg["Port"], out var p) ? p : 5672;
     var user = cfg["User"] ?? "guest";
@@ -80,6 +80,17 @@ app.UseRequestLocalization(locOptions);
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.MapControllers();
+
+// Apply DB migrations automatically
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ClinicaDbContext>();
+        db.Database.Migrate();
+    }
+    catch { }
+}
 
 app.UseSwagger();
 app.UseSwaggerUI();
