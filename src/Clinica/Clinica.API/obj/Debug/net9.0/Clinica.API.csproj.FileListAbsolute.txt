@@ -149,3 +149,4 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.API\obj\Debug\net9.0\Clinica.API.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.API\obj\Debug\net9.0\Clinica.API.genruntimeconfig.cache
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.API\obj\Debug\net9.0\ref\Clinica.API.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\clinica\Clinica.API\bin\Debug\net9.0\RabbitMQ.Client.dll

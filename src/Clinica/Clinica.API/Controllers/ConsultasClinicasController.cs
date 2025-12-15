@@ -32,9 +32,9 @@ namespace Clinica.API.Controllers
 
         [HttpPost]
         [SwaggerOperation(Summary = "Create consulta", Description = "Cria uma nova consulta clínica.")]
-        public async Task<IActionResult> Create([FromBody] ConsultaClinica consulta)
+        public async Task<IActionResult> Create([FromBody] ConsultasClinicas consulta)
         {
-            if (await _repo.HorarioOcupadoPorCpfAsync(consulta.PacienteCPF, consulta.DataHora))
+            if (await _repo.HorarioOcupadoPorCpfAsync(consulta.CpfPaciente, consulta.Horario))
             {
                 return Conflict(new { message = "Já existe uma consulta/exame para este CPF neste dia e hora." });
             }
@@ -43,18 +43,18 @@ namespace Clinica.API.Controllers
 
             await NotifyClinica(created);
 
-            var msg = $"O medico de {consulta.PacienteCPF} foi marcado para {consulta.DataHora:dd/MM/yyyy HH:mm}";
+            var msg = $"O medico de {consulta.CpfPaciente} foi marcado para {consulta.Horario:dd/MM/yyyy HH:mm}";
             var codigo = $"O codigo de seu exame é {created.Id}";
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, new { mensagem = msg, codigo });
         }
 
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update consulta", Description = "Atualiza uma consulta clínica.")]
-        public async Task<IActionResult> Update(int id, [FromBody] ConsultaClinica consulta)
+        public async Task<IActionResult> Update(int id, [FromBody] ConsultasClinicas consulta)
         {
             if (id != consulta.Id) return BadRequest(new { message = "ID do recurso não coincide." });
 
-            if (await _repo.HorarioOcupadoPorCpfAsync(consulta.PacienteCPF, consulta.DataHora))
+            if (await _repo.HorarioOcupadoPorCpfAsync(consulta.CpfPaciente, consulta.Horario))
             {
                 return Conflict(new { message = "Já existe uma consulta/exame para este CPF neste dia e hora." });
             }
@@ -62,15 +62,15 @@ namespace Clinica.API.Controllers
             var updated = await _repo.UpdateAsync(consulta);
             await NotifyClinica(updated);
 
-            var msg = $"O medico de {consulta.PacienteCPF} foi marcado para {consulta.DataHora:dd/MM/yyyy HH:mm}";
+            var msg = $"O medico de {consulta.CpfPaciente} foi marcado para {consulta.Horario:dd/MM/yyyy HH:mm}";
             var codigo = $"O codigo de seu exame é {updated.Id}";
             return Ok(new { mensagem = msg, codigo });
         }
 
-        private async Task NotifyClinica(ConsultaClinica c)
+        private async Task NotifyClinica(ConsultasClinicas c)
         {
             var client = _httpClientFactory.CreateClient("ClinicaApi");
-            var payload = new { id = c.Id, cpf = c.PacienteCPF, dataHora = c.DataHora, medicoId = c.MedicoId };
+            var payload = new { id = c.Id, cpf = c.CpfPaciente, dataHora = c.Horario, medicoId = c.IdMedico };
             try
             {
                 var response = await client.PostAsJsonAsync("/integrations/consultas", payload);

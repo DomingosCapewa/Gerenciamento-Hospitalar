@@ -1,6 +1,12 @@
-var builder = WebApplication.CreateBuilder(args);
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
+using Cirurgico.Infrastructure.Persistence;
+using Cirurgico.Infrastructure.Repositories;
+using Cirurgico.Application.Interfaces;
+
+var builder = WebApplication.CreateBuilder(args);
+
 
 
 builder.Services.AddOpenApi();
@@ -17,6 +23,17 @@ builder.Services.AddSwaggerGen(settings =>
         Description = "API para gerenciamento de procedimentos cirúrgicos em um sistema hospitalar.",
     });
 });
+
+// DB Context (MySQL)
+var conn = builder.Configuration.GetConnectionString("CirurgicoDb");
+if (!string.IsNullOrWhiteSpace(conn))
+{
+    builder.Services.AddDbContext<CirurgicoDbContext>(opt => opt.UseMySql(conn, ServerVersion.AutoDetect(conn)));
+    builder.Services.AddScoped<IExameRepository, ExameRepository>();
+}
+
+// Consumer RabbitMQ
+builder.Services.AddHostedService<Cirurgico.Infrastructure.Messaging.ExameSolicitadoBackgroundService>();
 
 var app = builder.Build();
 

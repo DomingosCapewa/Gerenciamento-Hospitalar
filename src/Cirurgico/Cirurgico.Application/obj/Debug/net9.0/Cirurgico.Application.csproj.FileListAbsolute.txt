@@ -9,3 +9,7 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurg
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Application\obj\Debug\net9.0\refint\Cirurgico.Application.dll
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Application\obj\Debug\net9.0\Cirurgico.Application.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Application\obj\Debug\net9.0\ref\Cirurgico.Application.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.Application\bin\Debug\net9.0\Cirurgico.Domain.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.Application\bin\Debug\net9.0\Cirurgico.Domain.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.Application\obj\Debug\net9.0\Cirurgico.Application.csproj.AssemblyReference.cache
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Application\obj\Debug\net9.0\Cirurgic.6390FE4A.Up2Date

@@ -12,3 +12,10 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurg
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Infrastructure\obj\Debug\net9.0\Cirurgico.Infrastructure.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Infrastructure\obj\Debug\net9.0\Cirurgico.Infrastructure.genruntimeconfig.cache
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Cirurgico\Cirurgico.Infrastructure\obj\Debug\net9.0\ref\Cirurgico.Infrastructure.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.Infrastructure\bin\Debug\net9.0\Cirurgico.Application.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.Infrastructure\bin\Debug\net9.0\Cirurgico.Domain.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.Infrastructure\bin\Debug\net9.0\Shared.Contracts.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.Infrastructure\bin\Debug\net9.0\Shared.Contracts.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.Infrastructure\bin\Debug\net9.0\Cirurgico.Domain.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.Infrastructure\bin\Debug\net9.0\Cirurgico.Application.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.Infrastructure\obj\Debug\net9.0\Cirurgic.628AA792.Up2Date

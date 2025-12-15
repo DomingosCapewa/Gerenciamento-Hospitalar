@@ -14,4 +14,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cirurgico.Infrastructure\Cirurgico.Infrastructure.csproj" />
+    <ProjectReference Include="..\Cirurgico.Application\Cirurgico.Application.csproj" />
+    <ProjectReference Include="..\Cirurgico.Domain\Cirurgico.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

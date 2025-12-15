@@ -25,6 +25,8 @@ builder.Services.AddDbContext<ClinicaDbContext>(opt => opt.UseMySql(conn, Server
 
 builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IConsultaClinicaRepository, ConsultaClinicaRepository>();
+builder.Services.AddScoped<IClinicaRepository, ClinicaRepository>();
+builder.Services.AddScoped<ISintomaRepository, SintomaRepository>();
 builder.Services.AddHttpClient("ClinicaApi", c =>
 {
     var baseUrl = builder.Configuration["ExternalApis:ClinicaBaseUrl"] ?? "https://localhost:7265";

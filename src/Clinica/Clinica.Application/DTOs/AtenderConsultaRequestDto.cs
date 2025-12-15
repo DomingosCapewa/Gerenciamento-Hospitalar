@@ -11,6 +11,8 @@ namespace Clinica.Application.DTOs
             public DateTime? DataHora { get; set; }      
             public int? ConsultaId { get; set; }
             public List<SintomaInputDto> Sintomas { get; set; } = new();
+            public string Diagnostico { get; set; } = string.Empty;
+            public string TratamentoSugerido { get; set; } = string.Empty;
         }
 
         public class SintomaInputDto

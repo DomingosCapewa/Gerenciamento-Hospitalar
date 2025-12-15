@@ -12,7 +12,15 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0" />
         <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+        <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
 
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared.Contracts\Shared.Contracts.csproj" />
+    <ProjectReference Include="..\Cirurgico.Domain\Cirurgico.Domain.csproj" />
+    <ProjectReference Include="..\Cirurgico.Application\Cirurgico.Application.csproj" />
   </ItemGroup>
 
 </Project>
