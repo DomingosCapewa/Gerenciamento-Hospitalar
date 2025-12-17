@@ -14,7 +14,6 @@ namespace Clinica.API.Controllers
         {
             _repo = repo;
         }
-
         [HttpGet]
         [SwaggerOperation(Summary = "Listar sintomas", Description = "Retorna todos os sintomas cadastrados.")]
         public async Task<IActionResult> GetAll()
@@ -46,7 +45,6 @@ namespace Clinica.API.Controllers
             var updated = await _repo.UpdateAsync(s);
             return Ok(updated);
         }
-
        
         [HttpPut("{sintomaId:int}/mapa")]
         [SwaggerOperation(Summary = "Atualizar mapa de doenças por sintoma", Description = "Atualiza ou cria o mapeamento de doenças associadas e nível de prioridade do sintoma.")]

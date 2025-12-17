@@ -10,13 +10,11 @@ namespace Clinica.API.Controllers
     [Route("api/clinica/consultas")]
     public class AtendimentoController : ControllerBase
     {
-        private readonly IClinicaRepository _clinicaRepo;
         private readonly IConsultaClinicaRepository _consultasRepo;
         private readonly ISintomaRepository _sintomasRepo;
 
-        public AtendimentoController(IClinicaRepository clinicaRepo, IConsultaClinicaRepository consultasRepo, ISintomaRepository sintomasRepo)
+        public AtendimentoController(IConsultaClinicaRepository consultasRepo, ISintomaRepository sintomasRepo)
         {
-            _clinicaRepo = clinicaRepo;
             _consultasRepo = consultasRepo;
             _sintomasRepo = sintomasRepo;
         }
@@ -28,8 +26,6 @@ namespace Clinica.API.Controllers
             var consulta = await _consultasRepo.GetByIdAsync(consultaId);
             if (consulta == null)
                 return NotFound(new { mensagem = "Consulta não encontrada." });
-
-            // Monta lista de sintomas da consulta
             var sintomasConsulta = new List<ConsultaSintoma>();
             foreach (var s in body.Sintomas)
             {
@@ -38,7 +34,6 @@ namespace Clinica.API.Controllers
                     return BadRequest(new { mensagem = $"SintomaId={s.SintomaId} inválido." });
 
                 var prioridade = s.Prioridade ?? baseSintoma.PrioridadePadrao;
-                // Se houver mapa admin para o sintoma, usa o nível configurado
                 var mapa = await _sintomasRepo.GetMapaPorSintomaIdAsync(baseSintoma.Id);
                 if (mapa != null)
                 {
@@ -59,7 +54,7 @@ namespace Clinica.API.Controllers
             consulta.Diagnostico = body.Diagnostico;
             consulta.TratamentoSugerido = body.TratamentoSugerido;
 
-            var atualizado = await _clinicaRepo.AtenderConsulta(consulta);
+            var atualizado = await _consultasRepo.AtenderConsulta(consulta);
             var resposta = new
             {
                 idConsultaClinica = atualizado.Id,
@@ -74,5 +69,17 @@ namespace Clinica.API.Controllers
 
             return Ok(resposta);
         }
-    }
+    
+        [HttpPost("{consultaId:int}/atender-codigo")]
+        [SwaggerOperation(Summary = "Atender consulta pelo código", Description = "Retorna possíveis doenças e exames adicionais.")]
+        public async Task<IActionResult> AtenderConsultaPorCodigo(int consultaId, [FromBody] AtenderConsultaRequestDto body)
+        {
+            var consulta = await _consultasRepo.GetByIdAsync(consultaId);
+            if (consulta == null)
+                return NotFound(new { mensagem = "Consulta não encontrada." });
+
+            // Endpoint placeholder: implementar lógica específica posteriormente
+            return Ok(new { mensagem = "Funcionalidade em desenvolvimento." });
+        }
+}
 }

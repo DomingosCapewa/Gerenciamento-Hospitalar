@@ -50,7 +50,6 @@ public class ProcedimentosController : ControllerBase
         if (string.IsNullOrWhiteSpace(valor)) return null;
         var s = RemoverAcentos(valor).Trim();
         if (Enum.TryParse<PrioridadeSintoma>(s, ignoreCase: true, out var parsed)) return parsed;
-        // Mapear aliases comuns
         return s.ToLowerInvariant() switch
         {
             "padrao" or "padr" => PrioridadeSintoma.Padrao,

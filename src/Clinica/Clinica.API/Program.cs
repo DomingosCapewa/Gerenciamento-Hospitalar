@@ -25,7 +25,6 @@ builder.Services.AddDbContext<ClinicaDbContext>(opt => opt.UseMySql(conn, Server
 
 builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IConsultaClinicaRepository, ConsultaClinicaRepository>();
-builder.Services.AddScoped<IClinicaRepository, ClinicaRepository>();
 builder.Services.AddScoped<ISintomaRepository, SintomaRepository>();
 builder.Services.AddHttpClient("ClinicaApi", c =>
 {
@@ -33,15 +32,15 @@ builder.Services.AddHttpClient("ClinicaApi", c =>
     c.BaseAddress = new Uri(baseUrl);
 });
 
-// Publisher de eventos (RabbitMQ)
-builder.Services.AddSingleton<Clinica.Infrastructure.Messaging.EventPublisher>(sp =>
+
+builder.Services.AddSingleton<EventPublisher>(sp =>
 {
     var cfg = builder.Configuration.GetSection("RabbitMQ");
     var host = cfg["Host"] ?? "localhost";
     var port = int.TryParse(cfg["Port"], out var p) ? p : 5672;
     var user = cfg["User"] ?? "guest";
     var pass = cfg["Password"] ?? "guest";
-    return new Clinica.Infrastructure.Messaging.EventPublisher(host, port, user, pass);
+    return new EventPublisher(host, port, user, pass);
 });
 
 
@@ -56,7 +55,7 @@ builder.Services.AddSwaggerGen(settings =>
     });
 });
 
-builder.Services.AddHostedService<Clinica.Infrastructure.Messaging.ConsultaCriadaBackgroundService>();
+builder.Services.AddHostedService<ConsultaCriadaBackgroundService>();
 
 var app = builder.Build();
 
@@ -65,7 +64,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// Cultura padrão pt-BR
 var culture = new CultureInfo("pt-BR");
 CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;

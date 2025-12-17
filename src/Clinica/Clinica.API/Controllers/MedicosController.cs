@@ -30,14 +30,9 @@ namespace Clinica.API.Controllers
         public async Task<IActionResult> GetMedicoById(int id)
         {
             var medico = await _medicoRepository.GetMedicoByIdAsync(id);
-            if (medico == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(new{ message = "Medico retrieved successfully", data = medico });
+           return medico == null ? NotFound(new { message = "Medico not found" }) : Ok(new { message = "Medico retrieved successfully", data = medico });
         }
-        
+
         [HttpPost]
         [SwaggerOperation(Summary = "Add a new medico", Description = "Creates a new medico in the system.")]
         public async Task<IActionResult> AddMedico([FromBody] Medico medico)

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cirurgico.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c393079977ff295650fa54d5838ccab52a4ec04f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bba2d9b458294ca22d33729e23ff514ae74b2326")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cirurgico.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cirurgico.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

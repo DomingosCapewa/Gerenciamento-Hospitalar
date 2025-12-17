@@ -56,11 +56,11 @@ app.UseCors("AllowAll");
 if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(); }
 app.UseHttpsRedirection();
 app.MapControllers();
-// Initialize database (create if missing)
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AgendamentosDbContext>();
-    try { db.Database.EnsureCreated(); } catch { }
+    try { db.Database.EnsureCreated(); } catch(Exception e) { Console.WriteLine("Erro" + e.Message); }
 }
 app.Run();
 

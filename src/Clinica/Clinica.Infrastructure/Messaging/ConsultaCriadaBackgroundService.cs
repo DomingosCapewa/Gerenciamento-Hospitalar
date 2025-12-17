@@ -104,7 +104,7 @@ public class ConsultaCriadaBackgroundService : BackgroundService
                 }
 
                 var existente = await consultasRepo
-                    .GetByCpfAndDateAsync(mensagem.CpfPaciente, mensagem.Horario);
+                    .GetByCpfAndHorarioAsync(mensagem.CpfPaciente, mensagem.Horario);
 
                 if (existente == null)
                 {

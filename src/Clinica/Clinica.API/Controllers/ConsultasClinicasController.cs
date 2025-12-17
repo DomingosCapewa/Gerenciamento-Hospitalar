@@ -26,8 +26,7 @@ namespace Clinica.API.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var c = await _repo.GetByIdAsync(id);
-            if (c == null) return NotFound();
-            return Ok(new { message = "Consulta encontrada", data = c });
+           return c == null ? NotFound(new { message = "Consulta não encontrada" }) : Ok(new { message = "Consulta encontrada", data = c });
         }
 
         [HttpPost]
@@ -74,9 +73,8 @@ namespace Clinica.API.Controllers
             try
             {
                 var response = await client.PostAsJsonAsync("/integrations/consultas", payload);
-                // Ignorar falhas em dev; em prod usar retry/queue
             }
-            catch { }
+            catch { } // To do: log failure
         }
     }
 }

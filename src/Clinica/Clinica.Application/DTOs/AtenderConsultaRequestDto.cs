@@ -19,7 +19,7 @@ namespace Clinica.Application.DTOs
         {
             public int SintomaId { get; set; }   
             public PrioridadeSintoma? Prioridade { get; set; }
-            public string Observacao { get; set; } = string.Empty;
+            public string? Observacao { get; set; } = string.Empty;
         }
 
     }

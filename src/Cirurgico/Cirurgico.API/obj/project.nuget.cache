@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MUEuVG1zGYc=",
+  "dgSpecHash": "cTZVzaNen84=",
   "success": true,
-  "projectFilePath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\cirurgico.api\\Cirurgico.API.csproj",
+  "projectFilePath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.API\\Cirurgico.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dscw\\.nuget\\packages\\entityframework\\6.5.1\\entityframework.6.5.1.nupkg.sha512",
     "C:\\Users\\dscw\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
