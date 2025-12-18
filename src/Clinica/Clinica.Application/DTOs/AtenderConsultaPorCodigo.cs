@@ -6,6 +6,6 @@ namespace Clinica.Application.DTOs
     {
         public string PacienteCPF { get; set; } = string.Empty;
         public int? ConsultaId { get; set; }
-        public List<SintomaInputDto> Sintomas { get; set; } = new();
+        public List<string> Sintomas { get; set; } = new();
     }
 }

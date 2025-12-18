@@ -76,5 +76,6 @@ namespace Clinica.API.Controllers
             }
             catch { } // To do: log failure
         }
+
     }
 }

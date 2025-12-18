@@ -79,7 +79,6 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.MapControllers();
 
-// Apply DB migrations automatically
 using (var scope = app.Services.CreateScope())
 {
     try

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinica.Infrastructure.Migrations
 {
     [DbContext(typeof(ClinicaDbContext))]
-    [Migration("20251215191237_initial")]
-    partial class initial
+    [Migration("20251217190610_EntidadesCorrigidas")]
+    partial class EntidadesCorrigidas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -172,24 +172,15 @@ namespace Clinica.Infrastructure.Migrations
 
             modelBuilder.Entity("Clinica.Domain.Entities.SintomaDoenca", b =>
                 {
-                    b.Property<int>("SintomaDoencaId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("SintomaId")
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SintomaDoencaId"));
-
-                    b.Property<string>("DoencasAssociadas")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("NivelPrioridade")
+                    b.Property<int>("DoencaId")
                         .HasColumnType("int");
 
-                    b.Property<string>("NomeSintoma")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.HasKey("SintomaId", "DoencaId");
 
-                    b.HasKey("SintomaDoencaId");
+                    b.HasIndex("DoencaId");
 
                     b.ToTable("SintomaDoencas");
                 });
@@ -209,6 +200,25 @@ namespace Clinica.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("ConsultasClinicas");
+
+                    b.Navigation("Sintoma");
+                });
+
+            modelBuilder.Entity("Clinica.Domain.Entities.SintomaDoenca", b =>
+                {
+                    b.HasOne("Clinica.Domain.Entities.Doenca", "Doenca")
+                        .WithMany()
+                        .HasForeignKey("DoencaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clinica.Domain.Entities.Sintoma", "Sintoma")
+                        .WithMany()
+                        .HasForeignKey("SintomaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doenca");
 
                     b.Navigation("Sintoma");
                 });

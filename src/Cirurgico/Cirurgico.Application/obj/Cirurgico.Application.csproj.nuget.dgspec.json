@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {}
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {}
   },
   "projects": {
-    "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj",
+        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj",
         "projectName": "Cirurgico.Application",
-        "projectPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj",
+        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj",
         "packagesPath": "C:\\Users\\dscw\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\obj\\",
+        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dscw\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
-                "projectPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj"
+              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
+                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj"
               }
             }
           }
@@ -67,14 +67,14 @@
         }
       }
     },
-    "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj",
         "projectName": "Cirurgico.Domain",
-        "projectPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj",
+        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj",
         "packagesPath": "C:\\Users\\dscw\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\obj\\",
+        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dscw\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -89,8 +89,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj": {
-                "projectPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj"
+              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj": {
+                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj"
               }
             }
           }
@@ -130,14 +130,14 @@
         }
       }
     },
-    "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj": {
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj",
+        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj",
         "projectName": "Shared.Contracts",
-        "projectPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj",
+        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj",
         "packagesPath": "C:\\Users\\dscw\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\obj\\",
+        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dscw\\AppData\\Roaming\\NuGet\\NuGet.Config"

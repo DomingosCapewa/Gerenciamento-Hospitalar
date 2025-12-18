@@ -28,6 +28,21 @@ namespace Clinica.Infrastructure.Persistence
                 .IsUnique();
             modelBuilder.Entity<Medico>().HasIndex(m => m.Nome);
             modelBuilder.Entity<ConsultasClinicas>().HasIndex(c => new { c.IdMedico, c.Horario });
+
+            modelBuilder.Entity<SintomaDoenca>(entity =>
+            {
+                entity.HasKey(sd => new { sd.SintomaId, sd.DoencaId });
+
+                entity.HasOne(sd => sd.Sintoma)
+                      .WithMany()
+                      .HasForeignKey(sd => sd.SintomaId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(sd => sd.Doenca)
+                      .WithMany()
+                      .HasForeignKey(sd => sd.DoencaId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
         }
     }
 }

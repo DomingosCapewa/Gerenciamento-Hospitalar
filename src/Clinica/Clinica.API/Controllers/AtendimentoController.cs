@@ -12,47 +12,51 @@ namespace Clinica.API.Controllers
     {
         private readonly IConsultaClinicaRepository _consultasRepo;
         private readonly ISintomaRepository _sintomasRepo;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public AtendimentoController(IConsultaClinicaRepository consultasRepo, ISintomaRepository sintomasRepo)
+        public AtendimentoController(IConsultaClinicaRepository consultasRepo, ISintomaRepository sintomasRepo, IHttpClientFactory httpClientFactory)
         {
             _consultasRepo = consultasRepo;
             _sintomasRepo = sintomasRepo;
+            _httpClientFactory = httpClientFactory;
         }
 
-        [HttpPost("{consultaId:int}/atender")]
-        [SwaggerOperation(Summary = "Atender consulta", Description = "Registra sintomas, diagnóstico e tratamento para a consulta.")]
-        public async Task<IActionResult> AtenderConsulta(int consultaId, [FromBody] AtenderConsultaRequestDto body)
+        [HttpPost("atender-horario")]
+        [SwaggerOperation(Summary = "Atender por horário", Description = "Localiza a consulta por CPF e horário e registra o atendimento.")]
+        public async Task<IActionResult> AtenderConsultaPorHorario([FromBody] AtenderConsultaPorHorario body)
         {
-            var consulta = await _consultasRepo.GetByIdAsync(consultaId);
-            if (consulta == null)
-                return NotFound(new { mensagem = "Consulta não encontrada." });
-            var sintomasConsulta = new List<ConsultaSintoma>();
-            foreach (var s in body.Sintomas)
-            {
-                var baseSintoma = await _sintomasRepo.GetByIdAsync(s.SintomaId);
-                if (baseSintoma == null)
-                    return BadRequest(new { mensagem = $"SintomaId={s.SintomaId} inválido." });
+            if (string.IsNullOrWhiteSpace(body.PacienteCPF))
+                return BadRequest(new { mensagem = "CPF do paciente é obrigatório." });
+            if (!body.Horario.HasValue)
+                return BadRequest(new { mensagem = "Horário da consulta é obrigatório." });
+            if (body.Sintomas == null || body.Sintomas.Count == 0)
+                return BadRequest(new { mensagem = "Informe ao menos um sintoma por nome." });
 
-                var prioridade = s.Prioridade ?? baseSintoma.PrioridadePadrao;
-                var mapa = await _sintomasRepo.GetMapaPorSintomaIdAsync(baseSintoma.Id);
-                if (mapa != null)
-                {
-                    var nivel = (PrioridadeSintoma)Math.Clamp(mapa.NivelPrioridade, 1, 4);
-                    prioridade = nivel;
-                }
+            var consulta = await _consultasRepo.GetByCpfAndHorarioAsync(body.PacienteCPF, body.Horario.Value);
+            if (consulta == null)
+                return NotFound(new { mensagem = "Consulta não encontrada para CPF e horário informados." });
+            var sintomasConsulta = new List<ConsultaSintoma>();
+
+            foreach (var nome in body.Sintomas)
+            {
+                var baseSintomaPorNome = await _sintomasRepo.GetByNomeAsync(nome);
+                if (baseSintomaPorNome == null)
+                    return BadRequest(new { mensagem = $"Sintoma com nome='{nome}' não encontrado." });
+                var mapa = await _sintomasRepo.GetMapaPorSintomaIdAsync(baseSintomaPorNome.Id);
+                if (mapa == null)
+                    return BadRequest(new { mensagem = $"Sintoma nome='{nome}' não possui mapeamento de doenças." });
                 sintomasConsulta.Add(new ConsultaSintoma
                 {
                     ConsultaClinicaId = consulta.Id,
-                    SintomaId = baseSintoma.Id,
-                    Sintoma = baseSintoma,
-                    Prioridade = prioridade,
-                    Observacao = s.Observacao
+                    SintomaId = baseSintomaPorNome.Id,
+                    Sintoma = baseSintomaPorNome,
+                    Prioridade = baseSintomaPorNome.PrioridadePadrao,
+                    Observacao = string.Empty
                 });
             }
 
             consulta.Sintomas = sintomasConsulta;
-            consulta.Diagnostico = body.Diagnostico;
-            consulta.TratamentoSugerido = body.TratamentoSugerido;
+      
 
             var atualizado = await _consultasRepo.AtenderConsulta(consulta);
             var resposta = new
@@ -69,17 +73,71 @@ namespace Clinica.API.Controllers
 
             return Ok(resposta);
         }
-    
-        [HttpPost("{consultaId:int}/atender-codigo")]
-        [SwaggerOperation(Summary = "Atender consulta pelo código", Description = "Retorna possíveis doenças e exames adicionais.")]
-        public async Task<IActionResult> AtenderConsultaPorCodigo(int consultaId, [FromBody] AtenderConsultaRequestDto body)
-        {
-            var consulta = await _consultasRepo.GetByIdAsync(consultaId);
-            if (consulta == null)
-                return NotFound(new { mensagem = "Consulta não encontrada." });
 
-            // Endpoint placeholder: implementar lógica específica posteriormente
-            return Ok(new { mensagem = "Funcionalidade em desenvolvimento." });
+        [HttpPost("atender-codigo")]
+        [SwaggerOperation(Summary = "Atender consulta pelo código", Description = "Retorna possíveis doenças e exames adicionais.")]
+        public async Task<IActionResult> AtenderConsultaPorCodigo([FromBody] AtenderConsultaPorCodigo body)
+        {
+            if (string.IsNullOrWhiteSpace(body.PacienteCPF))
+                return BadRequest(new { mensagem = "CPF do paciente é obrigatório." });
+            if (!body.ConsultaId.HasValue)
+                return BadRequest(new { mensagem = "Código da consulta é obrigatório." });
+            if (body.Sintomas == null || body.Sintomas.Count == 0)
+                return BadRequest(new { mensagem = "Informe ao menos um sintoma por nome." });
+
+            var consulta = await _consultasRepo.GetByCpfAndIdConsultaAsync(body.PacienteCPF, body.ConsultaId.Value);
+            if (consulta == null)
+                return NotFound(new { mensagem = "Consulta não encontrada para o CPF e código informados." });
+            var resolved = new List<int>();
+            foreach (var nome in body.Sintomas)
+            {
+                var s = await _sintomasRepo.GetByNomeAsync(nome);
+                if (s == null)
+                    return BadRequest(new { mensagem = $"Sintoma com nome='{nome}' não encontrado." });
+                resolved.Add(s.Id);
+            }
+            IEnumerable<int> idsSintomas = resolved;
+            var doencasSugeridas = (await _sintomasRepo.SugerirDoencasPorSintomasAsync(idsSintomas)).ToList();
+
+            var examesNecessarios = new List<string>();
+            foreach (var d in doencasSugeridas)
+            {
+                var nome = d.Nome.ToLowerInvariant();
+                if (nome.Contains("hemorragia") || nome.Contains("fratura"))
+                    examesNecessarios.Add("Tomografia Computadorizada");
+                if (nome.Contains("enxaqueca") || nome.Contains("fraturas internas"))
+                    examesNecessarios.Add("Ressonância Magnética");
+                if (nome.Contains("covid") || nome.Contains("gripe"))
+                    examesNecessarios.Add("Painel Respiratório/Laboratório");
+            }
+            examesNecessarios = examesNecessarios.Distinct().ToList();
+
+            var protocolosExames = new List<object>();
+            if (examesNecessarios.Count > 0)
+            {
+                var clientCirurgico = _httpClientFactory.CreateClient("CirurgicoApi");
+                foreach (var exame in examesNecessarios)
+                {
+                    var payload = new { consultaId = consulta.Id, cpf = consulta.CpfPaciente, exame };
+                    try
+                    {
+                        var resp = await clientCirurgico.PostAsJsonAsync("/exames/solicitacoes", payload);
+                        var protocolo = resp.IsSuccessStatusCode ? (object)new { exame, protocolo = await resp.Content.ReadAsStringAsync() } : new { exame, protocolo = "pendente" };
+                        protocolosExames.Add(protocolo);
+                    }
+                    catch
+                    {
+                        protocolosExames.Add(new { exame, protocolo = "erro-integracao" });
+                    }
+                }
+            }
+
+            return Ok(new
+            {
+                consulta = new { consulta.Id, consulta.CpfPaciente, consulta.Horario, consulta.IdMedico },
+                doencasSugeridas = doencasSugeridas.Select(d => new { d.Id, d.Nome }),
+                examesSolicitados = protocolosExames
+            });
         }
 }
 }

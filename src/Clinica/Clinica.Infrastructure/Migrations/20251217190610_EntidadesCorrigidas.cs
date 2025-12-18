@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Clinica.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class EntidadesCorrigidas : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -76,24 +76,6 @@ namespace Clinica.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "SintomaDoencas",
-                columns: table => new
-                {
-                    SintomaDoencaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    NomeSintoma = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    DoencasAssociadas = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    NivelPrioridade = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SintomaDoencas", x => x.SintomaDoencaId);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Sintomas",
                 columns: table => new
                 {
@@ -140,6 +122,31 @@ namespace Clinica.Infrastructure.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "SintomaDoencas",
+                columns: table => new
+                {
+                    SintomaId = table.Column<int>(type: "int", nullable: false),
+                    DoencaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SintomaDoencas", x => new { x.SintomaId, x.DoencaId });
+                    table.ForeignKey(
+                        name: "FK_SintomaDoencas_Doencas_DoencaId",
+                        column: x => x.DoencaId,
+                        principalTable: "Doencas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SintomaDoencas_Sintomas_SintomaId",
+                        column: x => x.SintomaId,
+                        principalTable: "Sintomas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Consulta_Medico_Horario",
                 table: "ConsultasClinicas",
@@ -165,6 +172,11 @@ namespace Clinica.Infrastructure.Migrations
                 name: "IX_Medicos_Nome",
                 table: "Medicos",
                 column: "Nome");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SintomaDoencas_DoencaId",
+                table: "SintomaDoencas",
+                column: "DoencaId");
         }
 
         /// <inheritdoc />
@@ -174,9 +186,6 @@ namespace Clinica.Infrastructure.Migrations
                 name: "ConsultaSintomas");
 
             migrationBuilder.DropTable(
-                name: "Doencas");
-
-            migrationBuilder.DropTable(
                 name: "Medicos");
 
             migrationBuilder.DropTable(
@@ -184,6 +193,9 @@ namespace Clinica.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ConsultasClinicas");
+
+            migrationBuilder.DropTable(
+                name: "Doencas");
 
             migrationBuilder.DropTable(
                 name: "Sintomas");

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Agendamentos.Infrastructure.Migrations
 {
     [DbContext(typeof(AgendamentosDbContext))]
-    [Migration("20251215190740_initial")]
+    [Migration("20251217182051_initial")]
     partial class initial
     {
         /// <inheritdoc />
