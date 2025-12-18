@@ -67,7 +67,7 @@ namespace Clinica.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = d.Id }, d);
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPatch("{id:int}")]
         [SwaggerOperation(Summary = "Atualizar doença", Description = "Atualiza uma doença existente.")]
         public async Task<IActionResult> Update(int id, [FromBody] Doenca d)
         {

@@ -94,6 +94,12 @@ namespace Agendamentos.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<DateTime?>("DataNascimento")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
                     b.Property<int>("Idade")
                         .HasColumnType("int");
 
@@ -103,6 +109,9 @@ namespace Agendamentos.Infrastructure.Migrations
 
                     b.Property<string>("Sexo")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Telefone")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

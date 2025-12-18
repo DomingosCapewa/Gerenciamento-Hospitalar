@@ -10,7 +10,8 @@
         "dependencies": {
           "Agendamentos.Domain": "1.0.0",
           "FluentValidation": "11.9.0",
-          "FluentValidation.DependencyInjectionExtensions": "11.9.0"
+          "FluentValidation.DependencyInjectionExtensions": "11.9.0",
+          "Shared.Contracts": "1.0.0"
         },
         "runtime": {
           "Agendamentos.Application.dll": {}
@@ -51,6 +52,14 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "Shared.Contracts/1.0.0": {
+        "runtime": {
+          "Shared.Contracts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -82,6 +91,11 @@
       "hashPath": "microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512"
     },
     "Agendamentos.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Shared.Contracts/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

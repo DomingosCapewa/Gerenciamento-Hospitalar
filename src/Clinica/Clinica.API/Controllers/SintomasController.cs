@@ -85,8 +85,6 @@ namespace Clinica.API.Controllers
             var sintoma = await _repo.GetByNomeAsync(body.NomeSintoma);
             if (sintoma == null)
                 return NotFound(new { mensagem = $"Sintoma '{body.NomeSintoma}' não encontrado." });
-
-            // Busca por doença com normalização (case/acento)
             static string Normalize(string value)
             {
                 if (string.IsNullOrWhiteSpace(value)) return string.Empty;

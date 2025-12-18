@@ -6,4 +6,7 @@ public class Paciente
     public string CPF { get; set; } = string.Empty;
     public int Idade { get; set; }
     public string Sexo { get; set; } = string.Empty;
+    public DateTime? DataNascimento { get; set; }
+    public string? Telefone { get; set; }
+    public string? Email { get; set; }
 }

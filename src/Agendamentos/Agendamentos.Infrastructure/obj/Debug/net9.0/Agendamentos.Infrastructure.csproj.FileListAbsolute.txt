@@ -17,3 +17,5 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Age
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\Agendamentos.Infrastructure.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\Agendamentos.Infrastructure.genruntimeconfig.cache
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Infrastructure\obj\Debug\net9.0\ref\Agendamentos.Infrastructure.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.Infrastructure\bin\Debug\net9.0\Shared.Contracts.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.Infrastructure\bin\Debug\net9.0\Shared.Contracts.pdb

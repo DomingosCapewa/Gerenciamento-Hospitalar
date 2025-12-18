@@ -1570,7 +1570,8 @@
         "dependencies": {
           "Agendamentos.Domain": "1.0.0",
           "FluentValidation": "11.9.0",
-          "FluentValidation.DependencyInjectionExtensions": "11.9.0"
+          "FluentValidation.DependencyInjectionExtensions": "11.9.0",
+          "Shared.Contracts": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Agendamentos.Application.dll": {}
@@ -4633,8 +4634,8 @@
     },
     "Agendamentos.Infrastructure/1.0.0": {
       "type": "project",
-      "path": "../Agendamentos.Infrastructure/Agendamentos.Infrastructure.csproj",
-      "msbuildProject": "../Agendamentos.Infrastructure/Agendamentos.Infrastructure.csproj"
+      "path": "../agendamentos.infrastructure/Agendamentos.Infrastructure.csproj",
+      "msbuildProject": "../agendamentos.infrastructure/Agendamentos.Infrastructure.csproj"
     },
     "Shared.Contracts/1.0.0": {
       "type": "project",
@@ -4685,11 +4686,11 @@
             "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Application\\Agendamentos.Application.csproj": {
               "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Application\\Agendamentos.Application.csproj"
             },
-            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Domain\\Agendamentos.Domain.csproj": {
-              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Domain\\Agendamentos.Domain.csproj"
+            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.Domain\\Agendamentos.Domain.csproj": {
+              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.Domain\\Agendamentos.Domain.csproj"
             },
-            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Infrastructure\\Agendamentos.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Infrastructure\\Agendamentos.Infrastructure.csproj"
+            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\agendamentos.infrastructure\\Agendamentos.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\agendamentos.infrastructure\\Agendamentos.Infrastructure.csproj"
             },
             "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj": {
               "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj"

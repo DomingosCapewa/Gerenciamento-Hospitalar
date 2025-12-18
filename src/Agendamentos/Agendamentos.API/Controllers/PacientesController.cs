@@ -1,18 +1,40 @@
 using Agendamentos.Application.Interfaces;
+using Agendamentos.Application.DTOs;
+using Agendamentos.Application.Validators;
 using Agendamentos.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 [ApiController]
 [Route("api/[controller]")]
-public class pacientesController : ControllerBase
+public class PacientesController : ControllerBase
 {
     private readonly IPacienteRepository _repo;
-    public pacientesController(IPacienteRepository repo) => _repo = repo;
+    public PacientesController(IPacienteRepository repo) => _repo = repo;
 
     [HttpPost]
     [SwaggerOperation(Summary = "Create a new paciente", Description = "Adds a new paciente to the system.")]
-    public async Task<IActionResult> Create([FromBody] Paciente p) => Ok(new { message = "Paciente created successfully", paciente = await _repo.AddAsync(p) });
+    public async Task<IActionResult> Create([FromBody] PacienteDto dto)
+    {
+        var validator = new PacienteDtoValidator();
+        var result = await validator.ValidateAsync(dto);
+        if (!result.IsValid)
+            return BadRequest(new { message = "Validation failed", errors = result.Errors.Select(e => new { e.PropertyName, e.ErrorMessage }) });
+
+        var entity = new Paciente
+        {
+            Nome = dto.Nome,
+            CPF = dto.CPF,
+            Idade = dto.Idade,
+            Sexo = dto.Sexo,
+            DataNascimento = dto.DataNascimento,
+            Telefone = dto.Telefone,
+            Email = dto.Email
+        };
+
+        var created = await _repo.AddAsync(entity);
+        return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
+    }
 
     [HttpGet("{id}")]
     [SwaggerOperation(Summary = "Get a paciente by ID", Description = "Retrieves a paciente by their unique ID.")]
@@ -27,29 +49,26 @@ public class pacientesController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var pacientes = await _repo.GetAllAsync();
-        if (!pacientes.Any())
-            return NotFound(new { message = "No pacientes found" });
-
         return Ok(new { message = "Pacientes retrieved successfully", count = pacientes.Count(), pacientes });
     }
 
     [HttpPatch("{id}")]
     [SwaggerOperation(Summary = "Update a paciente", Description = "Updates an existing paciente's information.")]
-    public async Task<IActionResult> Update(int id, [FromBody] Paciente updatedPaciente)
+    public async Task<IActionResult> Update(int id, [FromBody] UpdatePacienteDTO updatedPaciente)
     {
         var existingPaciente = await _repo.GetByIdAsync(id);
         if (existingPaciente is null)
             return NotFound(new { message = "Paciente not found" });
-return Ok(new { message = "Paciente updated successfully", paciente = existingPaciente });
-        
-        // existingPaciente.Nome = updatedPaciente.Nome ?? existingPaciente.Nome;
-        // existingPaciente.CPF = updatedPaciente.CPF ?? existingPaciente.CPF;
-        // existingPaciente.DataNascimento = updatedPaciente.DataNascimento != default ? updatedPaciente.DataNascimento : existingPaciente.DataNascimento;
-        // existingPaciente.Telefone = updatedPaciente.Telefone ?? existingPaciente.Telefone;
-        // existingPaciente.Email = updatedPaciente.Email ?? existingPaciente.Email;
+        existingPaciente.Nome = updatedPaciente.Nome ?? existingPaciente.Nome;
+        existingPaciente.CPF = updatedPaciente.CPF ?? existingPaciente.CPF;
+        existingPaciente.Idade = updatedPaciente.Idade ?? existingPaciente.Idade;
+        existingPaciente.Sexo = updatedPaciente.Sexo ?? existingPaciente.Sexo;
+        existingPaciente.DataNascimento = updatedPaciente.DataNascimento ?? existingPaciente.DataNascimento;
+        existingPaciente.Telefone = updatedPaciente.Telefone ?? existingPaciente.Telefone;
+        existingPaciente.Email = updatedPaciente.Email ?? existingPaciente.Email;
 
-        // await _repo.UpdateAsync(existingPaciente);
-        // return Ok(new { message = "Paciente updated successfully", paciente = existingPaciente });
+        await _repo.UpdateAsync(existingPaciente);
+        return Ok(new { message = "Paciente updated successfully", paciente = existingPaciente });
     }
 
     [HttpDelete("{id}")]
@@ -60,7 +79,7 @@ return Ok(new { message = "Paciente updated successfully", paciente = existingPa
         if (existingPaciente is null)
             return NotFound(new { message = "Paciente not found" });
 
-        // await _repo.DeleteAsync(existingPaciente);
+        await _repo.DeleteAsync(existingPaciente);
         return Ok(new { message = "Paciente deleted successfully" });
     }
 }

@@ -7,6 +7,8 @@ namespace Agendamentos.Application.Interfaces
         Task<Paciente> AddAsync(Paciente p);
         Task<Paciente?> GetByIdAsync(int id);
         Task<IEnumerable<Paciente>> GetAllAsync();
+        Task<Paciente> UpdateAsync(Paciente p);
+        Task DeleteAsync(Paciente p);
     }
 }
 

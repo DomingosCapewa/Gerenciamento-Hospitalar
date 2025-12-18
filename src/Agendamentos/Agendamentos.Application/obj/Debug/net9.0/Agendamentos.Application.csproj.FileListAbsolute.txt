@@ -13,3 +13,5 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Age
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Application\obj\Debug\net9.0\refint\Agendamentos.Application.dll
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Application\obj\Debug\net9.0\Agendamentos.Application.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.Application\obj\Debug\net9.0\ref\Agendamentos.Application.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.Application\bin\Debug\net9.0\Shared.Contracts.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\agendamentos\Agendamentos.Application\bin\Debug\net9.0\Shared.Contracts.pdb

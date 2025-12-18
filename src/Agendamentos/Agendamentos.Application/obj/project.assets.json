@@ -54,6 +54,16 @@
         "runtime": {
           "bin/placeholder/Agendamentos.Domain.dll": {}
         }
+      },
+      "Shared.Contracts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Shared.Contracts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shared.Contracts.dll": {}
+        }
       }
     }
   },
@@ -117,13 +127,19 @@
       "type": "project",
       "path": "../Agendamentos.Domain/Agendamentos.Domain.csproj",
       "msbuildProject": "../Agendamentos.Domain/Agendamentos.Domain.csproj"
+    },
+    "Shared.Contracts/1.0.0": {
+      "type": "project",
+      "path": "../../Shared.Contracts/Shared.Contracts.csproj",
+      "msbuildProject": "../../Shared.Contracts/Shared.Contracts.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
       "Agendamentos.Domain >= 1.0.0",
       "FluentValidation >= 11.9.0",
-      "FluentValidation.DependencyInjectionExtensions >= 11.9.0"
+      "FluentValidation.DependencyInjectionExtensions >= 11.9.0",
+      "Shared.Contracts >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -151,8 +167,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Domain\\Agendamentos.Domain.csproj": {
-              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Domain\\Agendamentos.Domain.csproj"
+            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.Domain\\Agendamentos.Domain.csproj": {
+              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.Domain\\Agendamentos.Domain.csproj"
+            },
+            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj": {
+              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj"
             }
           }
         }
