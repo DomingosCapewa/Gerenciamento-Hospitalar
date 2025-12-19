@@ -8,29 +8,49 @@
 ## Exemplos de entrada
 
 Atendimento por horário (JSON):
+# Clínica API
 
+API clínica que consome consultas do Agendamentos via RabbitMQ e expõe endpoints para médicos e administração.
+
+## URLs
+- Direto (dev): http://localhost:7265
+- Via API Gateway: http://localhost:8085/clinica
+- Swagger: `/swagger`
+
+## Autenticação e Roles
+- Autenticação: JWT (Keycloak).
+- Políticas: `Medico` para atender consultas; `Admin` para gestão de médicos; leituras públicas podem estar liberadas.
+
+## Endpoints Principais
+- GET `/api/medicos` – lista médicos (público).
+- POST `/api/medicos` – cria médico (role `Admin`).
+- POST `/api/atendimento/consultas/{id}/atender` – atende consulta (role `Medico`).
+
+### Exemplo: atender consulta
+Request
+```json
 {
-	"PacienteCPF": "123.123.123-12",
-	"Horario": "2025-12-18T14:00:00",
-	"SintomasNomes": [
-		"febre",
-		"nausea",
-		"dor de cabeça"
-	]
+	"observacoes": "Sintomas gripais",
+	"solicitarExamesAvancados": false
 }
+```
+Response 200
+```json
+{ "mensagem": "Consulta atendida com sucesso", "codigo": 1 }
+```
+Response 404
+```json
+{ "mensagem": "Consulta não encontrada" }
+```
 
-Atendimento por código (JSON):
+## Mensageria
+- Consumer `ConsultaCriadaBackgroundService` da fila `clinica-consultas` para criação de consultas clínicas a partir de eventos de Agendamentos.
 
-{
-	"PacienteCPF": "123.123.123-12",
-	"ConsultaId": 123,
-	"SintomasNomes": [
-		"febre",
-		"nausea",
-		"dor de cabeça"
-	]
-}
+## Variáveis de Ambiente
+- `ConnectionStrings__ClinicaDb`
+- `RabbitMQ__Host|Port|User|Password`
+- `Authentication__Authority|Audience|RequireHttpsMetadata`
 
-Observações:
-- Também é possível informar os sintomas como objetos usando `Sintomas` com `SintomaId`, `Prioridade` e `Observacao`.
-- Ao atender por código, quando enviado `DataHora` a consulta tem o horário atualizado antes do processamento.
+## Executar
+- Local: `dotnet run --project src/Clinica/Clinica.API/Clinica.API.csproj`
+- Docker: `docker compose up -d --build`

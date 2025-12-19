@@ -1,29 +1,49 @@
-# API de Agendamentos
+# Agendamentos API
 
-Esta API é responsável por gerenciar os agendamentos de procedimentos e exames cirúrgicos em um sistema de gerenciamento hospitalar. Ela permite criar, atualizar, recuperar e cancelar agendamentos, além de integrar-se com outros serviços para processar exames e procedimentos.
+API responsável por cadastrar e pesquisar consultas e exames. Gera eventos para Clínica e Cirúrgico via RabbitMQ.
 
-## Funcionalidades
-- **Criar Agendamento**: Permite criar um novo agendamento para um procedimento ou exame cirúrgico.
-- **Atualizar Agendamento**: Permite atualizar os detalhes de um agendamento existente.
-- **Recuperar Agendamentos**: Permite recuperar uma lista de agendamentos ou detalhes de um agendamento específico.
-- **Cancelar Agendamento**: Permite cancelar um agendamento existente.
-- **Integração com Serviços Externos**: Publica eventos para outros serviços, como o serviço cirúrgico, para processar exames e procedimentos agendados.
+## URLs
+- Direto (dev): http://localhost:7264
+- Via API Gateway: http://localhost:8085/agendamentos
+- Swagger: `/swagger`
 
-## Tecnologias Utilizadas
-- .NET 9
-- Entity Framework Core
-- RabbitMQ para mensageria
-- Swagger para documentação da API
+## Autenticação e Roles
+- Autenticação: JWT (Keycloak). 
+- Políticas: `Usuario` para cadastrar/pesquisar. `Admin` herda acesso.
+
 ## Endpoints Principais
-- `POST /api/agendamentos`: Cria um novo agendamento.
-- `PUT /api/agendamentos/{id}`: Atualiza um agendamento existente.
-- `GET /api/agendamentos`: Recupera todos os agendamentos.
-- `GET /api/agendamentos/{id}`: Recupera um agendamento específico.
-- `DELETE /api/agendamentos/{id}`: Cancela um agendamento existente.
+- POST `/api/agendamentos/cadastro/consulta` – cria consulta; 409 se já existir consulta/exame para o CPF no mesmo dia/hora.
+- GET `/api/agendamentos/pesquisar/consultas/{cpf}` – consulta por CPF.
+- POST `/api/agendamentos/cadastro/exame` – cria exame; 409 em conflito de horário.
 
-## Configuração e Execução
-1. Clone o repositório do projeto.
-2. Configure as variáveis de ambiente necessárias, como a string de conexão do banco de dados e as configurações do RabbitMQ.
-3. Execute o projeto usando o .NET CLI ou uma IDE como o Visual Studio.
-4. Acesse a documentação da API via Swagger em `http://localhost:{porta}/swagger` para testar os endpoints.
+### Exemplo: criar consulta
+Request
+```json
+{
+	"paciente": {"nome":"João","cpf":"123.123.123-12","idade":30,"sexo":"M"},
+	"horario":"2025-12-20T10:00:00",
+	"medico":"pediatra"
+}
+```
+Response 200
+```json
+{ "mensagem": "O medico pediatra de João foi marcado para 20/12/2025 10:00", "codigo": 1 }
+```
+Response 409
+```json
+{ "mensagem": "O paciente já possui agendamento no dia e hora informados." }
+```
+
+## Mensageria
+- Consulta criada → fila `clinica-consultas` (evento `ConsultaCriadaEvent`).
+- Exame criado → fila `cirurgico-procedimentos` (evento `ProcedimentoExameCriadoEvent`).
+
+## Variáveis de Ambiente
+- `ConnectionStrings__AgendamentosDb`
+- `RabbitMQ__Host|Port|User|Password`
+- `Authentication__Authority|Audience|RequireHttpsMetadata`
+
+## Executar
+- Local: `dotnet run --project src/Agendamentos/Agendamentos.API/Agendamentos.API.csproj`
+- Docker: `docker compose up -d --build` (veja o compose em Infrastructure)
 

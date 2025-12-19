@@ -80,6 +80,7 @@ services:
       dockerfile: src/Agendamentos/Agendamentos.API/Dockerfile
     container_name: agendamentos_api
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__AgendamentosDb=Server=mysql_agendamentos;Port=3306;Database=agendamentos_db;User=agend_user;Password=agend_pass;
       - RabbitMQ__Host=rabbitmq
       - RabbitMQ__Port=5672
