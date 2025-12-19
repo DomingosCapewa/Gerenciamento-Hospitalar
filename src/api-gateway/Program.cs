@@ -34,7 +34,9 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
-app.UseHttpsRedirection();
+var disableHttps = builder.Configuration.GetValue<bool>("DisableHttpsRedirection");
+if (!disableHttps)
+    app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 

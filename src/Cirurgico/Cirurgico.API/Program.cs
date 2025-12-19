@@ -92,7 +92,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+var disableHttps = builder.Configuration.GetValue<bool>("DisableHttpsRedirection");
+if (!disableHttps)
+    app.UseHttpsRedirection();
 
 var culture = new CultureInfo("pt-BR");
 CultureInfo.DefaultThreadCurrentCulture = culture;

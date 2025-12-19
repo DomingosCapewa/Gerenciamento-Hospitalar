@@ -74,6 +74,101 @@ services:
     networks:
       - hospital-net
 
+  agendamentos_api:
+    build:
+      context: ..
+      dockerfile: src/Agendamentos/Agendamentos.API/Dockerfile
+    container_name: agendamentos_api
+    environment:
+      - ConnectionStrings__AgendamentosDb=Server=mysql_agendamentos;Port=3306;Database=agendamentos_db;User=agend_user;Password=agend_pass;
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__User=guest
+      - RabbitMQ__Password=guest
+      - Authentication__Authority=http://keycloak:8080/realms/hospital
+      - Authentication__Audience=hospital-api
+      - Authentication__RequireHttpsMetadata=false
+      - DisableHttpsRedirection=true
+    depends_on:
+      - mysql_agendamentos
+      - rabbitmq
+      - keycloak
+    ports:
+      - "7264:8080"
+    networks:
+      - hospital-net
+
+  clinica_api:
+    build:
+      context: ..
+      dockerfile: src/Clinica/Clinica.API/Dockerfile
+    container_name: clinica_api
+    environment:
+      - ConnectionStrings__ClinicaDb=Server=mysql_clinica;Port=3306;Database=clinica_db;User=clin_user;Password=clin_pass;
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__Username=guest
+      - RabbitMQ__Password=guest
+      - Authentication__Authority=http://keycloak:8080/realms/hospital
+      - Authentication__Audience=hospital-api
+      - Authentication__RequireHttpsMetadata=false
+      - ExternalApis__CirurgicoBaseUrl=http://cirurgico_api:8080
+      - DisableHttpsRedirection=true
+    depends_on:
+      - mysql_clinica
+      - rabbitmq
+      - keycloak
+    ports:
+      - "7265:8080"
+    networks:
+      - hospital-net
+
+  cirurgico_api:
+    build:
+      context: ..
+      dockerfile: src/Cirurgico/Cirurgico.API/Dockerfile
+    container_name: cirurgico_api
+    environment:
+      - ConnectionStrings__CirurgicoDb=Server=mysql_cirurgico;Port=3306;Database=cirurgico_db;User=ciru_user;Password=ciru_pass;
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__Username=guest
+      - RabbitMQ__Password=guest
+      - Authentication__Authority=http://keycloak:8080/realms/hospital
+      - Authentication__Audience=hospital-api
+      - Authentication__RequireHttpsMetadata=false
+      - DisableHttpsRedirection=true
+    depends_on:
+      - mysql_cirurgico
+      - rabbitmq
+      - keycloak
+    ports:
+      - "7108:8080"
+    networks:
+      - hospital-net
+
+  api_gateway:
+    build:
+      context: ..
+      dockerfile: src/api-gateway/Dockerfile
+    container_name: api_gateway
+    environment:
+      - Authentication__Authority=http://keycloak:8080/realms/hospital
+      - Authentication__Audience=hospital-api
+      - Authentication__RequireHttpsMetadata=false
+      - ReverseProxy__Clusters__agendamentos-cluster__Destinations__d1__Address=http://agendamentos_api:8080/
+      - ReverseProxy__Clusters__clinica-cluster__Destinations__d1__Address=http://clinica_api:8080/
+      - ReverseProxy__Clusters__cirurgico-cluster__Destinations__d1__Address=http://cirurgico_api:8080/
+      - DisableHttpsRedirection=true
+    depends_on:
+      - agendamentos_api
+      - clinica_api
+      - cirurgico_api
+    ports:
+      - "8085:8080"
+    networks:
+      - hospital-net
+
 networks:
   hospital-net:
 

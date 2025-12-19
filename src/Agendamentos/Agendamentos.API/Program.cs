@@ -104,7 +104,9 @@ var locOptions = new RequestLocalizationOptions
 app.UseRequestLocalization(locOptions);
 app.UseCors("AllowAll");
 if (app.Environment.IsDevelopment()) { app.UseSwagger(); app.UseSwaggerUI(c => c.EnablePersistAuthorization()); }
-app.UseHttpsRedirection();
+var disableHttps = builder.Configuration.GetValue<bool>("DisableHttpsRedirection");
+if (!disableHttps)
+    app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
