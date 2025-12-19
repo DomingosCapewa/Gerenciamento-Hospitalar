@@ -1,13 +1,15 @@
-using Clinica.Application.Interfaces;
-using Clinica.Domain.Entities;
+
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
+using Clinica.Domain.Entities;
+using Clinica.Application.Interfaces;
 
 namespace Clinica.API.Controllers
 {
-    //apenas admins podem acessar
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Policy = "Admin")]
     public class MedicosController : ControllerBase
     {
         private readonly IMedicoRepository _medicoRepository;
@@ -18,6 +20,7 @@ namespace Clinica.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [SwaggerOperation(Summary = "Get all medicos", Description = "Retrieves a list of all medicos.")]
         public async Task<IActionResult> GetAllMedicos()
         {
@@ -26,6 +29,7 @@ namespace Clinica.API.Controllers
         }
         
         [HttpGet("{id}")]
+        [AllowAnonymous]
         [SwaggerOperation(Summary = "Get a medico by ID", Description = "Retrieves a medico by their unique ID.")]
         public async Task<IActionResult> GetMedicoById(int id)
         {

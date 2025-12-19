@@ -167,3 +167,11 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Age
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\obj\Debug\net9.0\Agendamentos.API.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\obj\Debug\net9.0\Agendamentos.API.genruntimeconfig.cache
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\obj\Debug\net9.0\ref\Agendamentos.API.dll
+c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Agendamentos\Agendamentos.API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

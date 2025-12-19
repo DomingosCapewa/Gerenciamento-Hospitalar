@@ -3,11 +3,13 @@ using Clinica.Application.Interfaces;
 using Clinica.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clinica.API.Controllers
 {
     [ApiController]
     [Route("api/clinica/consultas")]
+    [Authorize(Policy = "Medico")]
     public class AtendimentoController : ControllerBase
     {
         private readonly IConsultaClinicaRepository _consultasRepo;

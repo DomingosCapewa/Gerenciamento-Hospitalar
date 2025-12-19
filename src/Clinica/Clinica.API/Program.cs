@@ -6,6 +6,11 @@ using System.Net.Http;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Clinica.Infrastructure.Messaging;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Shared.Contracts.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
@@ -31,6 +36,11 @@ builder.Services.AddHttpClient("ClinicaApi", c =>
     var baseUrl = builder.Configuration["ExternalApis:ClinicaBaseUrl"] ?? "https://localhost:7265";
     c.BaseAddress = new Uri(baseUrl);
 });
+builder.Services.AddHttpClient("CirurgicoApi", c =>
+{
+    var baseUrl = builder.Configuration["ExternalApis:CirurgicoBaseUrl"] ?? "https://localhost:7108";
+    c.BaseAddress = new Uri(baseUrl);
+});
 
 
 builder.Services.AddSingleton<EventPublisher>(sp =>
@@ -53,9 +63,53 @@ builder.Services.AddSwaggerGen(settings =>
         Version = "v1",
         Description = "API para gerenciamento de clínicas do sistema hospitalar.",
     });
+    settings.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = @"JWT Authorization header usando Bearer.
+                                Entre com 'Bearer ' [espaço] então coloque seu token.
+                                Exemplo: 'Bearer 12345abcdef'",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+    settings.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference { Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme, Id = "Bearer" }
+            },
+            Array.Empty<string>()
+        }
+    });
 });
 
 builder.Services.AddHostedService<ConsultaCriadaBackgroundService>();
+
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration["Authentication:Authority"];
+        options.Audience = builder.Configuration["Authentication:Audience"];
+        options.RequireHttpsMetadata = builder.Configuration.GetValue<bool>("Authentication:RequireHttpsMetadata");
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = false,
+            RoleClaimType = "roles",
+            NameClaimType = "preferred_username"
+        };
+    });
+builder.Services.AddSingleton<IClaimsTransformation, KeycloakRoleClaimsTransformer>();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Usuario", p => p.RequireRole("Usuario", "usuario", "user"));
+    options.AddPolicy("Medico", p => p.RequireRole("Medico", "medico", "doctor"));
+    options.AddPolicy("Admin", p => p.RequireRole("Admin", "admin"));
+});
 
 var app = builder.Build();
 
@@ -77,6 +131,8 @@ app.UseRequestLocalization(locOptions);
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
@@ -90,6 +146,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c => c.EnablePersistAuthorization());
 
 app.Run();

@@ -76,7 +76,6 @@ public class ProcedimentoAtualizacaoBackgroundService : BackgroundService
             {
                 var json = Encoding.UTF8.GetString(ea.Body.ToArray());
 
-                // Tenta prioridade primeiro
                 var prioridadeEvt = JsonSerializer.Deserialize<ProcedimentoExamePrioridadeAtualizadaEvent>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 if (prioridadeEvt?.IdExameAgendamento > 0 && prioridadeEvt.Prioridade != null)
                 {
@@ -86,7 +85,6 @@ public class ProcedimentoAtualizacaoBackgroundService : BackgroundService
                     return;
                 }
 
-                // Tenta status
                 var statusEvt = JsonSerializer.Deserialize<ProcedimentoExameStatusAtualizadoEvent>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 if (statusEvt?.IdExameAgendamento > 0 && !string.IsNullOrWhiteSpace(statusEvt.Status))
                 {

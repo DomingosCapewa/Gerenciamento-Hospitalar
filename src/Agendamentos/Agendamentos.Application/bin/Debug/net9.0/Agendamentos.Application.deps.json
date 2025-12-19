@@ -37,14 +37,7 @@
           }
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions/2.1.0": {
-        "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
-            "assemblyVersion": "2.1.0.0",
-            "fileVersion": "2.1.0.18136"
-          }
-        }
-      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/2.1.0": {},
       "Agendamentos.Domain/1.0.0": {
         "runtime": {
           "Agendamentos.Domain.dll": {

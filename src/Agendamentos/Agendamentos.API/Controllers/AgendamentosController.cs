@@ -6,9 +6,11 @@ using Swashbuckle.AspNetCore.Annotations;
 using Shared.Contracts.Events;
 using Agendamentos.API.HATEOAS;
 using Shared.Contracts.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/agendamentos")]
+[Authorize]
 public class AgendamentosController : ControllerBase
 {
     private readonly IAgendamentoRepository _repo;
@@ -28,6 +30,7 @@ public class AgendamentosController : ControllerBase
     
 
     [HttpPost("cadastro/consulta")]
+    [Authorize(Policy = "Usuario")]
     [SwaggerOperation(Summary = "Cadastrar uma nova consulta", Description = "Adiciona uma nova consulta ao sistema.")]
     public async Task<IActionResult> CadastroConsulta([FromBody] CadastroConsultaDto dto)
     {
@@ -59,6 +62,7 @@ public class AgendamentosController : ControllerBase
     }
 
     [HttpGet("pesquisar/consultas/{pacienteCPF}")]
+    [Authorize(Policy = "Usuario")]
     [SwaggerOperation(Summary = "Obter detalhes da consulta ", Description = "Recupera os detalhes de uma consulta pelo pacienteCPF.")]
     public async Task<IActionResult> ObterConsulta(string pacienteCPF)
     {
@@ -97,6 +101,7 @@ public class AgendamentosController : ControllerBase
     }
 
     [HttpPost("cadastro/exame")]
+    [Authorize(Policy = "Usuario")]
     [SwaggerOperation(Summary = "Cadastrar um novo exame", Description = "Adiciona um novo exame ao sistema.")]
     public async Task<IActionResult> CadastroExame([FromBody] CadastroExameDto dto)
     {

@@ -150,3 +150,11 @@ C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\cirurg
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\cirurgico.api\bin\Debug\net9.0\Cirurgico.Application.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\cirurgico.api\bin\Debug\net9.0\Cirurgico.Domain.pdb
 C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\cirurgico.api\bin\Debug\net9.0\Shared.Contracts.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.API\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.API\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.API\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.API\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.API\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\cirurgico\Cirurgico.API\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

@@ -1,9 +1,10 @@
 using System.Text;
 using System.Text.RegularExpressions;
+using Clinica.Domain.Entities;
 using Clinica.Infrastructure.Messaging;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Contracts.Enums;
 using Shared.Contracts.Events;
+
 
 namespace Clinica.API.Controllers;
 
@@ -24,7 +25,7 @@ public class ProcedimentosController : ControllerBase
         var evt = new ProcedimentoExamePrioridadeAtualizadaEvent
         {
             IdExameAgendamento = idExameAgendamento,
-            Prioridade = prioridade,
+            Prioridade = prioridade.HasValue ? (Shared.Contracts.Enums.PrioridadeSintoma)prioridade.Value : null,
             AtualizadoPor = req.AtualizadoPor
         };
         _publisher.Publish("cirurgico-procedimentos-atualizacoes", evt);

@@ -1365,7 +1365,10 @@
         },
         "runtime": {
           "bin/placeholder/Shared.Contracts.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },

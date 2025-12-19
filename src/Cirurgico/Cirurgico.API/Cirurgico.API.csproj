@@ -8,16 +8,15 @@
 
   <ItemGroup>
      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Cirurgico.Infrastructure\Cirurgico.Infrastructure.csproj" />
     <ProjectReference Include="..\Cirurgico.Application\Cirurgico.Application.csproj" />
     <ProjectReference Include="..\Cirurgico.Domain\Cirurgico.Domain.csproj" />
   </ItemGroup>
-
 </Project>
