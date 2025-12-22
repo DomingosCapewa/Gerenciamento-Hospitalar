@@ -61,6 +61,14 @@ namespace Clinica.API.Controllers
       
 
             var atualizado = await _consultasRepo.AtenderConsulta(consulta);
+
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            var links = new Shared.Contracts.Hateoas.HateoasBuilder()
+                .Add("self","GET","/api/clinica/consultas/{id}")
+                .Add("atender-codigo","POST","/api/clinica/consultas/atender-codigo")
+                .Add("sintomas","GET","/api/clinica/sintomas")
+                .Build(baseUrl, new Dictionary<string,string>{{"id", atualizado.Id.ToString()}});
+
             var resposta = new
             {
                 idConsultaClinica = atualizado.Id,
@@ -70,7 +78,8 @@ namespace Clinica.API.Controllers
                 horario = atualizado.Horario,
                 sintomas = atualizado.Sintomas.Select(x => new { x.SintomaId, nomeSintoma = x.Sintoma.Nome, prioridade = x.Prioridade, observacao = x.Observacao }),
                 diagnostico = atualizado.Diagnostico,
-                tratamentoSugerido = atualizado.TratamentoSugerido
+                tratamentoSugerido = atualizado.TratamentoSugerido,
+                _links = links
             };
 
             return Ok(resposta);
@@ -134,11 +143,20 @@ namespace Clinica.API.Controllers
                 }
             }
 
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            var links = new Shared.Contracts.Hateoas.HateoasBuilder()
+                .Add("self","GET","/api/clinica/consultas/{id}")
+                .Add("atender-horario","POST","/api/clinica/consultas/atender-horario")
+                .Add("procedimentos-status","PUT","/api/procedimentos/{exameId}/status")
+                .Add("procedimentos-prioridade","PUT","/api/procedimentos/{exameId}/prioridade")
+                .Build(baseUrl, new Dictionary<string,string>{{"id", consulta.Id.ToString()}});
+
             return Ok(new
             {
                 consulta = new { consulta.Id, consulta.CpfPaciente, consulta.Horario, consulta.IdMedico },
                 doencasSugeridas = doencasSugeridas.Select(d => new { d.Id, d.Nome }),
-                examesSolicitados = protocolosExames
+                examesSolicitados = protocolosExames,
+                _links = links
             });
         }
 }

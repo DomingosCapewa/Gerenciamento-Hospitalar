@@ -1335,7 +1335,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
-          "Clinica.Domain": "1.0.0"
+          "clinica.domain": "1.0.0"
         },
         "compile": {
           "bin/placeholder/clinica.application.dll": {}
@@ -1344,14 +1344,14 @@
           "bin/placeholder/clinica.application.dll": {}
         }
       },
-      "Clinica.Domain/1.0.0": {
+      "clinica.domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "compile": {
-          "bin/placeholder/Clinica.Domain.dll": {}
+          "bin/placeholder/clinica.domain.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Clinica.Domain.dll": {}
+          "bin/placeholder/clinica.domain.dll": {}
         }
       },
       "Shared.Contracts/1.0.0": {
@@ -4076,10 +4076,10 @@
       "path": "../clinica.application/clinica.application.csproj",
       "msbuildProject": "../clinica.application/clinica.application.csproj"
     },
-    "Clinica.Domain/1.0.0": {
+    "clinica.domain/1.0.0": {
       "type": "project",
-      "path": "../Clinica.Domain/Clinica.Domain.csproj",
-      "msbuildProject": "../Clinica.Domain/Clinica.Domain.csproj"
+      "path": "../clinica.domain/clinica.domain.csproj",
+      "msbuildProject": "../clinica.domain/clinica.domain.csproj"
     },
     "Shared.Contracts/1.0.0": {
       "type": "project",
@@ -4089,7 +4089,6 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "Clinica.Domain >= 1.0.0",
       "EntityFramework >= 6.5.1",
       "Microsoft.EntityFrameworkCore >= 9.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.0",
@@ -4098,7 +4097,8 @@
       "Pomelo.EntityFrameworkCore.MySql >= 9.0.0",
       "RabbitMQ.Client >= 6.8.1",
       "Shared.Contracts >= 1.0.0",
-      "clinica.application >= 1.0.0"
+      "clinica.application >= 1.0.0",
+      "clinica.domain >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -4107,11 +4107,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\Clinica.Infrastructure\\Clinica.Infrastructure.csproj",
-      "projectName": "Clinica.Infrastructure",
-      "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\Clinica.Infrastructure\\Clinica.Infrastructure.csproj",
+      "projectUniqueName": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.infrastructure\\clinica.infrastructure.csproj",
+      "projectName": "clinica.infrastructure",
+      "projectPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.infrastructure\\clinica.infrastructure.csproj",
       "packagesPath": "C:\\Users\\dscw\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\Clinica.Infrastructure\\obj\\",
+      "outputPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\dscw\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4129,8 +4129,8 @@
             "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.application\\clinica.application.csproj": {
               "projectPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.application\\clinica.application.csproj"
             },
-            "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Clinica\\Clinica.Domain\\Clinica.Domain.csproj": {
-              "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Clinica\\Clinica.Domain\\Clinica.Domain.csproj"
+            "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.domain\\clinica.domain.csproj": {
+              "projectPath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\clinica\\clinica.domain\\clinica.domain.csproj"
             },
             "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj": {
               "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj"

@@ -43,7 +43,13 @@ namespace Cirurgico.API.Controllers
             procedimento.Status = "Agendado";
             await _db.SaveChangesAsync();
 
-            return Ok(new { mensagem = "Exame marcado com sucesso.", codigoExame = body.CodigoExame });
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            var links = new Shared.Contracts.Hateoas.HateoasBuilder()
+                .Add("self","POST","/api/procedimentos/marcar")
+                .Add("disponibilidade","GET","/api/cirurgico/procedimentos/disponibilidade?tipo={tipo}&horario={horario}")
+                .Build(baseUrl, new Dictionary<string,string>{{"tipo", procedimento.TipoProcedimento},{"horario", procedimento.Horario.ToString("o")}});
+
+            return Ok(new { mensagem = "Exame marcado com sucesso.", codigoExame = body.CodigoExame, _links = links });
         }
     }
 }

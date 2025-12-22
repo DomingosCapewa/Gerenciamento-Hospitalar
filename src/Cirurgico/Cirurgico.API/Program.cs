@@ -118,7 +118,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var db = scope.ServiceProvider.GetRequiredService<CirurgicoDbContext>();
-        db.Database.EnsureCreated();
+        db.Database.Migrate();
     }
     catch { }
 }

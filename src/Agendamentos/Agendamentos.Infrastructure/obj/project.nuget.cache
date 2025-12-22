@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "e7WcvZwivJA=",
+  "dgSpecHash": "OzzpVGb8JfU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\agendamentos\\Agendamentos.Infrastructure\\Agendamentos.Infrastructure.csproj",
+  "projectFilePath": "c:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Agendamentos\\Agendamentos.Infrastructure\\Agendamentos.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dscw\\.nuget\\packages\\entityframework\\6.5.1\\entityframework.6.5.1.nupkg.sha512",
     "C:\\Users\\dscw\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",

@@ -54,8 +54,6 @@ builder.Services.AddDbContext<AgendamentosDbContext>(opt => opt.UseMySql(conn, S
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<PacienteDtoValidator>();
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblyContaining<PacienteDtoValidator>();
 
 builder.Services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
@@ -125,7 +123,7 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AgendamentosDbContext>();
-    try { db.Database.EnsureCreated(); } catch(Exception e) { Console.WriteLine("Erro" + e.Message); }
+    try { db.Database.Migrate(); } catch(Exception e) { Console.WriteLine("Erro" + e.Message); }
 }
 app.Run();
 

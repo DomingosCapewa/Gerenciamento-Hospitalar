@@ -8,8 +8,6 @@
     ".NETCoreApp,Version=v9.0": {
       "Clinica.API/1.0.0": {
         "dependencies": {
-          "Clinica.Domain": "1.0.0",
-          "Clinica.Infrastructure": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.0",
           "Microsoft.AspNetCore.OpenApi": "9.0.11",
           "Shared.Contracts": "1.0.0",
@@ -17,7 +15,9 @@
           "Swashbuckle.AspNetCore.Swagger": "9.0.0",
           "Swashbuckle.AspNetCore.SwaggerGen": "9.0.0",
           "Swashbuckle.AspNetCore.SwaggerUI": "9.0.0",
-          "clinica.application": "1.0.0"
+          "clinica.application": "1.0.0",
+          "clinica.domain": "1.0.0",
+          "clinica.infrastructure": "1.0.0"
         },
         "runtime": {
           "Clinica.API.dll": {}
@@ -929,7 +929,7 @@
       },
       "clinica.application/1.0.0": {
         "dependencies": {
-          "Clinica.Domain": "1.0.0"
+          "clinica.domain": "1.0.0"
         },
         "runtime": {
           "clinica.application.dll": {
@@ -938,16 +938,15 @@
           }
         }
       },
-      "Clinica.Domain/1.0.0": {
+      "clinica.domain/1.0.0": {
         "runtime": {
-          "clinica.domain.dll": {
+          "Clinica.Domain.dll": {
             "fileVersion": "0.0.0.0"
           }
         }
       },
-      "Clinica.Infrastructure/1.0.0": {
+      "clinica.infrastructure/1.0.0": {
         "dependencies": {
-          "Clinica.Domain": "1.0.0",
           "EntityFramework": "6.5.1",
           "Microsoft.EntityFrameworkCore": "9.0.0",
           "Microsoft.EntityFrameworkCore.Design": "9.0.0",
@@ -956,11 +955,13 @@
           "Pomelo.EntityFrameworkCore.MySql": "9.0.0",
           "RabbitMQ.Client": "6.8.1",
           "Shared.Contracts": "1.0.0",
-          "clinica.application": "1.0.0"
+          "clinica.application": "1.0.0",
+          "clinica.domain": "1.0.0"
         },
         "runtime": {
           "clinica.infrastructure.dll": {
-            "fileVersion": "0.0.0.0"
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -1531,12 +1532,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Clinica.Domain/1.0.0": {
+    "clinica.domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Clinica.Infrastructure/1.0.0": {
+    "clinica.infrastructure/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

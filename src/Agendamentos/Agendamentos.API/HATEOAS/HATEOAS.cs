@@ -29,16 +29,27 @@ namespace Agendamentos.API.HATEOAS
             _actions.Add(new ActionTemplate(rel, method, pathTemplate));
         }
 
-        public Link[] GetActions(string baseUrl, string id)
+        // New: token-based replacement to support multiple placeholders (e.g., {pacienteCPF}, {id})
+        public Link[] GetActions(string baseUrl, IDictionary<string, string> tokens)
         {
             var links = new List<Link>(_actions.Count);
             foreach (var action in _actions)
             {
-                var path = action.PathTemplate.Replace("{id}", id);
+                var path = action.PathTemplate;
+                if (tokens != null)
+                {
+                    foreach (var kv in tokens)
+                    {
+                        path = path.Replace("{" + kv.Key + "}", kv.Value ?? string.Empty);
+                    }
+                }
                 var href = baseUrl.TrimEnd('/') + "/" + path.TrimStart('/');
                 links.Add(new Link(href, action.Rel, action.Method));
             }
             return links.ToArray();
         }
+
+        // Backward-compatible helper for {id}
+        public Link[] GetActions(string baseUrl, string id) => GetActions(baseUrl, new Dictionary<string, string> { ["id"] = id });
     }
 }

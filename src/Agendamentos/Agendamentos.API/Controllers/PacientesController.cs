@@ -16,11 +16,7 @@ public class PacientesController : ControllerBase
     [SwaggerOperation(Summary = "Create a new paciente", Description = "Adds a new paciente to the system.")]
     public async Task<IActionResult> Create([FromBody] PacienteDto dto)
     {
-        var validator = new PacienteDtoValidator();
-        var result = await validator.ValidateAsync(dto);
-        if (!result.IsValid)
-            return BadRequest(new { message = "Validation failed", errors = result.Errors.Select(e => new { e.PropertyName, e.ErrorMessage }) });
-
+        // Rely on FluentValidation auto-validation via [ApiController]
         var entity = new Paciente
         {
             Nome = dto.Nome,

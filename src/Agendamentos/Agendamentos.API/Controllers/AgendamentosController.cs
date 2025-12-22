@@ -26,14 +26,16 @@ public class AgendamentosController : ControllerBase
         _publisher = publisher;
         _httpClientFactory = httpClientFactory;
         HATEOAS = new HATEOAS();
-        HATEOAS.AddLink("self", "GET", "/api/agendamentos/pesquisar/consultas/{id}");
+        // Align self route with pacienteCPF path
+        HATEOAS.AddLink("self", "GET", "/api/agendamentos/pesquisar/consultas/{pacienteCPF}");
         HATEOAS.AddLink("update", "PATCH", "/api/agendamentos/alterar/consultas/{id}");
         HATEOAS.AddLink("delete", "DELETE", "/api/agendamentos/deletar/consultas/{id}");
     }
 
     
 
-    [HttpPost("cadastro/consulta")]
+    [HttpPost("cadastro/consulta")] // legacy
+    [HttpPost("consultas")] // RESTful
     [Authorize(Policy = "Usuario")]
     [SwaggerOperation(Summary = "Cadastrar uma nova consulta", Description = "Adiciona uma nova consulta ao sistema.")]
     public async Task<IActionResult> CadastroConsulta([FromBody] CadastroConsultaDto dto)
@@ -58,7 +60,7 @@ public class AgendamentosController : ControllerBase
                 return Conflict(payload ?? new { mensagem = "Horário indisponível para a especialidade informada." });
             }
         }
-        catch { /* If upstream is down, proceed but local rules still apply */ }
+        catch {}
 
         var paciente = new Paciente { Nome = dto.Paciente.Nome, CPF = dto.Paciente.CPF, Idade = dto.Paciente.Idade, Sexo = dto.Paciente.Sexo };
         await _repo.EnsurePacienteAsync(paciente);
@@ -78,23 +80,31 @@ public class AgendamentosController : ControllerBase
         return Ok(new { mensagem = $"O medico {criado.MedicoEspecialidade} de {dto.Paciente.Nome} foi marcado para {criado.Horario:dd/MM/yyyy HH:mm}", codigo = criado.Id });
     }
 
-    [HttpGet("pesquisar/consultas/{pacienteCPF}")]
+    [HttpGet("pesquisar/consultas/{pacienteCPF}")] // legacy
+    [HttpGet("consultas/{id:int}")] // RESTful by id
     [Authorize(Policy = "Usuario")]
     [SwaggerOperation(Summary = "Obter detalhes da consulta ", Description = "Recupera os detalhes de uma consulta pelo pacienteCPF.")]
-    public async Task<IActionResult> ObterConsulta(string pacienteCPF)
+    public async Task<IActionResult> ObterConsulta(string pacienteCPF, int id)
     {
         try
         {
-            var consultasPaciente = await _repo.GetConsultaByCPFAsync(pacienteCPF);
+            var consultasPaciente = !string.IsNullOrWhiteSpace(pacienteCPF)
+                ? await _repo.GetConsultaByCPFAsync(pacienteCPF)
+                : await _repo.GetConsultaByIdAsync(id);
             if (consultasPaciente == null)
             {
                 return NotFound(new { mensagem = "Consulta não encontrada." });
             }
             var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            var tokens = new Dictionary<string, string>
+            {
+                ["pacienteCPF"] = pacienteCPF,
+                ["id"] = consultasPaciente.Id.ToString()
+            };
             var container = new AgendamentoContainer
             {
                 Consulta = consultasPaciente,
-                Links = HATEOAS.GetActions(baseUrl, consultasPaciente.Id.ToString())
+                Links = HATEOAS.GetActions(baseUrl, tokens)
             };
 
             return Ok(new { mensagem = $"Detalhes da consulta com CPF {pacienteCPF}.", data = container });
@@ -104,7 +114,8 @@ public class AgendamentosController : ControllerBase
             return StatusCode(500, new { mensagem = "Erro ao obter detalhes da consulta.", detalhe = ex.Message });
         }
     }
-    [HttpPatch("alterar/consultas/{id:int}")]
+    [HttpPatch("alterar/consultas/{id:int}")] // legacy
+    [HttpPatch("consultas/{id:int}")] // RESTful
     [SwaggerOperation(Summary = "Atualizar detalhes da consulta", Description = "Atualiza horário, especialidade ou status da consulta.")]
     public async Task<IActionResult> AtualizarConsulta(int id, [FromBody] AtualizaConsultaDto body)
     {
@@ -125,7 +136,8 @@ public class AgendamentosController : ControllerBase
         var updated = await _repo.UpdateConsultaAsync(existing);
         return Ok(new { mensagem = $"Consulta {id} atualizada com sucesso.", data = updated });
     }
-    [HttpDelete("deletar/consultas/{id:int}")]
+    [HttpDelete("deletar/consultas/{id:int}")] // legacy
+    [HttpDelete("consultas/{id:int}")] // RESTful
     [SwaggerOperation(Summary = "Excluir uma consulta", Description = "Exclui uma consulta existente pelo ID.")]
     public async Task<IActionResult> ExcluirConsulta(int id)
     {
@@ -133,7 +145,8 @@ public class AgendamentosController : ControllerBase
         return ok ? Ok(new { mensagem = $"Consulta {id} excluída com sucesso." }) : NotFound(new { mensagem = "Consulta não encontrada." });
     }
 
-    [HttpPost("cadastro/exame")]
+    [HttpPost("cadastro/exame")] 
+    [HttpPost("exames")] 
     [Authorize(Policy = "Usuario")]
     [SwaggerOperation(Summary = "Cadastrar um novo exame", Description = "Adiciona um novo exame ao sistema.")]
     public async Task<IActionResult> CadastroExame([FromBody] CadastroExameDto dto)
@@ -158,7 +171,7 @@ public class AgendamentosController : ControllerBase
                 return Conflict(payload ?? new { mensagem = "Horário indisponível para o tipo de exame informado." });
             }
         }
-        catch { /* Upstream optional in this version; fall back to local rule */ }
+        catch { }
 
         var paciente = new Paciente { Nome = dto.Paciente.Nome, CPF = dto.Paciente.CPF, Idade = dto.Paciente.Idade, Sexo = dto.Paciente.Sexo };
         await _repo.EnsurePacienteAsync(paciente);
@@ -180,17 +193,19 @@ public class AgendamentosController : ControllerBase
 
         return Ok(new { mensagem = $"O exame {criado.TipoExame} de {dto.Paciente.Nome} foi marcado para {criado.Horario:dd/MM/yyyy HH:mm}", codigo = criado.Id });
     }
-    [HttpGet("pesquisar/exames/{pacienteId}")]
+    [HttpGet("pesquisar/exames/{pacienteId}")] // legacy
+    [HttpGet("exames/{id:int}")] // RESTful by id
     [SwaggerOperation(Summary = "Obter detalhes do exame", Description = "Recupera os detalhes de um exame pelo pacienteId.")]
-    public IActionResult ObterExame(int pacienteId)
+    public async Task<IActionResult> ObterExame(int pacienteId, int id)
     {
         try{
-            var examesPaciente = _repo.GetExameByIdAsync(pacienteId);
+            var examesPaciente = pacienteId > 0 ? _repo.GetExameByIdAsync(pacienteId) : _repo.GetExameByIdAsync(id);
             if (examesPaciente == null)
             {
                 return NotFound(new { mensagem = "Exame não encontrado." });
             }
-            return Ok(new { mensagem = $"Detalhes do exame com ID {pacienteId}.", data = examesPaciente });
+            var found = await examesPaciente;
+            return Ok(new { mensagem = $"Detalhes do exame.", data = found });
 
         }
         catch (Exception ex)
@@ -199,7 +214,8 @@ public class AgendamentosController : ControllerBase
         }
     }
 
-    [HttpPatch("alterar/exames/{id:int}")]
+    [HttpPatch("alterar/exames/{id:int}")] // legacy
+    [HttpPatch("exames/{id:int}")] // RESTful
     [SwaggerOperation(Summary = "Atualizar detalhes do exame", Description = "Atualiza horário, tipo ou status do exame.")]
     public async Task<IActionResult> AtualizarExame(int id, [FromBody] AtualizaExameDto body)
     {
@@ -220,7 +236,8 @@ public class AgendamentosController : ControllerBase
         return Ok(new { mensagem = $"Exame {id} atualizado com sucesso.", data = updated });
     }
 
-    [HttpDelete("deletar/exames/{id:int}")]
+    [HttpDelete("deletar/exames/{id:int}")] // legacy
+    [HttpDelete("exames/{id:int}")] // RESTful
     [SwaggerOperation(Summary = "Excluir um exame", Description = "Exclui um exame existente pelo ID.")]
     public async Task<IActionResult> ExcluirExame(int id)
     {
