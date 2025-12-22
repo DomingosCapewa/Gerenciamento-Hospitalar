@@ -1,0 +1,1 @@
+// Consolidated into ConsultaClinicaRepository. This file is intentionally empty.

@@ -9,6 +9,7 @@ using RabbitMQ.Client.Events;
 using Shared.Contracts.Events;
 using Cirurgico.Application.Interfaces;
 using Cirurgico.Domain.Entities;
+using Shared.Contracts.Common;
 
 namespace Cirurgico.Infrastructure.Messaging;
 
@@ -21,7 +22,7 @@ public class ExameSolicitadoBackgroundService : BackgroundService
     private IConnection? _connection;
     private IModel? _channel;
 
-    private const string QueueName = "cirurgico-procedimentos";
+    private static readonly string QueueName = QueueNames.CirurgicoProcedimentos;
 
     public ExameSolicitadoBackgroundService(
         ILogger<ExameSolicitadoBackgroundService> logger,
@@ -35,10 +36,11 @@ public class ExameSolicitadoBackgroundService : BackgroundService
 
     public override Task StartAsync(CancellationToken cancellationToken)
     {
-        var host = _configuration["RabbitMQ:Host"] ?? "localhost";
-        var vhost = _configuration["RabbitMQ:VirtualHost"] ?? "/";
-        var user = _configuration["RabbitMQ:Username"] ?? "guest";
-        var pass = _configuration["RabbitMQ:Password"] ?? "guest";
+        var host = _configuration["Host"] ?? "rabbitmq";
+        var vhost = _configuration["VirtualHost"] ?? "/";
+        var user = _configuration["User"] ?? "guest";
+        var pass = _configuration["Password"] ?? "guest";
+
 
         var factory = new ConnectionFactory
         {
@@ -134,15 +136,8 @@ public class ExameSolicitadoBackgroundService : BackgroundService
         return Task.CompletedTask;
     }
 
-    public override void Dispose()
-    {
-        try
-        {
+    // Obsoleto: substituído por ExameSolicitadoConsumer baseado em RabbitMqConsumerBase
+    #if false
+    // Conteúdo removido
+    #endif
             _channel?.Close();
-            _connection?.Close();
-        }
-        catch { }
-
-        base.Dispose();
-    }
-}

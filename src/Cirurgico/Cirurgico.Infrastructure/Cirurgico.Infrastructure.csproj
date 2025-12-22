@@ -23,4 +23,9 @@
     <ProjectReference Include="..\Cirurgico.Application\Cirurgico.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Messaging\ExameSolicitadoBackgroundService.cs" />
+    <Compile Remove="Messaging\ProcedimentoAtualizacaoBackgroundService.cs" />
+  </ItemGroup>
+
 </Project>

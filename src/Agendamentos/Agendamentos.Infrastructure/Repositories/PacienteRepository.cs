@@ -12,4 +12,9 @@ public class PacienteRepository : IPacienteRepository
     public Task<IEnumerable<Paciente>> GetAllAsync() => Task.FromResult<IEnumerable<Paciente>>( _db.Pacientes.AsNoTracking().ToList() );
     public async Task<Paciente> UpdateAsync(Paciente p) { _db.Pacientes.Update(p); await _db.SaveChangesAsync(); return p; }
     public async Task DeleteAsync(Paciente p) { _db.Pacientes.Remove(p); await _db.SaveChangesAsync(); }
+
+    public Task<Paciente?> GetByCpfAsync(string cpf)
+    {
+        return _db.Pacientes.AsNoTracking().FirstOrDefaultAsync(p => p.CPF == cpf);
+    }
 }

@@ -12,26 +12,34 @@ API responsável por gerenciar solicitações de exames e procedimentos cirúrgi
 - Políticas: normalmente `Medico`/`Admin` para operação; algumas rotas podem estar públicas durante desenvolvimento.
 
 ## Endpoints Principais
-- POST `/api/exames/solicitar` – registra solicitação de exame e retorna protocolo.
+- POST `/api/exames/solicitacoes` – registra solicitação de exame e retorna protocolo.
 
 ### Exemplo: solicitar exame
 Request
 ```json
 {
-	"paciente": {"nome":"João","cpf":"123.123.123-12"},
-	"tipo":"hemograma",
-	"prioridade":"normal"
+	"consultaId": 10,
+	"cpf": "123.123.123-12",
+	"exame": "Tomografia Computadorizada",
+	"observacao": "Paciente com dores fortes"
 }
 ```
 Response 200
 ```json
-{ "protocolo": "EX-20251220-0001", "status": "recebido" }
+{
+	"protocolo": "PRT-...",
+	"exame": "Tomografia Computadorizada",
+	"cpf": "123.123.123-12",
+	"consultaId": 10,
+	"status": "Recebido",
+	"observacao": "Paciente com dores fortes"
+}
 ```
 
 ## Mensageria
 - Consumers:
-	- `ExameSolicitadoBackgroundService` – processa fila `cirurgico-procedimentos` (criação).
-	- `ProcedimentoAtualizacaoBackgroundService` – processa fila `cirurgico-procedimentos-atualizacoes` (prioridade/status).
+	- `ExameSolicitadoConsumer` – processa fila `cirurgico-procedimentos` (criação).
+	- `ProcedimentoAtualizacaoConsumer` – processa fila `cirurgico-procedimentos-atualizacoes` (prioridade/status).
 
 ## Variáveis de Ambiente
 - `ConnectionStrings__CirurgicoDb`

@@ -1,19 +1,22 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using Clinica.Domain.Entities;
-using Clinica.Infrastructure.Messaging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Shared.Contracts.Messaging;
+using Shared.Contracts.Common;
 using Shared.Contracts.Events;
 
 
 namespace Clinica.API.Controllers;
 
 [ApiController]
-[Route("api/procedimentos")] 
+[Route("api/clinica/procedimentos")] 
+[Authorize(Policy = "Medico")]
 public class ProcedimentosController : ControllerBase
 {
-    private readonly EventPublisher _publisher;
-    public ProcedimentosController(EventPublisher publisher)
+    private readonly IRabbitPublisher _publisher;
+    public ProcedimentosController(IRabbitPublisher publisher)
     {
         _publisher = publisher;
     }
@@ -28,7 +31,7 @@ public class ProcedimentosController : ControllerBase
             Prioridade = prioridade.HasValue ? (Shared.Contracts.Enums.PrioridadeSintoma)prioridade.Value : null,
             AtualizadoPor = req.AtualizadoPor
         };
-        _publisher.Publish("cirurgico-procedimentos-atualizacoes", evt);
+        _publisher.Publish(QueueNames.CirurgicoProcedimentosAtualizacoes, evt);
         return Accepted(new { message = "Prioridade enviada para processamento", idExameAgendamento, prioridade = prioridade?.ToString() });
     }
 
@@ -42,7 +45,7 @@ public class ProcedimentosController : ControllerBase
             Status = status,
             AtualizadoPor = req.AtualizadoPor
         };
-        _publisher.Publish("cirurgico-procedimentos-atualizacoes", evt);
+        _publisher.Publish(QueueNames.CirurgicoProcedimentosAtualizacoes, evt);
         return Accepted(new { message = "Status enviado para processamento", idExameAgendamento, status });
     }
 

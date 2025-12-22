@@ -1,7 +1,9 @@
 using Clinica.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.Annotations;
-using Clinica.Infrastructure.Messaging;
+using Shared.Contracts.Messaging;
+using Shared.Contracts.Common;
 using Shared.Contracts.Events;
 using System.Linq;
 
@@ -9,13 +11,14 @@ namespace Clinica.API.Controllers
 {
     [ApiController]
     [Route("api/clinica/consultas")]
+    [Authorize(Policy = "Medico")]
     public class AtribuicaoController : ControllerBase
     {
         private readonly IConsultaClinicaRepository _consultasRepo;
         private readonly IMedicoRepository _medicoRepo;
-        private readonly EventPublisher _publisher;
+        private readonly IRabbitPublisher _publisher;
 
-        public AtribuicaoController(IConsultaClinicaRepository consultasRepo, IMedicoRepository medicoRepo, EventPublisher publisher)
+        public AtribuicaoController(IConsultaClinicaRepository consultasRepo, IMedicoRepository medicoRepo, IRabbitPublisher publisher)
         {
             _consultasRepo = consultasRepo;
             _medicoRepo = medicoRepo;
@@ -54,7 +57,7 @@ namespace Clinica.API.Controllers
                 IdMedico = medico.IdMedico,
                 Especialidade = consulta.Especialidade
             };
-            _publisher.Publish("clinica-consultas-atribuidas", evento);
+            _publisher.Publish(QueueNames.ClinicaConsultasAtribuidas, evento);
 
             return Ok(new { mensagem = $"Médico '{medico.Nome}' atribuído à consulta {consulta.Id}.", idMedico = medico.IdMedico });
         }

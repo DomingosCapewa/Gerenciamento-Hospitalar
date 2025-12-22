@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Shared.Contracts.Events;
+using Shared.Contracts.Common;
 using Cirurgico.Application.Interfaces;
 using Shared.Contracts.Enums;
 
@@ -21,7 +22,7 @@ public class ProcedimentoAtualizacaoBackgroundService : BackgroundService
     private IConnection? _connection;
     private IModel? _channel;
 
-    private const string QueueName = "cirurgico-procedimentos-atualizacoes";
+    private static readonly string QueueName = QueueNames.CirurgicoProcedimentosAtualizacoes;
 
     public ProcedimentoAtualizacaoBackgroundService(
         ILogger<ProcedimentoAtualizacaoBackgroundService> logger,
@@ -35,10 +36,10 @@ public class ProcedimentoAtualizacaoBackgroundService : BackgroundService
 
     public override Task StartAsync(CancellationToken cancellationToken)
     {
-        var host = _configuration["RabbitMQ:Host"] ?? "localhost";
-        var vhost = _configuration["RabbitMQ:VirtualHost"] ?? "/";
-        var user = _configuration["RabbitMQ:Username"] ?? "guest";
-        var pass = _configuration["RabbitMQ:Password"] ?? "guest";
+        var host = _configuration["Host"] ?? "rabbitmq";
+        var vhost = _configuration["VirtualHost"] ?? "/";
+        var user = _configuration["User"] ?? "guest";
+        var pass = _configuration["Password"] ?? "guest";
 
         var factory = new ConnectionFactory
         {
@@ -82,35 +83,8 @@ public class ProcedimentoAtualizacaoBackgroundService : BackgroundService
                     await repo.UpdatePrioridadeAsync(prioridadeEvt.IdExameAgendamento, prioridadeEvt.Prioridade);
                     _channel!.BasicAck(ea.DeliveryTag, multiple: false);
                     _logger.LogInformation("[Cirurgico] Prioridade atualizada para ExAgId={ExAgId}: {Prioridade}", prioridadeEvt.IdExameAgendamento, prioridadeEvt.Prioridade);
-                    return;
-                }
-
-                var statusEvt = JsonSerializer.Deserialize<ProcedimentoExameStatusAtualizadoEvent>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    // Obsoleto: substituído por ProcedimentoAtualizacaoConsumer baseado em RabbitMqConsumerBase
+                    #if false
+                    // Conteúdo removido
+                    #endif
                 if (statusEvt?.IdExameAgendamento > 0 && !string.IsNullOrWhiteSpace(statusEvt.Status))
-                {
-                    await repo.UpdateStatusAsync(statusEvt.IdExameAgendamento, statusEvt.Status);
-                    _channel!.BasicAck(ea.DeliveryTag, multiple: false);
-                    _logger.LogInformation("[Cirurgico] Status atualizado para ExAgId={ExAgId}: {Status}", statusEvt.IdExameAgendamento, statusEvt.Status);
-                    return;
-                }
-
-                _logger.LogWarning("[Cirurgico] Mensagem de atualização não reconhecida: {Json}", json);
-                _channel!.BasicReject(ea.DeliveryTag, requeue: false);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "[Cirurgico] Erro ao aplicar atualização do procedimento.");
-                _channel!.BasicNack(ea.DeliveryTag, multiple: false, requeue: true);
-            }
-        };
-
-        _channel.BasicConsume(queue: QueueName, autoAck: false, consumer: consumer);
-        return Task.CompletedTask;
-    }
-
-    public override Task StopAsync(CancellationToken cancellationToken)
-    {
-        try { _channel?.Close(); _connection?.Close(); } catch { }
-        return Task.CompletedTask;
-    }
-}

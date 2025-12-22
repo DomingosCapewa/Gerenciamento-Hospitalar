@@ -21,4 +21,9 @@
     <ProjectReference Include="..\Agendamentos.Application\Agendamentos.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Messaging\IRabbitPublisher.cs" />
+    <Compile Remove="Messaging\RabbitPublisher.cs" />
+  </ItemGroup>
+
 </Project>

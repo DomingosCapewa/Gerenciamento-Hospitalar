@@ -15,235 +15,75 @@ using System.Net.Http.Json;
 [Authorize]
 public class AgendamentosController : ControllerBase
 {
-    private readonly IAgendamentoRepository _repo;
-    private readonly IRabbitPublisher _publisher;
-    private readonly IHttpClientFactory _httpClientFactory;
-    private HATEOAS HATEOAS;   
+    private readonly IAgendamentoService _service;
 
-    public AgendamentosController(IAgendamentoRepository repo, IRabbitPublisher publisher, IHttpClientFactory httpClientFactory)
+    public AgendamentosController(IAgendamentoService service)
     {
-        _repo = repo;
-        _publisher = publisher;
-        _httpClientFactory = httpClientFactory;
-        HATEOAS = new HATEOAS();
-        // Align self route with pacienteCPF path
-        HATEOAS.AddLink("self", "GET", "/api/agendamentos/pesquisar/consultas/{pacienteCPF}");
-        HATEOAS.AddLink("update", "PATCH", "/api/agendamentos/alterar/consultas/{id}");
-        HATEOAS.AddLink("delete", "DELETE", "/api/agendamentos/deletar/consultas/{id}");
+        _service = service;
     }
 
-    
-
-    [HttpPost("cadastro/consulta")] // legacy
-    [HttpPost("consultas")] // RESTful
+    [HttpPost("consultas")]
     [Authorize(Policy = "Usuario")]
-    [SwaggerOperation(Summary = "Cadastrar uma nova consulta", Description = "Adiciona uma nova consulta ao sistema.")]
-    public async Task<IActionResult> CadastroConsulta([FromBody] CadastroConsultaDto dto)
+    public async Task<IActionResult> CriarConsulta([FromBody] CadastroConsultaDto dto)
     {
-        if (dto?.Paciente == null) return BadRequest(new { erro = "Paciente é obrigatório" });
-        if (string.IsNullOrWhiteSpace(dto.Paciente.CPF)) return BadRequest(new { erro = "CPF do paciente é obrigatório" });
-        if (dto.Horario == default) return BadRequest(new { erro = "Horario é obrigatório" });
-        if (string.IsNullOrWhiteSpace(dto.Medico)) return BadRequest(new { erro = "Medico (especialidade) é obrigatório" });
-
-        var conflito = await _repo.ExistsPacienteAtAsync(dto.Paciente.CPF, dto.Horario);
-        if (conflito)
-            return Conflict(new { mensagem = $"O paciente já possui agendamento no dia e hora informados." });
-
-        var clientClinica = _httpClientFactory.CreateClient("ClinicaApi");
-        var queryConsultaUrl = $"/api/clinica/agenda/disponibilidade?especialidade={Uri.EscapeDataString(dto.Medico)}&horario={Uri.EscapeDataString(dto.Horario.ToString("o"))}";
-        try
-        {
-            var resp = await clientClinica.GetAsync(queryConsultaUrl);
-            if (resp.StatusCode == HttpStatusCode.Conflict)
-            {
-                var payload = await resp.Content.ReadFromJsonAsync<object>();
-                return Conflict(payload ?? new { mensagem = "Horário indisponível para a especialidade informada." });
-            }
-        }
-        catch {}
-
-        var paciente = new Paciente { Nome = dto.Paciente.Nome, CPF = dto.Paciente.CPF, Idade = dto.Paciente.Idade, Sexo = dto.Paciente.Sexo };
-        await _repo.EnsurePacienteAsync(paciente);
-
-        var consulta = new Consulta { CpfPaciente = dto.Paciente.CPF, Horario = dto.Horario, MedicoEspecialidade = dto.Medico };
-        var criado = await _repo.AddConsultaAsync(consulta);
-
-        var evento = new ConsultaCriadaEvent
-        {
-            IdAgendamento = criado.Id,
-            CpfPaciente = criado.CpfPaciente,
-            Horario = criado.Horario,
-            MedicoEspecialidade = criado.MedicoEspecialidade
-        };
-        _publisher.Publish("clinica-consultas", evento);
-
-        return Ok(new { mensagem = $"O medico {criado.MedicoEspecialidade} de {dto.Paciente.Nome} foi marcado para {criado.Horario:dd/MM/yyyy HH:mm}", codigo = criado.Id });
+        var result = await _service.CriarConsultaAsync(dto);
+        return CreatedAtAction(nameof(ObterConsultaPorId), new { id = result.Id }, result);
     }
 
-    [HttpGet("pesquisar/consultas/{pacienteCPF}")] // legacy
-    [HttpGet("consultas/{id:int}")] // RESTful by id
-    [Authorize(Policy = "Usuario")]
-    [SwaggerOperation(Summary = "Obter detalhes da consulta ", Description = "Recupera os detalhes de uma consulta pelo pacienteCPF.")]
-    public async Task<IActionResult> ObterConsulta(string pacienteCPF, int id)
+    [HttpGet("consultas/{id:int}")]
+    public async Task<IActionResult> ObterConsultaPorId(int id)
     {
-        try
-        {
-            var consultasPaciente = !string.IsNullOrWhiteSpace(pacienteCPF)
-                ? await _repo.GetConsultaByCPFAsync(pacienteCPF)
-                : await _repo.GetConsultaByIdAsync(id);
-            if (consultasPaciente == null)
-            {
-                return NotFound(new { mensagem = "Consulta não encontrada." });
-            }
-            var baseUrl = $"{Request.Scheme}://{Request.Host}";
-            var tokens = new Dictionary<string, string>
-            {
-                ["pacienteCPF"] = pacienteCPF,
-                ["id"] = consultasPaciente.Id.ToString()
-            };
-            var container = new AgendamentoContainer
-            {
-                Consulta = consultasPaciente,
-                Links = HATEOAS.GetActions(baseUrl, tokens)
-            };
-
-            return Ok(new { mensagem = $"Detalhes da consulta com CPF {pacienteCPF}.", data = container });
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { mensagem = "Erro ao obter detalhes da consulta.", detalhe = ex.Message });
-        }
+        var consulta = await _service.ObterConsultaPorIdAsync(id);
+        return consulta == null ? NotFound() : Ok(consulta);
     }
-    [HttpPatch("alterar/consultas/{id:int}")] // legacy
-    [HttpPatch("consultas/{id:int}")] // RESTful
-    [SwaggerOperation(Summary = "Atualizar detalhes da consulta", Description = "Atualiza horário, especialidade ou status da consulta.")]
-    public async Task<IActionResult> AtualizarConsulta(int id, [FromBody] AtualizaConsultaDto body)
+
+    [HttpGet("consultas/paciente/{cpf}")]
+    public async Task<IActionResult> ObterConsultasPorCpf(string cpf)
     {
-        var existing = await _repo.GetConsultaByIdAsync(id);
-        if (existing == null) return NotFound(new { mensagem = "Consulta não encontrada." });
-
-        if (body.Horario.HasValue)
-        {
-            var conflito = await _repo.ExistsPacienteAtAsync(existing.CpfPaciente, body.Horario.Value);
-            if (conflito)
-                return Conflict(new { mensagem = "Paciente já possui agendamento neste dia e hora." });
-
-            existing.Horario = body.Horario.Value;
-        }
-        if (!string.IsNullOrWhiteSpace(body.Medico)) existing.MedicoEspecialidade = body.Medico!;
-        if (!string.IsNullOrWhiteSpace(body.Status)) existing.Status = body.Status!;
-
-        var updated = await _repo.UpdateConsultaAsync(existing);
-        return Ok(new { mensagem = $"Consulta {id} atualizada com sucesso.", data = updated });
+        var consultas = await _service.ObterConsultasPorCpfAsync(cpf);
+        return Ok(consultas);
     }
-    [HttpDelete("deletar/consultas/{id:int}")] // legacy
-    [HttpDelete("consultas/{id:int}")] // RESTful
-    [SwaggerOperation(Summary = "Excluir uma consulta", Description = "Exclui uma consulta existente pelo ID.")]
+
+    [HttpPatch("consultas/{id:int}")]
+    public async Task<IActionResult> AtualizarConsulta(int id, AtualizaConsultaDto dto)
+    {
+        await _service.AtualizarConsultaAsync(id, dto);
+        return NoContent();
+    }
+
+    [HttpDelete("consultas/{id:int}")]
     public async Task<IActionResult> ExcluirConsulta(int id)
     {
-        var ok = await _repo.DeleteConsultaAsync(id);
-        return ok ? Ok(new { mensagem = $"Consulta {id} excluída com sucesso." }) : NotFound(new { mensagem = "Consulta não encontrada." });
+        await _service.ExcluirConsultaAsync(id);
+        return NoContent();
     }
 
-    [HttpPost("cadastro/exame")] 
-    [HttpPost("exames")] 
-    [Authorize(Policy = "Usuario")]
-    [SwaggerOperation(Summary = "Cadastrar um novo exame", Description = "Adiciona um novo exame ao sistema.")]
-    public async Task<IActionResult> CadastroExame([FromBody] CadastroExameDto dto)
+
+    [HttpPost("exames")]
+    public async Task<IActionResult> CriarExame([FromBody] CadastroExameDto dto)
     {
-        if (dto?.Paciente == null) return BadRequest(new { erro = "Paciente é obrigatório" });
-        if (string.IsNullOrWhiteSpace(dto.Paciente.CPF)) return BadRequest(new { erro = "CPF do paciente é obrigatório" });
-        if (dto.Horario == default) return BadRequest(new { erro = "Horario é obrigatório" });
-        if (string.IsNullOrWhiteSpace(dto.Exame)) return BadRequest(new { erro = "Exame é obrigatório" });
-
-        var conflito = await _repo.ExistsPacienteAtAsync(dto.Paciente.CPF, dto.Horario);
-        if (conflito)
-            return Conflict(new { mensagem = $"O paciente já possui agendamento no dia e hora informados." });
-
-        var clientCirurgico = _httpClientFactory.CreateClient("CirurgicoApi");
-        var queryExameUrl = $"/api/cirurgico/procedimentos/disponibilidade?tipo={Uri.EscapeDataString(dto.Exame)}&horario={Uri.EscapeDataString(dto.Horario.ToString("o"))}";
-        try
-        {
-            var resp = await clientCirurgico.GetAsync(queryExameUrl);
-            if (resp.StatusCode == HttpStatusCode.Conflict)
-            {
-                var payload = await resp.Content.ReadFromJsonAsync<object>();
-                return Conflict(payload ?? new { mensagem = "Horário indisponível para o tipo de exame informado." });
-            }
-        }
-        catch { }
-
-        var paciente = new Paciente { Nome = dto.Paciente.Nome, CPF = dto.Paciente.CPF, Idade = dto.Paciente.Idade, Sexo = dto.Paciente.Sexo };
-        await _repo.EnsurePacienteAsync(paciente);
-
-        var exame = new Exame { CpfPaciente = dto.Paciente.CPF, Horario = dto.Horario, TipoExame = dto.Exame };
-        var criado = await _repo.AddExameAsync(exame);
-
-        var eventoExame = new ProcedimentoExameCriadoEvent
-        {
-            IdProcedimento = criado.Id,
-            IdExameAgendamento = criado.Id,
-            CpfPaciente = criado.CpfPaciente,
-            Horario = criado.Horario,
-            TipoProcedimento = criado.TipoExame,
-            Prioridade = PrioridadeSintoma.Padrao,
-            Status = "Recebido"
-        };
-        _publisher.Publish("cirurgico-procedimentos", eventoExame);
-
-        return Ok(new { mensagem = $"O exame {criado.TipoExame} de {dto.Paciente.Nome} foi marcado para {criado.Horario:dd/MM/yyyy HH:mm}", codigo = criado.Id });
+        var result = await _service.CriarExameAsync(dto);
+        return CreatedAtAction(nameof(ObterExamePorId), new { id = result.Id }, result);
     }
-    [HttpGet("pesquisar/exames/{pacienteId}")] // legacy
-    [HttpGet("exames/{id:int}")] // RESTful by id
-    [SwaggerOperation(Summary = "Obter detalhes do exame", Description = "Recupera os detalhes de um exame pelo pacienteId.")]
-    public async Task<IActionResult> ObterExame(int pacienteId, int id)
+
+    [HttpGet("exames/{id:int}")]
+    public async Task<IActionResult> ObterExamePorId(int id)
     {
-        try{
-            var examesPaciente = pacienteId > 0 ? _repo.GetExameByIdAsync(pacienteId) : _repo.GetExameByIdAsync(id);
-            if (examesPaciente == null)
-            {
-                return NotFound(new { mensagem = "Exame não encontrado." });
-            }
-            var found = await examesPaciente;
-            return Ok(new { mensagem = $"Detalhes do exame.", data = found });
-
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { mensagem = "Erro ao obter detalhes do exame.", detalhe = ex.Message });
-        }
+        var exame = await _service.ObterExamePorIdAsync(id);
+        return exame == null ? NotFound() : Ok(exame);
     }
 
-    [HttpPatch("alterar/exames/{id:int}")] // legacy
-    [HttpPatch("exames/{id:int}")] // RESTful
-    [SwaggerOperation(Summary = "Atualizar detalhes do exame", Description = "Atualiza horário, tipo ou status do exame.")]
-    public async Task<IActionResult> AtualizarExame(int id, [FromBody] AtualizaExameDto body)
+    [HttpPatch("exames/{id:int}")]
+    public async Task<IActionResult> AtualizarExame(int id, AtualizaExameDto dto)
     {
-        var existing = await _repo.GetExameByIdAsync(id);
-        if (existing == null) return NotFound(new { mensagem = "Exame não encontrado." });
-
-        if (body.Horario.HasValue)
-        {
-            var conflito = await _repo.ExistsPacienteAtAsync(existing.CpfPaciente, body.Horario.Value);
-            if (conflito)
-                return Conflict(new { mensagem = "Paciente já possui agendamento neste dia e hora." });
-            existing.Horario = body.Horario.Value;
-        }
-        if (!string.IsNullOrWhiteSpace(body.Exame)) existing.TipoExame = body.Exame!;
-        if (!string.IsNullOrWhiteSpace(body.Status)) existing.Status = body.Status!;
-
-        var updated = await _repo.UpdateExameAsync(existing);
-        return Ok(new { mensagem = $"Exame {id} atualizado com sucesso.", data = updated });
+        await _service.AtualizarExameAsync(id, dto);
+        return NoContent();
     }
 
-    [HttpDelete("deletar/exames/{id:int}")] // legacy
-    [HttpDelete("exames/{id:int}")] // RESTful
-    [SwaggerOperation(Summary = "Excluir um exame", Description = "Exclui um exame existente pelo ID.")]
+    [HttpDelete("exames/{id:int}")]
     public async Task<IActionResult> ExcluirExame(int id)
     {
-        var ok = await _repo.DeleteExameAsync(id);
-        return ok ? Ok(new { mensagem = $"Exame {id} excluído com sucesso." }) : NotFound(new { mensagem = "Exame não encontrado." });
+        await _service.ExcluirExameAsync(id);
+        return NoContent();
     }
-
-    
 }

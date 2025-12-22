@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Cirurgico.API.Controllers
 {
     [ApiController]
-    [Route("exames")] 
+    [Route("api/exames")] 
     public class ExamesController : ControllerBase
     {
         public class SolicitarExameDto
@@ -17,7 +17,7 @@ namespace Cirurgico.API.Controllers
         }
 
         [HttpPost("solicitacoes")]
-        [AllowAnonymous]
+        [Authorize]
         [SwaggerOperation(Summary = "Solicitar exame", Description = "Recebe a solicitação de exame e retorna um protocolo para agendamento posterior.")]
         public IActionResult Solicitar([FromBody] SolicitarExameDto dto)
         {

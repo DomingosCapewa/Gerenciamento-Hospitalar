@@ -16,7 +16,6 @@ public class PacientesController : ControllerBase
     [SwaggerOperation(Summary = "Create a new paciente", Description = "Adds a new paciente to the system.")]
     public async Task<IActionResult> Create([FromBody] PacienteDto dto)
     {
-        // Rely on FluentValidation auto-validation via [ApiController]
         var entity = new Paciente
         {
             Nome = dto.Nome,

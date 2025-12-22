@@ -5,11 +5,7 @@ using Cirurgico.Infrastructure.Persistence;
 using Cirurgico.Infrastructure.Repositories;
 using Cirurgico.Application.Interfaces;
 using Microsoft.AspNetCore.Authentication;
-
-using Shared.Contracts.Security;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Shared.Contracts.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,37 +15,10 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(settings =>
-{
-    settings.EnableAnnotations();
-    settings.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Cirurgico API",
-        Version = "v1",
-        Description = "API para gerenciamento de procedimentos cirúrgicos em um sistema hospitalar.",
-    });
-    settings.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-    {
-        Description = @"JWT Authorization header usando Bearer.
-                                Entre com 'Bearer ' [espaço] então coloque seu token.
-                                Exemplo: 'Bearer 12345abcdef'",
-        Name = "Authorization",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT"
-    });
-    settings.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-    {
-        {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-            {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference { Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme, Id = "Bearer" }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
+builder.Services.AddSwaggerWithJwt(
+    title: "Cirurgico API",
+    version: "v1",
+    description: "API para gerenciamento de procedimentos cirúrgicos em um sistema hospitalar.");
 
 var conn = builder.Configuration.GetConnectionString("CirurgicoDb");
 if (!string.IsNullOrWhiteSpace(conn))
@@ -58,31 +27,11 @@ if (!string.IsNullOrWhiteSpace(conn))
     builder.Services.AddScoped<IExameRepository, ExameRepository>();
 }
 
-builder.Services.AddHostedService<Cirurgico.Infrastructure.Messaging.ExameSolicitadoBackgroundService>();
-builder.Services.AddHostedService<Cirurgico.Infrastructure.Messaging.ProcedimentoAtualizacaoBackgroundService>();
+builder.Services.Configure<Shared.Contracts.Messaging.RabbitMqOptions>(builder.Configuration.GetSection("RabbitMQ"));
+builder.Services.AddHostedService<Cirurgico.Infrastructure.Messaging.ExameSolicitadoConsumer>();
+builder.Services.AddHostedService<Cirurgico.Infrastructure.Messaging.ProcedimentoAtualizacaoConsumer>();
 
-JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = builder.Configuration["Authentication:Authority"];
-        options.Audience = builder.Configuration["Authentication:Audience"];
-        options.RequireHttpsMetadata = builder.Configuration.GetValue<bool>("Authentication:RequireHttpsMetadata");
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = false,
-            RoleClaimType = "roles",
-            NameClaimType = "preferred_username"
-        };
-    });
-builder.Services.AddSingleton<IClaimsTransformation, KeycloakRoleClaimsTransformer>();
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Usuario", p => p.RequireRole("Usuario", "usuario", "user"));
-    options.AddPolicy("Medico", p => p.RequireRole("Medico", "medico", "doctor"));
-    options.AddPolicy("Admin", p => p.RequireRole("Admin", "admin"));
-});
+builder.Services.AddKeycloakJwtAuth(builder.Configuration);
 
 var app = builder.Build();
 
