@@ -18,4 +18,4 @@ c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.
 c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Infrastructure\obj\Debug\net9.0\Clinica.Infrastructure.pdb
 c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Infrastructure\obj\Debug\net9.0\Clinica.Infrastructure.genruntimeconfig.cache
 c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Infrastructure\obj\Debug\net9.0\ref\Clinica.Infrastructure.dll
-C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\Clinica\Clinica.Infrastructure\obj\Debug\net9.0\Clinica..0DDBE4D2.Up2Date
+c:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\clinica\clinica.infrastructure\obj\Debug\net9.0\clinica..FDEAF911.Up2Date

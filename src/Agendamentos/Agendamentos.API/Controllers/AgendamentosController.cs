@@ -7,6 +7,8 @@ using Shared.Contracts.Events;
 using Agendamentos.API.HATEOAS;
 using Shared.Contracts.Enums;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using System.Net.Http.Json;
 
 [ApiController]
 [Route("api/agendamentos")]
@@ -15,12 +17,14 @@ public class AgendamentosController : ControllerBase
 {
     private readonly IAgendamentoRepository _repo;
     private readonly IRabbitPublisher _publisher;
+    private readonly IHttpClientFactory _httpClientFactory;
     private HATEOAS HATEOAS;   
 
-    public AgendamentosController(IAgendamentoRepository repo, IRabbitPublisher publisher)
+    public AgendamentosController(IAgendamentoRepository repo, IRabbitPublisher publisher, IHttpClientFactory httpClientFactory)
     {
         _repo = repo;
         _publisher = publisher;
+        _httpClientFactory = httpClientFactory;
         HATEOAS = new HATEOAS();
         HATEOAS.AddLink("self", "GET", "/api/agendamentos/pesquisar/consultas/{id}");
         HATEOAS.AddLink("update", "PATCH", "/api/agendamentos/alterar/consultas/{id}");
@@ -42,6 +46,19 @@ public class AgendamentosController : ControllerBase
         var conflito = await _repo.ExistsPacienteAtAsync(dto.Paciente.CPF, dto.Horario);
         if (conflito)
             return Conflict(new { mensagem = $"O paciente já possui agendamento no dia e hora informados." });
+
+        var clientClinica = _httpClientFactory.CreateClient("ClinicaApi");
+        var queryConsultaUrl = $"/api/clinica/agenda/disponibilidade?especialidade={Uri.EscapeDataString(dto.Medico)}&horario={Uri.EscapeDataString(dto.Horario.ToString("o"))}";
+        try
+        {
+            var resp = await clientClinica.GetAsync(queryConsultaUrl);
+            if (resp.StatusCode == HttpStatusCode.Conflict)
+            {
+                var payload = await resp.Content.ReadFromJsonAsync<object>();
+                return Conflict(payload ?? new { mensagem = "Horário indisponível para a especialidade informada." });
+            }
+        }
+        catch { /* If upstream is down, proceed but local rules still apply */ }
 
         var paciente = new Paciente { Nome = dto.Paciente.Nome, CPF = dto.Paciente.CPF, Idade = dto.Paciente.Idade, Sexo = dto.Paciente.Sexo };
         await _repo.EnsurePacienteAsync(paciente);
@@ -87,17 +104,33 @@ public class AgendamentosController : ControllerBase
             return StatusCode(500, new { mensagem = "Erro ao obter detalhes da consulta.", detalhe = ex.Message });
         }
     }
-    [HttpPatch("alterar/consultas/{pacienteId}")]
-    [SwaggerOperation(Summary = "Atualizar detalhes da consulta", Description = "Atualiza os detalhes de uma consulta existente pelo pacienteId.")]
-    public IActionResult AtualizarConsulta(int pacienteId, [FromBody] object detalhesAtualizados)
+    [HttpPatch("alterar/consultas/{id:int}")]
+    [SwaggerOperation(Summary = "Atualizar detalhes da consulta", Description = "Atualiza horário, especialidade ou status da consulta.")]
+    public async Task<IActionResult> AtualizarConsulta(int id, [FromBody] AtualizaConsultaDto body)
     {
-        return Ok(new { mensagem = $"Consulta com ID {pacienteId} atualizada com sucesso." });
+        var existing = await _repo.GetConsultaByIdAsync(id);
+        if (existing == null) return NotFound(new { mensagem = "Consulta não encontrada." });
+
+        if (body.Horario.HasValue)
+        {
+            var conflito = await _repo.ExistsPacienteAtAsync(existing.CpfPaciente, body.Horario.Value);
+            if (conflito)
+                return Conflict(new { mensagem = "Paciente já possui agendamento neste dia e hora." });
+
+            existing.Horario = body.Horario.Value;
+        }
+        if (!string.IsNullOrWhiteSpace(body.Medico)) existing.MedicoEspecialidade = body.Medico!;
+        if (!string.IsNullOrWhiteSpace(body.Status)) existing.Status = body.Status!;
+
+        var updated = await _repo.UpdateConsultaAsync(existing);
+        return Ok(new { mensagem = $"Consulta {id} atualizada com sucesso.", data = updated });
     }
-    [HttpDelete("deletar/consultas/{pacienteId}")]
-    [SwaggerOperation(Summary = "Excluir uma consulta", Description = "Exclui uma consulta existente pelo pacienteId.")]
-    public IActionResult ExcluirConsulta(int pacienteId)
+    [HttpDelete("deletar/consultas/{id:int}")]
+    [SwaggerOperation(Summary = "Excluir uma consulta", Description = "Exclui uma consulta existente pelo ID.")]
+    public async Task<IActionResult> ExcluirConsulta(int id)
     {
-        return Ok(new { mensagem = $"Consulta com ID {pacienteId} excluída com sucesso." });
+        var ok = await _repo.DeleteConsultaAsync(id);
+        return ok ? Ok(new { mensagem = $"Consulta {id} excluída com sucesso." }) : NotFound(new { mensagem = "Consulta não encontrada." });
     }
 
     [HttpPost("cadastro/exame")]
@@ -113,6 +146,19 @@ public class AgendamentosController : ControllerBase
         var conflito = await _repo.ExistsPacienteAtAsync(dto.Paciente.CPF, dto.Horario);
         if (conflito)
             return Conflict(new { mensagem = $"O paciente já possui agendamento no dia e hora informados." });
+
+        var clientCirurgico = _httpClientFactory.CreateClient("CirurgicoApi");
+        var queryExameUrl = $"/api/cirurgico/procedimentos/disponibilidade?tipo={Uri.EscapeDataString(dto.Exame)}&horario={Uri.EscapeDataString(dto.Horario.ToString("o"))}";
+        try
+        {
+            var resp = await clientCirurgico.GetAsync(queryExameUrl);
+            if (resp.StatusCode == HttpStatusCode.Conflict)
+            {
+                var payload = await resp.Content.ReadFromJsonAsync<object>();
+                return Conflict(payload ?? new { mensagem = "Horário indisponível para o tipo de exame informado." });
+            }
+        }
+        catch { /* Upstream optional in this version; fall back to local rule */ }
 
         var paciente = new Paciente { Nome = dto.Paciente.Nome, CPF = dto.Paciente.CPF, Idade = dto.Paciente.Idade, Sexo = dto.Paciente.Sexo };
         await _repo.EnsurePacienteAsync(paciente);
@@ -153,18 +199,33 @@ public class AgendamentosController : ControllerBase
         }
     }
 
-    [HttpPatch("alterar/exames/{pacienteId}")]
-    [SwaggerOperation(Summary = "Atualizar detalhes do exame", Description = "Atualiza os detalhes de um exame existente pelo pacienteId.")]
-    public IActionResult AtualizarExame(int pacienteId, [FromBody] object detalhesAtualizados)
+    [HttpPatch("alterar/exames/{id:int}")]
+    [SwaggerOperation(Summary = "Atualizar detalhes do exame", Description = "Atualiza horário, tipo ou status do exame.")]
+    public async Task<IActionResult> AtualizarExame(int id, [FromBody] AtualizaExameDto body)
     {
-        return Ok(new { mensagem = $"Exame com ID {pacienteId} atualizado com sucesso." });
+        var existing = await _repo.GetExameByIdAsync(id);
+        if (existing == null) return NotFound(new { mensagem = "Exame não encontrado." });
+
+        if (body.Horario.HasValue)
+        {
+            var conflito = await _repo.ExistsPacienteAtAsync(existing.CpfPaciente, body.Horario.Value);
+            if (conflito)
+                return Conflict(new { mensagem = "Paciente já possui agendamento neste dia e hora." });
+            existing.Horario = body.Horario.Value;
+        }
+        if (!string.IsNullOrWhiteSpace(body.Exame)) existing.TipoExame = body.Exame!;
+        if (!string.IsNullOrWhiteSpace(body.Status)) existing.Status = body.Status!;
+
+        var updated = await _repo.UpdateExameAsync(existing);
+        return Ok(new { mensagem = $"Exame {id} atualizado com sucesso.", data = updated });
     }
 
-    [HttpDelete("deletar/exames/{pacienteId}")]
-    [SwaggerOperation(Summary = "Excluir um exame", Description = "Exclui um exame existente pelo pacienteId.")]
-    public IActionResult ExcluirExame(int pacienteId)
+    [HttpDelete("deletar/exames/{id:int}")]
+    [SwaggerOperation(Summary = "Excluir um exame", Description = "Exclui um exame existente pelo ID.")]
+    public async Task<IActionResult> ExcluirExame(int id)
     {
-        return Ok(new { mensagem = $"Exame com ID {pacienteId} excluído com sucesso." });
+        var ok = await _repo.DeleteExameAsync(id);
+        return ok ? Ok(new { mensagem = $"Exame {id} excluído com sucesso." }) : NotFound(new { mensagem = "Exame não encontrado." });
     }
 
     

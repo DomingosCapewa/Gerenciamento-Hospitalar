@@ -6,9 +6,8 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "Clinica.Infrastructure/1.0.0": {
+      "clinica.infrastructure/1.0.0": {
         "dependencies": {
-          "Clinica.Application": "1.0.0",
           "Clinica.Domain": "1.0.0",
           "EntityFramework": "6.5.1",
           "Microsoft.EntityFrameworkCore": "9.0.0",
@@ -17,10 +16,11 @@
           "Microsoft.Extensions.Hosting.Abstractions": "9.0.0",
           "Pomelo.EntityFrameworkCore.MySql": "9.0.0",
           "RabbitMQ.Client": "6.8.1",
-          "Shared.Contracts": "1.0.0"
+          "Shared.Contracts": "1.0.0",
+          "clinica.application": "1.0.0"
         },
         "runtime": {
-          "Clinica.Infrastructure.dll": {}
+          "clinica.infrastructure.dll": {}
         }
       },
       "EntityFramework/6.5.1": {
@@ -780,12 +780,12 @@
           }
         }
       },
-      "Clinica.Application/1.0.0": {
+      "clinica.application/1.0.0": {
         "dependencies": {
           "Clinica.Domain": "1.0.0"
         },
         "runtime": {
-          "Clinica.Application.dll": {
+          "clinica.application.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -793,9 +793,8 @@
       },
       "Clinica.Domain/1.0.0": {
         "runtime": {
-          "Clinica.Domain.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
+          "clinica.domain.dll": {
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -810,7 +809,7 @@
     }
   },
   "libraries": {
-    "Clinica.Infrastructure/1.0.0": {
+    "clinica.infrastructure/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -1263,7 +1262,7 @@
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
     },
-    "Clinica.Application/1.0.0": {
+    "clinica.application/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

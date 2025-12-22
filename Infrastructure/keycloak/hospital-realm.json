@@ -1,0 +1,53 @@
+{
+  "realm": "hospital",
+  "enabled": true,
+  "registrationAllowed": false,
+  "clients": [
+    {
+      "clientId": "hospital-api",
+      "name": "Hospital API",
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "redirectUris": ["*"],
+      "webOrigins": ["*"]
+    }
+  ],
+  "roles": {
+    "realm": [
+      { "name": "Usuario" },
+      { "name": "Medico" },
+      { "name": "Admin" }
+    ]
+  },
+  "users": [
+    {
+      "username": "user",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Usuario",
+      "lastName": "Demo",
+      "credentials": [{"type":"password","value":"user","temporary":false}],
+      "realmRoles": ["Usuario"]
+    },
+    {
+      "username": "medico",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Medico",
+      "lastName": "Demo",
+      "credentials": [{"type":"password","value":"medico","temporary":false}],
+      "realmRoles": ["Medico"]
+    },
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "Demo",
+      "credentials": [{"type":"password","value":"admin","temporary":false}],
+      "realmRoles": ["Admin"]
+    }
+  ]
+}

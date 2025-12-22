@@ -66,11 +66,12 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-    command: start-dev
+    command: start-dev --import-realm
     ports:
       - "8080:8080"
     volumes:
       - keycloak_data:/opt/keycloak/data
+      - ./keycloak:/opt/keycloak/data/import
     networks:
       - hospital-net
 
@@ -89,6 +90,8 @@ services:
       - Authentication__Authority=http://keycloak:8080/realms/hospital
       - Authentication__Audience=hospital-api
       - Authentication__RequireHttpsMetadata=false
+      - ExternalApis__ClinicaBaseUrl=http://clinica_api:8080
+      - ExternalApis__CirurgicoBaseUrl=http://cirurgico_api:8080
       - DisableHttpsRedirection=true
     depends_on:
       - mysql_agendamentos

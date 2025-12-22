@@ -60,4 +60,44 @@ public class AgendamentoRepository : IAgendamentoRepository
         return await _db.Exames.FirstOrDefaultAsync(e => e.CpfPaciente == cpf);
     }
 
+    public async Task<Consulta?> UpdateConsultaAsync(Consulta c)
+    {
+        var existing = await _db.Consultas.FindAsync(c.Id);
+        if (existing == null) return null;
+        existing.Horario = c.Horario;
+        existing.MedicoEspecialidade = c.MedicoEspecialidade;
+        existing.Status = c.Status;
+        await _db.SaveChangesAsync();
+        return existing;
+    }
+
+    public async Task<bool> DeleteConsultaAsync(int id)
+    {
+        var existing = await _db.Consultas.FindAsync(id);
+        if (existing == null) return false;
+        _db.Consultas.Remove(existing);
+        await _db.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<Exame?> UpdateExameAsync(Exame e)
+    {
+        var existing = await _db.Exames.FindAsync(e.Id);
+        if (existing == null) return null;
+        existing.Horario = e.Horario;
+        existing.TipoExame = e.TipoExame;
+        existing.Status = e.Status;
+        await _db.SaveChangesAsync();
+        return existing;
+    }
+
+    public async Task<bool> DeleteExameAsync(int id)
+    {
+        var existing = await _db.Exames.FindAsync(id);
+        if (existing == null) return false;
+        _db.Exames.Remove(existing);
+        await _db.SaveChangesAsync();
+        return true;
+    }
+
 }

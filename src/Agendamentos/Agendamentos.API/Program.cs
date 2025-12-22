@@ -66,6 +66,17 @@ builder.Services.AddSingleton<IRabbitPublisher>(sp =>
     return new RabbitPublisher(cfg.Host, cfg.Port, cfg.User, cfg.Password);
 });
 
+builder.Services.AddHttpClient("ClinicaApi", c =>
+{
+    var baseUrl = builder.Configuration["ExternalApis:ClinicaBaseUrl"] ?? "https://localhost:7265";
+    c.BaseAddress = new Uri(baseUrl);
+});
+builder.Services.AddHttpClient("CirurgicoApi", c =>
+{
+    var baseUrl = builder.Configuration["ExternalApis:CirurgicoBaseUrl"] ?? "https://localhost:7108";
+    c.BaseAddress = new Uri(baseUrl);
+});
+
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();

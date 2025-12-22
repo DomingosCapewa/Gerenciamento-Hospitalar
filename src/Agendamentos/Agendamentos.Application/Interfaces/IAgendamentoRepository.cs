@@ -11,5 +11,9 @@ namespace Agendamentos.Application.Interfaces
         Task<Consulta?> GetConsultaByIdAsync(int id);
         Task<Consulta?> GetConsultaByCPFAsync(string cpf);
         Task<Exame?> GetExameByIdAsync(int id);
+        Task<Consulta?> UpdateConsultaAsync(Consulta c);
+        Task<bool> DeleteConsultaAsync(int id);
+        Task<Exame?> UpdateExameAsync(Exame e);
+        Task<bool> DeleteExameAsync(int id);
     }
 }

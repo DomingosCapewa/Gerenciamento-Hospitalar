@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("Clinica.Infrastructure")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("clinica.infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8246263ffab909f94a1865525855f1036c851df")]
-[assembly: System.Reflection.AssemblyProductAttribute("Clinica.Infrastructure")]
-[assembly: System.Reflection.AssemblyTitleAttribute("Clinica.Infrastructure")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b626474de4185c9d0ae570ca9ddefa671991cc03")]
+[assembly: System.Reflection.AssemblyProductAttribute("clinica.infrastructure")]
+[assembly: System.Reflection.AssemblyTitleAttribute("clinica.infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.

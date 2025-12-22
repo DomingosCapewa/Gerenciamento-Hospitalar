@@ -99,7 +99,6 @@ namespace Clinica.Infrastructure.Repositories
             _db.SintomaDoencas.Add(novo);
             await _db.SaveChangesAsync();
 
-            // Carrega navegações para retorno completo (opcional)
             await _db.Entry(novo).Reference(sd => sd.Sintoma).LoadAsync();
             await _db.Entry(novo).Reference(sd => sd.Doenca).LoadAsync();
 
