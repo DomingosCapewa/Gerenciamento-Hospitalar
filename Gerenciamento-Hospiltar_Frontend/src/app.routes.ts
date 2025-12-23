@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, Routes } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 import { map } from 'rxjs/operators';
 
 import { LoginComponent } from './components/login/login.component';
@@ -8,16 +9,21 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { AuthService } from './services/auth.service';
 
-const authGuard: CanActivateFn = () => {
+const authGuard: CanActivateFn = async () => {
   const authService = inject(AuthService);
+  const keycloak = inject(KeycloakService);
   const router: Router = inject(Router);
 
-  if (authService.currentUser()) {
+  const logged = await keycloak.isLoggedIn();
+  if (logged) {
+    if (!authService.currentUser()) {
+      await authService.syncUserFromKeycloak();
+    }
     return true;
-  } else {
-    router.navigate(['/login']);
-    return false;
   }
+
+  await keycloak.login({ redirectUri: window.location.origin + '/#/dashboard' });
+  return false;
 };
 
 export const APP_ROUTES: Routes = [

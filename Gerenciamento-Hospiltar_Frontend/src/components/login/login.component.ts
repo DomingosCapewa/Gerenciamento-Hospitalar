@@ -14,9 +14,12 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router: Router = inject(Router);
 
-  loginAs(role: 'Usuário' | 'Médico' | 'Admin'): void {
-    this.authService.login(role);
-    this.router.navigate(['/dashboard']);
+  async login(): Promise<void> {
+    await this.authService.login();
+  }
+
+  async register(): Promise<void> {
+    await this.authService.register();
   }
   
 }

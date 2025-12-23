@@ -9,12 +9,11 @@ import { NotificationComponent } from './components/notification/notification.co
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, NotificationComponent],
+  imports: [CommonModule, NotificationComponent, RouterOutlet, RouterLink, RouterLinkActive],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent {
   private authService = inject(AuthService);
-  // FIX: Explicitly typed the injected Router to resolve a type inference issue.
   private router: Router = inject(Router);
 
   currentUser = this.authService.currentUser;
@@ -52,6 +51,5 @@ export class AppComponent {
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }

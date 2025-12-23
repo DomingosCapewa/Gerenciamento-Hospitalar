@@ -1,0 +1,16 @@
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Gateway.exe
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\appsettings.json
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Gateway.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Gateway.deps.json
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Gateway.runtimeconfig.json
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Gateway.pdb
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Microsoft.IdentityModel.Logging.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Microsoft.IdentityModel.Protocols.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Microsoft.IdentityModel.Tokens.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\System.IO.Hashing.dll
+C:\Users\dscw\My Private Documents\gerenciamento-hospitalar\src\api-gateway\bin\Release\net9.0\publish\Yarp.ReverseProxy.dll

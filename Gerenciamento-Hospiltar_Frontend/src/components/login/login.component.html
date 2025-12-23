@@ -1,24 +1,33 @@
 
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-  <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
-    <div class="text-center">
-      <h2 class="text-3xl font-bold text-gray-900">
-        Bem-vindo ao Hospital Management System
-      </h2>
-      <p class="mt-2 text-sm text-gray-600">
-        Selecione um perfil para continuar
-      </p>
-    </div>
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-white flex items-center justify-center px-6 py-12">
+  <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
     <div class="space-y-4">
-      <button (click)="loginAs('Usuário')" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-        Entrar como Usuário
-      </button>
-      <button (click)="loginAs('Médico')" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
-        Entrar como Médico
-      </button>
-      <button (click)="loginAs('Admin')" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition-colors">
-        Entrar como Admin
-      </button>
+      <p class="text-sm uppercase tracking-[0.2em] text-blue-300">Hospital • Plataforma Integrada</p>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight">Centralize consultas, exames e comunicação em um só lugar.</h1>
+      <p class="text-base text-slate-200/80">Acompanhe agendamentos, notificações e fluxos clínicos com segurança e autenticação pelo Keycloak.</p>
+      <div class="flex flex-wrap gap-3 pt-2">
+        <button (click)="login()" class="px-5 py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-sm font-semibold shadow-lg shadow-blue-900/40 transition">Entrar</button>
+        <button (click)="register()" class="px-5 py-3 rounded-lg border border-white/20 hover:border-white/40 text-sm font-semibold transition">Cadastrar</button>
+      </div>
+      <div class="pt-4 text-sm text-slate-300/80">
+        <p>Precisa de acesso? Use “Cadastrar” (é necessário habilitar registro no realm do Keycloak) ou entre com seu usuário existente.</p>
+      </div>
+    </div>
+
+    <div class="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6 shadow-2xl shadow-black/40 space-y-4">
+      <div class="flex items-center gap-3 text-blue-200">
+        <span class="h-10 w-10 flex items-center justify-center rounded-full bg-blue-600/20 border border-blue-400/40">🔒</span>
+        <div>
+          <p class="text-sm uppercase tracking-wide text-blue-200/80">Acesso seguro</p>
+          <p class="text-lg font-semibold">Keycloak OIDC + JWT</p>
+        </div>
+      </div>
+      <ul class="space-y-2 text-sm text-slate-200/80 leading-relaxed">
+        <li>• Single Sign-On entre os serviços.</li>
+        <li>• Controle de acesso por perfis: Usuário, Médico, Admin.</li>
+        <li>• Tokens anexados automaticamente às chamadas do gateway.</li>
+      </ul>
+      <div class="pt-2 text-xs text-slate-400/80">Após login você será levado ao dashboard.</div>
     </div>
   </div>
 </div>

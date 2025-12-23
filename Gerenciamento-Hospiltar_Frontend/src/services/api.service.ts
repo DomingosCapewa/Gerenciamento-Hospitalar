@@ -1,50 +1,48 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Appointment } from '../models/types';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private appointments: Appointment[] = [
-    { id: '1', patientName: 'John Doe', patientCpf: '123.456.789-00', type: 'Consulta', specialtyOrExam: 'Pediatria', dateTime: '2024-08-10T10:00', status: 'Marcado' },
-    { id: '2', patientName: 'John Doe', patientCpf: '123.456.789-00', type: 'Exame', specialtyOrExam: 'Coleta de sangue', dateTime: '2024-08-15T08:30', status: 'Marcado' },
-    { id: '3', patientName: 'Jane Smith', patientCpf: '987.654.321-00', type: 'Consulta', specialtyOrExam: 'Cardiologia', dateTime: '2024-08-12T14:00', status: 'Marcado' },
-  ];
+  private http = inject(HttpClient);
+  private baseUrl = ((window as any).__env?.API_BASE_URL as string) || 'http://localhost:8085';
 
-  getAppointments(userCpf: string, userRole: 'Usuário' | 'Médico' | 'Admin'): Promise<Appointment[]> {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        if (userRole === 'Usuário') {
-          resolve(this.appointments.filter(a => a.patientCpf === userCpf));
-        } else {
-          // In a real app, doctors would see their appointments, admins all.
-          resolve(this.appointments);
-        }
-      }, 500);
-    });
+  async getAppointments(userCpf: string, userRole: 'Usuário' | 'Médico' | 'Admin'): Promise<Appointment[]> {
+    if (userRole === 'Usuário') {
+      try {
+        const consultas = await this.http.get<any[]>(`${this.baseUrl}/agendamentos/api/agendamentos/consultas/paciente/${encodeURIComponent(userCpf)}`).toPromise();
+        const mapped = (consultas || []).map(c => ({
+          id: String(c.id ?? c.Id ?? Math.random()),
+          patientName: c.paciente?.nome ?? c.Paciente?.Nome ?? '',
+          patientCpf: c.paciente?.cpf ?? c.Paciente?.Cpf ?? userCpf,
+          type: 'Consulta',
+          specialtyOrExam: c.medico ?? c.Medico ?? '',
+          dateTime: c.horario ?? c.Horario ?? '',
+          status: 'Marcado'
+        } as Appointment));
+        return mapped;
+      } catch {
+        return [];
+      }
+    }
+    // Médicos/Admin: for now return empty until backend endpoints are defined
+    return [];
   }
 
-  schedule(data: any): Promise<{ success: boolean; message: string; code?: string }> {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        const conflict = this.appointments.some(a => a.dateTime === data.horario && (a.specialtyOrExam === data.medico || a.specialtyOrExam === data.exame));
-        
-        if (conflict) {
-          resolve({ success: false, message: `O (${data.medico || data.exame}) já possui agendamento no (${data.horario})` });
-        } else {
-          const newId = (this.appointments.length + 1).toString();
-          const newAppointment: Appointment = {
-              id: newId,
-              patientName: data.paciente.nome,
-              patientCpf: data.paciente.cpf,
-              type: data.medico ? 'Consulta' : 'Exame',
-              specialtyOrExam: data.medico || data.exame,
-              dateTime: data.horario,
-              status: 'Marcado'
-          };
-          this.appointments.push(newAppointment);
-          resolve({ success: true, message: `Agendamento para ${data.paciente.nome} marcado com sucesso!`, code: `ID-${newId}` });
-        }
-      }, 1000);
-    });
+  async schedule(data: any): Promise<{ success: boolean; message: string; code?: string }> {
+    const isConsulta = !!data.medico;
+    const url = isConsulta ? `${this.baseUrl}/api/cadastro/consulta` : `${this.baseUrl}/api/cadastro/exame`;
+    const payload = isConsulta
+      ? { Medico: data.medico, Paciente: { Nome: data.paciente.nome, Cpf: data.paciente.cpf }, Horario: data.horario }
+      : { Exame: data.exame, Paciente: { Nome: data.paciente.nome, Cpf: data.paciente.cpf }, Horario: data.horario };
+
+    try {
+      const resp = await this.http.post<{ mensagem: string; codigo: number | string }>(url, payload).toPromise();
+      return { success: true, message: resp?.mensagem || 'Agendado com sucesso!', code: String(resp?.codigo ?? '') };
+    } catch (e: any) {
+      const msg = e?.error?.message || e?.message || 'Falha ao agendar';
+      return { success: false, message: msg };
+    }
   }
 }

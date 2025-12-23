@@ -1,0 +1,67 @@
+{
+  "hash": "8c46447e",
+  "configHash": "efdda4f7",
+  "lockfileHash": "af2aed61",
+  "browserHash": "3ffcaa3c",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "74b870ad",
+      "needsInterop": false
+    },
+    "@angular/common/http": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "3721de16",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "aa9ce386",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "b8ca5f8d",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "534f91dc",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "3f5aa708",
+      "needsInterop": false
+    },
+    "keycloak-angular": {
+      "src": "../../../../../../node_modules/keycloak-angular/fesm2022/keycloak-angular.mjs",
+      "file": "keycloak-angular.js",
+      "fileHash": "fe4b9ad5",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-KE6QOLEM": {
+      "file": "chunk-KE6QOLEM.js"
+    },
+    "chunk-A3DZWUYS": {
+      "file": "chunk-A3DZWUYS.js"
+    },
+    "chunk-OLYZNDUJ": {
+      "file": "chunk-OLYZNDUJ.js"
+    },
+    "chunk-3YVSGVF5": {
+      "file": "chunk-3YVSGVF5.js"
+    },
+    "chunk-PPTYDV72": {
+      "file": "chunk-PPTYDV72.js"
+    }
+  }
+}
