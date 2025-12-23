@@ -9,6 +9,7 @@ namespace Clinica.Application.Interfaces
         Task<ConsultasClinicas?> GetByIdAsync(int id);
         Task<ConsultasClinicas?> GetByCpfAndHorarioAsync(string cpf, DateTime dataHora);
         Task<ConsultasClinicas?> GetByCpfAndIdConsultaAsync(string cpf, int idConsulta);
+        Task<IEnumerable<ConsultasClinicas>> GetByMedicoAsync(int? medicoId);
         Task<ConsultasClinicas> AddAsync(ConsultasClinicas c);
         Task<ConsultasClinicas> UpdateAsync(ConsultasClinicas c);
         Task<IEnumerable<ConsultasClinicas>> GetAllConsultasAsync();

@@ -32,9 +32,10 @@ export class ApiService {
   async schedule(data: any): Promise<{ success: boolean; message: string; code?: string }> {
     const isConsulta = !!data.medico;
     const url = isConsulta ? `${this.baseUrl}/api/cadastro/consulta` : `${this.baseUrl}/api/cadastro/exame`;
+    const horarioIso = data.horario ? new Date(data.horario).toISOString() : undefined;
     const payload = isConsulta
-      ? { Medico: data.medico, Paciente: { Nome: data.paciente.nome, CPF: data.paciente.cpf, Sexo: data.paciente.sexo, Idade: data.paciente.idade, DataNascimento: data.paciente.dataNascimento, Telefone: data.paciente.telefone, Email: data.paciente.email }, Horario: data.horario }
-      : { Exame: data.exame, Paciente: { Nome: data.paciente.nome, CPF: data.paciente.cpf, Sexo: data.paciente.sexo, Idade: data.paciente.idade, DataNascimento: data.paciente.dataNascimento, Telefone: data.paciente.telefone, Email: data.paciente.email }, Horario: data.horario };
+      ? { Medico: data.medico, Paciente: { Nome: data.paciente.nome, CPF: data.paciente.cpf, Sexo: data.paciente.sexo, Idade: data.paciente.idade, DataNascimento: data.paciente.dataNascimento, Telefone: data.paciente.telefone, Email: data.paciente.email }, Horario: horarioIso }
+      : { Exame: data.exame, Paciente: { Nome: data.paciente.nome, CPF: data.paciente.cpf, Sexo: data.paciente.sexo, Idade: data.paciente.idade, DataNascimento: data.paciente.dataNascimento, Telefone: data.paciente.telefone, Email: data.paciente.email }, Horario: horarioIso };
 
     try {
       const resp = await this.http.post<{ mensagem: string; codigo: number | string }>(url, payload).toPromise();
@@ -60,6 +61,22 @@ export class ApiService {
     return this.http.post(url, body).toPromise();
   }
 
+  async listMedicos(): Promise<Array<{ IdMedico: number; Nome: string; CRM: string; Especialidade: string }>> {
+    const url = `${this.baseUrl}/clinica/api/Medicos`;
+    const resp = await this.http.get<any>(url).toPromise();
+    if (!resp) return [];
+    const data = Array.isArray(resp) ? resp : resp.data;
+    return (data ?? []) as Array<{ IdMedico: number; Nome: string; CRM: string; Especialidade: string }>;
+  }
+
+  async checkDisponibilidade(especialidade: string, horarioIso: string, medicoId?: number): Promise<boolean> {
+    const params = new URLSearchParams({ especialidade, horario: horarioIso });
+    if (medicoId) params.set('medicoId', String(medicoId));
+    const url = `${this.baseUrl}/clinica/api/clinica/agenda/disponibilidade?${params.toString()}`;
+    await this.http.get(url).toPromise();
+    return true; // retorna true se 200 OK
+  }
+
   async updateProcedimentoPrioridade(idExameAgendamento: number, prioridade: string, atualizadoPor?: string): Promise<any> {
     const url = `${this.baseUrl}/clinica/api/clinica/procedimentos/${idExameAgendamento}/prioridade`;
     return this.http.put(url, { Prioridade: prioridade, AtualizadoPor: atualizadoPor }).toPromise();
@@ -68,5 +85,21 @@ export class ApiService {
   async updateProcedimentoStatus(idExameAgendamento: number, status: string, atualizadoPor?: string): Promise<any> {
     const url = `${this.baseUrl}/clinica/api/clinica/procedimentos/${idExameAgendamento}/status`;
     return this.http.put(url, { Status: status, AtualizadoPor: atualizadoPor }).toPromise();
+  }
+
+  async getConsultasClinica(medicoId?: number): Promise<Appointment[]> {
+    const base = `${this.baseUrl}/clinica/api/ConsultasClinicas`;
+    const url = medicoId ? `${base}/medico/${medicoId}` : base;
+    const data = await this.http.get<any>(url).toPromise();
+    const list = Array.isArray(data) ? data : data?.data || [];
+    return (list ?? []).map((c: any) => ({
+      id: String(c.id ?? c.Id ?? Math.random()),
+      patientName: c.pacienteNome ?? c.PacienteNome ?? 'Paciente',
+      patientCpf: c.cpfPaciente ?? c.CpfPaciente ?? '',
+      type: 'Consulta',
+      specialtyOrExam: c.especialidade ?? c.Especialidade ?? '',
+      dateTime: c.horario ?? c.Horario ?? '',
+      status: c.diagnostico ? 'Atendido' : 'Marcado'
+    } as Appointment));
   }
 }

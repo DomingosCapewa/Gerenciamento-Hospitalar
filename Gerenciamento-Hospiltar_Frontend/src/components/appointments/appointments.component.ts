@@ -34,7 +34,12 @@ export class AppointmentsComponent implements OnInit {
 
     this.isLoading.set(true);
     try {
-        const data = await this.apiService.getAppointments(user.cpf, user.role);
+        let data: Appointment[] = [];
+        if (user.role === 'Usuario') {
+          data = await this.apiService.getAppointments(user.cpf, user.role);
+        } else {
+          data = await this.apiService.getConsultasClinica();
+        }
         this.appointments.set(data);
     } catch (error) {
         console.error('Failed to load appointments', error);

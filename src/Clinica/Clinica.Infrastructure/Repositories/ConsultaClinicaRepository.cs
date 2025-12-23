@@ -51,6 +51,16 @@ namespace Clinica.Infrastructure.Repositories
                 .FirstOrDefaultAsync(c => c.CpfPaciente == cpf && c.Id == idConsulta);
         }
 
+        public async Task<IEnumerable<ConsultasClinicas>> GetByMedicoAsync(int? medicoId)
+        {
+            return await _context.ConsultasClinicas
+                .Where(c => c.IdMedico == medicoId)
+                .Include(c => c.Sintomas)
+                .ThenInclude(cs => cs.Sintoma)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public async Task<ConsultasClinicas> AddAsync(ConsultasClinicas c)
         {
             await _context.ConsultasClinicas.AddAsync(c);

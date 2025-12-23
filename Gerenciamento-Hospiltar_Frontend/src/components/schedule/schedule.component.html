@@ -59,12 +59,11 @@
             <h3 class="text-lg font-medium leading-6 text-gray-900">Detalhes da Consulta</h3>
             <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
               <div class="sm:col-span-3">
-                <label for="medico" class="block text-sm font-medium text-gray-700">Especialidade</label>
-                <select id="medico" name="medico" [(ngModel)]="model.medico" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-                  <option>Pediatria</option>
-                  <option>Cardiologia</option>
-                  <option>Clínica Geral</option>
-                  <option>Dermatologia</option>
+                <label for="medico" class="block text-sm font-medium text-gray-700">Médico</label>
+                <select id="medico" name="medico" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" (ngModelChange)="onMedicoChange($event)" [(ngModel)]="selectedMedicoId">
+                  @for (m of medicos(); track m.IdMedico) {
+                    <option [ngValue]="m.IdMedico">{{ m.Nome }} ({{ m.Especialidade }})</option>
+                  }
                 </select>
               </div>
               <div class="sm:col-span-3">

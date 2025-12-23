@@ -3,6 +3,7 @@ using Clinica.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Http.Json;
+using Microsoft.AspNetCore.Authorization;
 
 
 
@@ -19,6 +20,24 @@ namespace Clinica.API.Controllers
         {
             _repo = repo;
             _httpClientFactory = httpClientFactory;
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "Medico")]
+        [SwaggerOperation(Summary = "Listar consultas", Description = "Lista todas as consultas clínicas.")]
+        public async Task<IActionResult> GetAll()
+        {
+            var list = await _repo.GetAllConsultasAsync();
+            return Ok(list);
+        }
+
+        [HttpGet("medico/{id}")]
+        [Authorize(Policy = "Medico")]
+        [SwaggerOperation(Summary = "Listar consultas por médico", Description = "Lista consultas filtrando pelo IdMedico.")]
+        public async Task<IActionResult> GetByMedico(int id)
+        {
+            var list = await _repo.GetByMedicoAsync(id);
+            return Ok(list);
         }
 
         [HttpGet("{id}")]
