@@ -3,7 +3,9 @@
   "realm": "hospital",
   "enabled": true,
   "sslRequired": "none",
-  "registrationAllowed": false,
+  "loginTheme": "hospital",
+  "registrationAllowed": true,
+  "loginWithEmailAllowed": true,
   "clients": [
     {
       "id": "hospital-api-client-id",
@@ -31,6 +33,7 @@
       { "name": "Admin" }
     ]
   },
+  "defaultRoles": ["offline_access", "uma_authorization", "Usuario"],
   "users": [
     {
       "username": "user",

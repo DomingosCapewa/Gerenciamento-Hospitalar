@@ -27,24 +27,31 @@ export class AppComponent {
 
   doctorNav = [
     ...this.userNav,
-    // Add doctor specific routes here in the future
+    { name: 'Atendimento', href: '/doctor/attend', icon: 'medkit-outline' },
+    { name: 'Procedimentos', href: '/clinica/procedures', icon: 'flask-outline' },
   ];
 
   adminNav = [
     ...this.doctorNav,
-    // Add admin specific routes here in the future
   ];
 
   navigation = computed(() => {
     const role = this.currentUser()?.role;
+    console.log('🔍 Current role:', role);
+    console.log('🔍 Current user:', this.currentUser());
+    console.log('🔍 Doctor nav items:', this.doctorNav);
     switch (role) {
       case 'Admin':
+        console.log('✅ Returning adminNav');
         return this.adminNav;
-      case 'Médico':
+      case 'Medico':
+        console.log('✅ Returning doctorNav');
         return this.doctorNav;
-      case 'Usuário':
+      case 'Usuario':
+        console.log('✅ Returning userNav');
         return this.userNav;
       default:
+        console.log('❌ No role matched, returning empty array');
         return [];
     }
   });

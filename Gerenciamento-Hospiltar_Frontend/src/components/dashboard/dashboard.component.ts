@@ -20,9 +20,9 @@ export class DashboardComponent {
     switch (role) {
       case 'Admin':
         return 'Você tem controle total sobre o sistema.';
-      case 'Médico':
+      case 'Medico':
         return 'Gerencie suas consultas e pacientes.';
-      case 'Usuário':
+      case 'Usuario':
         return 'Agende e visualize suas consultas e exames.';
       default:
         return '';

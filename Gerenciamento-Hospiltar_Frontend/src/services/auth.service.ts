@@ -32,11 +32,11 @@ export class AuthService {
       case 'medico':
       case 'médico':
       case 'doctor':
-        return 'Médico';
+        return 'Medico';
       case 'usuario':
       case 'usuário':
       case 'user':
-        return 'Usuário';
+        return 'Usuario';
       default:
         return null;
     }
@@ -47,19 +47,23 @@ export class AuthService {
     const instance = this.keycloak.getKeycloakInstance();
     const tokenParsed: any = (instance?.tokenParsed as any) || {};
     const roles = this.keycloak.getUserRoles(true);
-    const priority = ['Admin', 'Médico', 'Usuário'] as const;
+    console.log('🟢 Token parsed:', tokenParsed);
+    console.log('🟢 Realm roles:', roles);
+    const priority = ['Admin', 'Medico', 'Usuario'] as const;
     const mappedRoles = roles.map(r => this.mapRoleToApp(r)).filter((r): r is User['role'] => !!r);
-    const selectedRole = priority.find(p => mappedRoles.includes(p)) ?? mappedRoles[0] ?? 'Usuário';
+    console.log('🟢 Mapped roles:', mappedRoles);
+    const selectedRole = priority.find(p => mappedRoles.includes(p)) ?? mappedRoles[0] ?? 'Usuario';
+    console.log('🟢 Selected role:', selectedRole);
 
     const displayName = tokenParsed.name
       ?? `${tokenParsed.given_name ?? ''} ${tokenParsed.family_name ?? ''}`.trim()
       ?? tokenParsed.preferred_username
-      ?? 'Usuário';
+      ?? 'Usuario';
 
     const user: User = {
       id: tokenParsed.sub ?? tokenParsed.preferred_username ?? 'unknown',
       name: displayName,
-      cpf: '',
+      cpf: (tokenParsed.preferred_username ?? '').toString(),
       role: selectedRole,
     };
     this.currentUser.set(user);
@@ -81,6 +85,7 @@ export class AuthService {
   async getToken(): Promise<string | null> {
     try {
       const token = await this.keycloak.getToken();
+      console.log('🔑 JWT Token:', token?.substring(0, 50) + '...');
       return token ?? null;
     } catch {
       return null;

@@ -1,0 +1,22 @@
+<div class="max-w-3xl mx-auto">
+  <h1 class="text-2xl font-bold mb-4">Procedimentos Cirúrgicos/Laboratório</h1>
+  <div class="bg-white shadow rounded p-4">
+    <div class="mb-4">
+      <label class="block font-medium mb-1">ID do Exame Agendado</label>
+      <input type="number" [(ngModel)]="exameId" class="border rounded px-3 py-2 w-full" />
+    </div>
+    <div class="mb-4">
+      <label class="block font-medium mb-1">Prioridade</label>
+      <input [(ngModel)]="prioridade" class="border rounded px-3 py-2 w-full" placeholder="Padrao, Baixa, Alta, Emergencial" />
+      <button (click)="updatePrioridade()" [disabled]="isLoading()" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded">Atualizar Prioridade</button>
+    </div>
+    <div class="mb-4">
+      <label class="block font-medium mb-1">Status</label>
+      <input [(ngModel)]="status" class="border rounded px-3 py-2 w-full" placeholder="Recebido, Em andamento, Concluído, etc." />
+      <button (click)="updateStatus()" [disabled]="isLoading()" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded">Atualizar Status</button>
+    </div>
+
+    <div class="mt-4 text-green-700" *ngIf="message()">{{ message() }}</div>
+    <div class="mt-2 text-red-600" *ngIf="error()">{{ error() }}</div>
+  </div>
+</div>

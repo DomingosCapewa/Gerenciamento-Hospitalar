@@ -3,7 +3,7 @@ export interface User {
   id: string;
   name: string;
   cpf: string;
-  role: 'Usuário' | 'Médico' | 'Admin';
+  role: 'Usuario' | 'Medico' | 'Admin';
 }
 
 export interface Appointment {

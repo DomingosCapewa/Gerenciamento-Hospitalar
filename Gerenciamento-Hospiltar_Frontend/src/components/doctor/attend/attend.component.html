@@ -1,0 +1,43 @@
+<div class="max-w-3xl mx-auto">
+  <h1 class="text-2xl font-bold mb-4">Atendimento de Consulta</h1>
+  <div class="bg-white shadow rounded p-4">
+    <div class="mb-4">
+      <label class="block font-medium mb-1">Modo</label>
+      <select [ngModel]="mode()" (ngModelChange)="mode.set($event)" class="border rounded px-3 py-2">
+        <option value="horario">Por horário</option>
+        <option value="codigo">Por código</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label class="block font-medium mb-1">CPF do Paciente</label>
+      <input [(ngModel)]="pacienteCPF" class="border rounded px-3 py-2 w-full" placeholder="Somente números" maxlength="11" />
+    </div>
+
+    <div class="mb-4" *ngIf="mode() === 'horario'">
+      <label class="block font-medium mb-1">Data e Hora</label>
+      <input type="datetime-local" [(ngModel)]="horario" class="border rounded px-3 py-2 w-full" />
+    </div>
+
+    <div class="mb-4" *ngIf="mode() === 'codigo'">
+      <label class="block font-medium mb-1">Código da Consulta</label>
+      <input type="number" [(ngModel)]="consultaId" class="border rounded px-3 py-2 w-full" />
+    </div>
+
+    <div class="mb-4">
+      <label class="block font-medium mb-1">Sintomas (separar por vírgula)</label>
+      <input [(ngModel)]="sintomasText" class="border rounded px-3 py-2 w-full" placeholder="ex: gripe, fratura" />
+    </div>
+
+    <button (click)="submit()" [disabled]="isLoading()" class="px-4 py-2 bg-blue-600 text-white rounded">
+      {{ isLoading() ? 'Processando...' : 'Atender' }}
+    </button>
+
+    <div class="mt-4 text-red-600" *ngIf="error()">{{ error() }}</div>
+
+    <div class="mt-6" *ngIf="result()">
+      <h2 class="text-xl font-semibold mb-2">Resultado</h2>
+      <pre class="bg-gray-100 p-3 rounded overflow-auto">{{ result() | json }}</pre>
+    </div>
+  </div>
+</div>
