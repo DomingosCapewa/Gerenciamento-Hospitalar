@@ -58,6 +58,15 @@ namespace Clinica.API.Controllers
             }
 
             consulta.Sintomas = sintomasConsulta;
+
+            // Sugestão de diagnóstico e tratamento com base nas doenças associadas aos sintomas
+            var idsSintomas = sintomasConsulta.Select(s => s.SintomaId).Distinct().ToList();
+            var doencasSugeridas = (await _sintomasRepo.SugerirDoencasPorSintomasAsync(idsSintomas)).ToList();
+            if (doencasSugeridas.Count > 0)
+            {
+                consulta.Diagnostico = "Possíveis doenças: " + string.Join(", ", doencasSugeridas.Select(d => d.Nome));
+                consulta.TratamentoSugerido = SugerirTratamento(doencasSugeridas.Select(d => d.Nome));
+            }
       
 
             var atualizado = await _consultasRepo.AtenderConsulta(consulta);
@@ -123,6 +132,10 @@ namespace Clinica.API.Controllers
             }
             examesNecessarios = examesNecessarios.Distinct().ToList();
 
+            consulta.Diagnostico = "Possíveis doenças: " + string.Join(", ", doencasSugeridas.Select(d => d.Nome));
+            consulta.TratamentoSugerido = SugerirTratamento(doencasSugeridas.Select(d => d.Nome));
+            await _consultasRepo.UpdateAsync(consulta);
+
             var protocolosExames = new List<object>();
             if (examesNecessarios.Count > 0)
             {
@@ -133,12 +146,27 @@ namespace Clinica.API.Controllers
                     try
                     {
                         var resp = await clientCirurgico.PostAsJsonAsync("/exames/solicitacoes", payload);
-                        var protocolo = resp.IsSuccessStatusCode ? (object)new { exame, protocolo = await resp.Content.ReadAsStringAsync() } : new { exame, protocolo = "pendente" };
+                        string codigo;
+                        if (resp.IsSuccessStatusCode)
+                        {
+                            var json = await resp.Content.ReadAsStringAsync();
+                            try
+                            {
+                                var doc = System.Text.Json.JsonDocument.Parse(json);
+                                codigo = doc.RootElement.TryGetProperty("protocolo", out var prop) ? prop.GetString() ?? json : json;
+                            }
+                            catch { codigo = json; }
+                        }
+                        else
+                        {
+                            codigo = "pendente";
+                        }
+                        var protocolo = new { mensagem = $"Exame registrado para o CPF: {consulta.CpfPaciente}. Agende o horário.", codigo, tipo = exame };
                         protocolosExames.Add(protocolo);
                     }
                     catch
                     {
-                        protocolosExames.Add(new { exame, protocolo = "erro-integracao" });
+                        protocolosExames.Add(new { mensagem = "Falha ao integrar com centro cirúrgico", codigo = "erro-integracao", tipo = exame });
                     }
                 }
             }
@@ -158,6 +186,147 @@ namespace Clinica.API.Controllers
                 examesSolicitados = protocolosExames,
                 _links = links
             });
+        }
+
+        // Alias compatível com o desafio: POST /api/clinica/AtenderConsulta
+        [HttpPost("~/api/clinica/AtenderConsulta")]
+        [SwaggerOperation(Summary = "Atender consulta (alias)", Description = "Aceita atendimento por CPF+horário ou por código.")]
+        public async Task<IActionResult> AtenderConsultaAlias([FromBody] AtenderConsultaRequestDto body)
+        {
+            if (string.IsNullOrWhiteSpace(body.PacienteCPF))
+                return BadRequest(new { mensagem = "CPF do paciente é obrigatório." });
+
+            ConsultasClinicas? consulta = null;
+            if (body.ConsultaId.HasValue)
+            {
+                consulta = await _consultasRepo.GetByCpfAndIdConsultaAsync(body.PacienteCPF, body.ConsultaId.Value);
+                if (consulta == null) return NotFound(new { mensagem = "Consulta não encontrada pelo código informado." });
+                if (body.DataHora.HasValue)
+                {
+                    consulta.Horario = body.DataHora.Value;
+                }
+            }
+            else if (body.DataHora.HasValue)
+            {
+                consulta = await _consultasRepo.GetByCpfAndHorarioAsync(body.PacienteCPF, body.DataHora.Value);
+                if (consulta == null) return NotFound(new { mensagem = "Consulta não encontrada pelo horário informado." });
+            }
+            else
+            {
+                return BadRequest(new { mensagem = "Informe 'ConsultaId' ou 'DataHora'." });
+            }
+
+            var sintomasConsulta = new List<ConsultaSintoma>();
+            if (body.Sintomas != null && body.Sintomas.Count > 0)
+            {
+                foreach (var s in body.Sintomas)
+                {
+                    var baseSintoma = await _sintomasRepo.GetByIdAsync(s.SintomaId);
+                    if (baseSintoma == null) return BadRequest(new { mensagem = $"SintomaId={s.SintomaId} não encontrado." });
+                    sintomasConsulta.Add(new ConsultaSintoma
+                    {
+                        ConsultaClinicaId = consulta!.Id,
+                        SintomaId = baseSintoma.Id,
+                        Sintoma = baseSintoma,
+                        Prioridade = s.Prioridade ?? baseSintoma.PrioridadePadrao,
+                        Observacao = s.Observacao ?? string.Empty
+                    });
+                }
+            }
+            else if (body.SintomasNomes != null && body.SintomasNomes.Count > 0)
+            {
+                foreach (var nome in body.SintomasNomes)
+                {
+                    var baseSintoma = await _sintomasRepo.GetByNomeAsync(nome);
+                    if (baseSintoma == null) return BadRequest(new { mensagem = $"Sintoma '{nome}' não encontrado." });
+                    sintomasConsulta.Add(new ConsultaSintoma
+                    {
+                        ConsultaClinicaId = consulta!.Id,
+                        SintomaId = baseSintoma.Id,
+                        Sintoma = baseSintoma,
+                        Prioridade = baseSintoma.PrioridadePadrao,
+                        Observacao = string.Empty
+                    });
+                }
+            }
+            else
+            {
+                return BadRequest(new { mensagem = "Informe sintomas por IDs ou nomes." });
+            }
+
+            consulta!.Sintomas = sintomasConsulta;
+            var ids = sintomasConsulta.Select(x => x.SintomaId);
+            var doencas = (await _sintomasRepo.SugerirDoencasPorSintomasAsync(ids)).ToList();
+            consulta.Diagnostico = "Possíveis doenças: " + string.Join(", ", doencas.Select(d => d.Nome));
+            consulta.TratamentoSugerido = SugerirTratamento(doencas.Select(d => d.Nome));
+            await _consultasRepo.UpdateAsync(consulta);
+
+            var examesNecessarios = DeterminarExames(doencas.Select(d => d.Nome));
+            var resultados = new List<object>();
+            if (examesNecessarios.Count > 0)
+            {
+                var clientCirurgico = _httpClientFactory.CreateClient("CirurgicoApi");
+                foreach (var exame in examesNecessarios)
+                {
+                    var payload = new { consultaId = consulta.Id, cpf = consulta.CpfPaciente, exame };
+                    try
+                    {
+                        var resp = await clientCirurgico.PostAsJsonAsync("/exames/solicitacoes", payload);
+                        string codigo;
+                        if (resp.IsSuccessStatusCode)
+                        {
+                            var json = await resp.Content.ReadAsStringAsync();
+                            try
+                            {
+                                var doc = System.Text.Json.JsonDocument.Parse(json);
+                                codigo = doc.RootElement.TryGetProperty("protocolo", out var prop) ? prop.GetString() ?? json : json;
+                            }
+                            catch { codigo = json; }
+                        }
+                        else
+                        {
+                            codigo = "pendente";
+                        }
+                        resultados.Add(new { mensagem = $"Exame registrado sobre o CPF: {consulta.CpfPaciente}. Por favor agendar o horário.", codigo, tipo = exame });
+                    }
+                    catch
+                    {
+                        resultados.Add(new { mensagem = "Falha ao integrar com centro cirúrgico", codigo = "erro-integracao", tipo = exame });
+                    }
+                }
+            }
+
+            return Ok(new
+            {
+                mensagem = "Consulta atendida com sucesso",
+                codigo = consulta.Id,
+                doencasSugeridas = doencas.Select(d => new { d.Id, d.Nome }),
+                examesSolicitados = resultados
+            });
+        }
+
+        private static string SugerirTratamento(IEnumerable<string> nomesDoencas)
+        {
+            var set = nomesDoencas.Select(n => n.ToLowerInvariant()).ToHashSet();
+            if (set.Contains("covid") || set.Contains("gripe"))
+                return "Repouso, hidratação, antitérmicos; avaliar painel respiratório.";
+            if (set.Contains("hemorragia") || set.Contains("fratura") || set.Contains("fraturas internas"))
+                return "Imobilização e encaminhamento para imagem (Tomografia/Ressonância).";
+            if (set.Contains("enxaqueca"))
+                return "Analgésicos, repouso em ambiente silencioso; avaliar imagem se persistente.";
+            return "Acompanhar sintomas e realizar exames básicos.";
+        }
+
+        private static List<string> DeterminarExames(IEnumerable<string> nomesDoencas)
+        {
+            var examesNecessarios = new List<string>();
+            foreach (var nome in nomesDoencas.Select(n => n.ToLowerInvariant()))
+            {
+                if (nome.Contains("hemorragia") || nome.Contains("fratura")) examesNecessarios.Add("Tomografia Computadorizada");
+                if (nome.Contains("fraturas internas") || nome.Contains("enxaqueca")) examesNecessarios.Add("Ressonância Magnética");
+                if (nome.Contains("covid") || nome.Contains("gripe")) examesNecessarios.Add("Painel Respiratório/Laboratório");
+            }
+            return examesNecessarios.Distinct().ToList();
         }
 }
 }

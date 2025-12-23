@@ -1,0 +1,18 @@
+
+@if (notification(); as notif) {
+  <div class="fixed top-5 right-5 z-50 w-full max-w-sm">
+    <div [class]="bgColor()" class="rounded-lg shadow-lg p-4 text-white flex items-start space-x-3">
+        <div class="flex-shrink-0">
+            <ion-icon [name]="iconName()" class="text-2xl"></ion-icon>
+        </div>
+        <div class="flex-1">
+            <p class="text-sm font-medium">{{ notif.message }}</p>
+        </div>
+        <div class="flex-shrink-0">
+            <button (click)="close()" class="text-white hover:text-gray-200">
+                <ion-icon name="close-outline" class="text-xl"></ion-icon>
+            </button>
+        </div>
+    </div>
+  </div>
+}

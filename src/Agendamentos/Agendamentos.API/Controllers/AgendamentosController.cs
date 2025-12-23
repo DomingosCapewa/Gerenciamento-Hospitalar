@@ -22,12 +22,15 @@ public class AgendamentosController : ControllerBase
         _service = service;
     }
 
-    [HttpPost("consultas")]
+
+    [HttpPost("~/api/cadastro/consulta")]
     [Authorize(Policy = "Usuario")]
-    public async Task<IActionResult> CriarConsulta([FromBody] CadastroConsultaDto dto)
+    [SwaggerOperation(Summary = "Cadastro de consulta", Description = "Agenda uma nova consulta.")]
+    public async Task<IActionResult> CadastroConsulta([FromBody] CadastroConsultaDto dto)
     {
         var result = await _service.CriarConsultaAsync(dto);
-        return CreatedAtAction(nameof(ObterConsultaPorId), new { id = result.Id }, result);
+        var mensagem = $"O medico ({dto.Medico}) de {dto.Paciente?.Nome} foi marcado para {dto.Horario:yyyy-MM-dd HH:mm}";
+        return Ok(new { mensagem, codigo = result.Id });
     }
 
     [HttpGet("consultas/{id:int}")]
@@ -59,11 +62,14 @@ public class AgendamentosController : ControllerBase
     }
 
 
-    [HttpPost("exames")]
-    public async Task<IActionResult> CriarExame([FromBody] CadastroExameDto dto)
+    [HttpPost("~/api/cadastro/exame")]
+    [Authorize(Policy = "Usuario")]
+    [SwaggerOperation(Summary = "Cadastro de exame", Description = "Agenda um novo exame.")]
+    public async Task<IActionResult> CadastroExame([FromBody] CadastroExameDto dto)
     {
         var result = await _service.CriarExameAsync(dto);
-        return CreatedAtAction(nameof(ObterExamePorId), new { id = result.Id }, result);
+        var mensagem = $"O exame ({dto.Exame}) de {dto.Paciente?.Nome} foi marcado para {dto.Horario:yyyy-MM-dd HH:mm}";
+        return Ok(new { mensagem, codigo = result.Id });
     }
 
     [HttpGet("exames/{id:int}")]

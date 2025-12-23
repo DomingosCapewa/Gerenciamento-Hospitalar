@@ -1,0 +1,26 @@
+
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-gray-900">
+        Bem-vindo ao Hospital Management System
+      </h2>
+      <p class="mt-2 text-sm text-gray-600">
+        Selecione um perfil para continuar
+      </p>
+    </div>
+    <div class="space-y-4">
+      <button (click)="loginAs('Usuário')" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+        Entrar como Usuário
+      </button>
+      <button (click)="loginAs('Médico')" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+        Entrar como Médico
+      </button>
+      <button (click)="loginAs('Admin')" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition-colors">
+        Entrar como Admin
+      </button>
+    </div>
+  </div>
+</div>
+
+

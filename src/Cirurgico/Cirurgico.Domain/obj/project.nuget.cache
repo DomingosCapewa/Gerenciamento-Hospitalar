@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Pe6mfg4fhwQ=",
+  "dgSpecHash": "XWbShsZsBCo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj",
+  "projectFilePath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dscw\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\9.0.0\\microsoft.aspnetcore.authentication.jwtbearer.9.0.0.nupkg.sha512",
     "C:\\Users\\dscw\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",

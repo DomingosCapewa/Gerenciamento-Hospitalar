@@ -41,8 +41,8 @@ builder.Services.AddHttpClient("CirurgicoApi", c =>
 builder.Services.Configure<RabbitMqOptions>(builder.Configuration.GetSection("RabbitMQ"));
 builder.Services.AddSingleton<IRabbitPublisher, RabbitMqPublisher>();
 
-// TODO: migrate to consumer-based messaging. Keeping legacy background service registration for now.
-builder.Services.AddHostedService<Clinica.Infrastructure.Messaging.ConsultaCriadaBackgroundService>();
+// Consumer baseado no padrão compartilhado
+builder.Services.AddHostedService<Clinica.Infrastructure.Messaging.ConsultaCriadaConsumer>();
 
 builder.Services.AddKeycloakJwtAuth(builder.Configuration);
 

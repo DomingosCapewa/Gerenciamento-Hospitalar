@@ -13,15 +13,16 @@ namespace Clinica.API.Controllers
         public AgendaController(ClinicaDbContext db) { _db = db; }
 
         [HttpGet("disponibilidade")] 
-        [SwaggerOperation(Summary = "Checar disponibilidade por especialidade", Description = "Retorna 200 se disponível, 409 se houver consulta marcada para a especialidade no horário.")]
-        public async Task<IActionResult> Disponibilidade([FromQuery] string especialidade, [FromQuery] DateTime horario)
+        [SwaggerOperation(Summary = "Checar disponibilidade", Description = "Retorna 200 se disponível, 409 se houver consulta para a especialidade/médico no horário.")]
+        public async Task<IActionResult> Disponibilidade([FromQuery] string especialidade, [FromQuery] DateTime horario, [FromQuery] int? medicoId)
         {
             if (string.IsNullOrWhiteSpace(especialidade))
                 return BadRequest(new { mensagem = "Especialidade é obrigatória." });
 
-            var ocupado = await _db.ConsultasClinicas
-                .AsNoTracking()
-                .AnyAsync(c => c.Horario == horario && c.Especialidade.ToLower() == especialidade.ToLower());
+            var query = _db.ConsultasClinicas.AsNoTracking().Where(c => c.Horario == horario && c.Especialidade.ToLower() == especialidade.ToLower());
+            if (medicoId.HasValue)
+                query = query.Where(c => c.IdMedico == medicoId.Value);
+            var ocupado = await query.AnyAsync();
 
             if (ocupado)
                 return Conflict(new { mensagem = "Já existe consulta para esta especialidade no dia e hora informados." });

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.API\\Cirurgico.API.csproj": {}
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\cirurgico.api\\Cirurgico.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.API\\Cirurgico.API.csproj": {
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\cirurgico.api\\Cirurgico.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.API\\Cirurgico.API.csproj",
+        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\cirurgico.api\\Cirurgico.API.csproj",
         "projectName": "Cirurgico.API",
-        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.API\\Cirurgico.API.csproj",
+        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\cirurgico.api\\Cirurgico.API.csproj",
         "packagesPath": "C:\\Users\\dscw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.API\\obj\\",
+        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\cirurgico.api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dscw\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,14 +26,14 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {
-                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj"
+              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {
+                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj"
               },
-              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
-                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj"
+              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
+                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj"
               },
-              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Infrastructure\\Cirurgico.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Infrastructure\\Cirurgico.Infrastructure.csproj"
+              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Infrastructure\\Cirurgico.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Infrastructure\\Cirurgico.Infrastructure.csproj"
               }
             }
           }
@@ -102,14 +102,14 @@
         }
       }
     },
-    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj",
+        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj",
         "projectName": "Cirurgico.Application",
-        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj",
+        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj",
         "packagesPath": "C:\\Users\\dscw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\obj\\",
+        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dscw\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -124,8 +124,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
-                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj"
+              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
+                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj"
               }
             }
           }
@@ -165,14 +165,14 @@
         }
       }
     },
-    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj",
         "projectName": "Cirurgico.Domain",
-        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj",
+        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj",
         "packagesPath": "C:\\Users\\dscw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\obj\\",
+        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dscw\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -228,14 +228,14 @@
         }
       }
     },
-    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Infrastructure\\Cirurgico.Infrastructure.csproj": {
+    "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Infrastructure\\Cirurgico.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Infrastructure\\Cirurgico.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Infrastructure\\Cirurgico.Infrastructure.csproj",
         "projectName": "Cirurgico.Infrastructure",
-        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Infrastructure\\Cirurgico.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Infrastructure\\Cirurgico.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\dscw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dscw\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -250,11 +250,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {
-                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj"
+              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj": {
+                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Application\\Cirurgico.Application.csproj"
               },
-              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
-                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj"
+              "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj": {
+                "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\cirurgico\\Cirurgico.Domain\\Cirurgico.Domain.csproj"
               },
               "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj": {
                 "projectPath": "C:\\Users\\dscw\\My Private Documents\\gerenciamento-hospitalar\\src\\Shared.Contracts\\Shared.Contracts.csproj"

@@ -930,8 +930,9 @@
           "clinica.domain": "1.0.0"
         },
         "runtime": {
-          "Clinica.Application.dll": {
-            "fileVersion": "0.0.0.0"
+          "clinica.application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },

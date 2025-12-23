@@ -1,0 +1,118 @@
+
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-3xl font-bold mb-6">Novo Agendamento</h1>
+  
+  <div class="bg-white p-8 rounded-lg shadow-md">
+    <!-- Tabs -->
+    <div class="border-b border-gray-200 mb-6">
+      <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+        <button (click)="selectTab('consulta')" 
+                [class.border-blue-500]="activeTab() === 'consulta'"
+                [class.text-blue-600]="activeTab() === 'consulta'"
+                [class.border-transparent]="activeTab() !== 'consulta'"
+                [class.text-gray-500]="activeTab() !== 'consulta'"
+                [class.hover:text-gray-700]="activeTab() !== 'consulta'"
+                [class.hover:border-gray-300]="activeTab() !== 'consulta'"
+                class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+          Consulta
+        </button>
+        <button (click)="selectTab('exame')"
+                [class.border-blue-500]="activeTab() === 'exame'"
+                [class.text-blue-600]="activeTab() === 'exame'"
+                [class.border-transparent]="activeTab() !== 'exame'"
+                [class.text-gray-500]="activeTab() !== 'exame'"
+                [class.hover:text-gray-700]="activeTab() !== 'exame'"
+                [class.hover:border-gray-300]="activeTab() !== 'exame'"
+                class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+          Exame
+        </button>
+      </nav>
+    </div>
+
+    <!-- Form -->
+    <form #scheduleForm="ngForm" (ngSubmit)="onSubmit()">
+      <div class="space-y-6">
+        <h3 class="text-lg font-medium leading-6 text-gray-900">Informações do Paciente</h3>
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <div class="sm:col-span-3">
+            <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
+            <input type="text" name="nome" id="nome" [(ngModel)]="model.paciente.nome" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+          </div>
+          <div class="sm:col-span-3">
+            <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
+            <input type="text" name="cpf" id="cpf" [(ngModel)]="model.paciente.cpf" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+          </div>
+          <div class="sm:col-span-3">
+            <label for="idade" class="block text-sm font-medium text-gray-700">Idade</label>
+            <input type="number" name="idade" id="idade" [(ngModel)]="model.paciente.idade" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+          </div>
+          <div class="sm:col-span-3">
+            <label for="sexo" class="block text-sm font-medium text-gray-700">Sexo</label>
+            <select id="sexo" name="sexo" [(ngModel)]="model.paciente.sexo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+              <option>Masculino</option>
+              <option>Feminino</option>
+            </select>
+          </div>
+        </div>
+
+        <hr>
+
+        @if (activeTab() === 'consulta') {
+          <div>
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Detalhes da Consulta</h3>
+            <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+              <div class="sm:col-span-3">
+                <label for="medico" class="block text-sm font-medium text-gray-700">Especialidade</label>
+                <select id="medico" name="medico" [(ngModel)]="model.medico" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                  <option>Pediatria</option>
+                  <option>Cardiologia</option>
+                  <option>Clínica Geral</option>
+                  <option>Dermatologia</option>
+                </select>
+              </div>
+              <div class="sm:col-span-3">
+                <label for="horario-consulta" class="block text-sm font-medium text-gray-700">Data e Hora</label>
+                <input type="datetime-local" name="horario-consulta" id="horario-consulta" [(ngModel)]="model.horario" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+              </div>
+            </div>
+          </div>
+        } @else {
+          <div>
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Detalhes do Exame</h3>
+            <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+              <div class="sm:col-span-3">
+                <label for="exame" class="block text-sm font-medium text-gray-700">Tipo do Exame</label>
+                <select id="exame" name="exame" [(ngModel)]="model.exame" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                  <option>Coleta de sangue</option>
+                  <option>Raio-X</option>
+                  <option>Ressonância Magnética</option>
+                  <option>Tomografia</option>
+                </select>
+              </div>
+              <div class="sm:col-span-3">
+                <label for="horario-exame" class="block text-sm font-medium text-gray-700">Data e Hora</label>
+                <input type="datetime-local" name="horario-exame" id="horario-exame" [(ngModel)]="model.horario" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="pt-5">
+        <div class="flex justify-end">
+          <button type="submit" [disabled]="!scheduleForm.form.valid || isLoading()" class="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed">
+            @if(isLoading()) {
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Agendando...
+            } @else {
+              Agendar
+            }
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

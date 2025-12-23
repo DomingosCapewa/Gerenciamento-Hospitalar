@@ -34,9 +34,22 @@ namespace Cirurgico.API.Controllers
             if (procedimento == null)
                 return NotFound(new { mensagem = "Exame não encontrado. Registre o procedimento primeiro.", codigoExame = body.CodigoExame });
 
-            var ocupado = await _db.Exames.AsNoTracking().AnyAsync(e => e.Horario == body.HorarioDesejado && e.TipoProcedimento.ToLower() == procedimento.TipoProcedimento.ToLower());
-            if (ocupado)
-                return Conflict(new { mensagem = "Horário indisponível para este tipo de exame.", codigoExame = body.CodigoExame });
+            // Regra de Emergencial: pode marcar mesmo com conflito, exceto se já houver outro EMERGENCIAL no mesmo horário
+            var tipoLower = procedimento.TipoProcedimento.ToLower();
+            var existeEmergencialMesmoHorario = await _db.Exames.AsNoTracking()
+                .AnyAsync(e => e.Horario == body.HorarioDesejado && e.TipoProcedimento.ToLower() == tipoLower && e.Prioridade == Shared.Contracts.Enums.PrioridadeSintoma.Emergencial);
+
+            if (procedimento.Prioridade == Shared.Contracts.Enums.PrioridadeSintoma.Emergencial)
+            {
+                if (existeEmergencialMesmoHorario)
+                    return Conflict(new { mensagem = "Já existe procedimento EMERGENCIAL neste horário.", codigoExame = body.CodigoExame });
+            }
+            else
+            {
+                var ocupado = await _db.Exames.AsNoTracking().AnyAsync(e => e.Horario == body.HorarioDesejado && e.TipoProcedimento.ToLower() == tipoLower);
+                if (ocupado)
+                    return Conflict(new { mensagem = "Horário indisponível para este tipo de exame.", codigoExame = body.CodigoExame });
+            }
 
             procedimento.Horario = body.HorarioDesejado;
             procedimento.CpfPaciente = body.PacienteCPF;

@@ -1,0 +1,5 @@
+{
+  "name": "Hospital Management System",
+  "description": "A frontend application for managing hospital appointments, exams, and clinical services, designed to interact with a microservices-based backend.",
+  "requestFramePermissions": []
+}

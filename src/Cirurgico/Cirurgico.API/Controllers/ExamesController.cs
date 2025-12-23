@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
+using Cirurgico.Infrastructure.Persistence;
+using Cirurgico.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cirurgico.API.Controllers
 {
@@ -8,6 +11,11 @@ namespace Cirurgico.API.Controllers
     [Route("api/exames")] 
     public class ExamesController : ControllerBase
     {
+        private readonly CirurgicoDbContext _db;
+        public ExamesController(CirurgicoDbContext db)
+        {
+            _db = db;
+        }
         public class SolicitarExameDto
         {
             public int ConsultaId { get; set; }
@@ -19,20 +27,35 @@ namespace Cirurgico.API.Controllers
         [HttpPost("solicitacoes")]
         [Authorize]
         [SwaggerOperation(Summary = "Solicitar exame", Description = "Recebe a solicitação de exame e retorna um protocolo para agendamento posterior.")]
-        public IActionResult Solicitar([FromBody] SolicitarExameDto dto)
+        public async Task<IActionResult> Solicitar([FromBody] SolicitarExameDto dto)
         {
             if (dto == null || string.IsNullOrWhiteSpace(dto.Cpf) || string.IsNullOrWhiteSpace(dto.Exame))
                 return BadRequest(new { mensagem = "Informe CPF e tipo de exame." });
 
-            var protocolo = $"PRT-{Guid.NewGuid():N}";
+            // Registrar o exame para posterior marcação
+            var entity = new ProcedimentoExame
+            {
+                CpfPaciente = dto.Cpf,
+                TipoProcedimento = dto.Exame,
+                Status = "Recebido",
+                Horario = default,
+            };
+
+            _db.Exames.Add(entity);
+            await _db.SaveChangesAsync();
+
+            // Usa o Id gerado como código de agendamento, garantindo unicidade
+            entity.IdExameAgendamento = entity.Id;
+            await _db.SaveChangesAsync();
 
             var resposta = new
             {
-                protocolo,
+                mensagem = $"Exame registrado sobre o CPF: {dto.Cpf}. Por favor agendar o horário em nosso sistema.",
+                codigo = entity.IdExameAgendamento,
                 exame = dto.Exame,
                 cpf = dto.Cpf,
                 consultaId = dto.ConsultaId,
-                status = "Recebido",
+                status = entity.Status,
                 observacao = dto.Observacao ?? string.Empty
             };
 
