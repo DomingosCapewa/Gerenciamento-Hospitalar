@@ -43,16 +43,22 @@ export class AuthService {
   }
 
   async syncUserFromKeycloak(): Promise<void> {
-    const profile = await this.keycloak.loadUserProfile();
+    try { await this.keycloak.updateToken(30); } catch {}
+    const instance = this.keycloak.getKeycloakInstance();
+    const tokenParsed: any = (instance?.tokenParsed as any) || {};
     const roles = this.keycloak.getUserRoles(true);
     const priority = ['Admin', 'Médico', 'Usuário'] as const;
     const mappedRoles = roles.map(r => this.mapRoleToApp(r)).filter((r): r is User['role'] => !!r);
     const selectedRole = priority.find(p => mappedRoles.includes(p)) ?? mappedRoles[0] ?? 'Usuário';
-    const token = await this.keycloak.getToken();
+
+    const displayName = tokenParsed.name
+      ?? `${tokenParsed.given_name ?? ''} ${tokenParsed.family_name ?? ''}`.trim()
+      ?? tokenParsed.preferred_username
+      ?? 'Usuário';
 
     const user: User = {
-      id: profile.id ?? profile.username ?? 'unknown',
-      name: `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim() || (profile.username ?? 'Usuário'),
+      id: tokenParsed.sub ?? tokenParsed.preferred_username ?? 'unknown',
+      name: displayName,
       cpf: '',
       role: selectedRole,
     };

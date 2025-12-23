@@ -19,7 +19,9 @@
             "browser": "index.tsx",
             "index": "index.html",
             "tsConfig": "tsconfig.json"
-          },
+          },"styles": [
+            "src/styles.css"
+          ],
           "configurations": {
             "production": {
               "outputHashing": "all"

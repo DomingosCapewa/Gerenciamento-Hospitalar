@@ -28,14 +28,14 @@ function initializeKeycloak(keycloak: KeycloakService) {
         checkLoginIframe: false,
         pkceMethod: 'S256',
         redirectUri
-      }
+      }, loadUserProfileAtStartUp: false
     });
   };
 }
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZoneChangeDetection(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(APP_ROUTES, withHashLocation()),
     importProvidersFrom(FormsModule),
     importProvidersFrom(HttpClientModule, KeycloakAngularModule),
