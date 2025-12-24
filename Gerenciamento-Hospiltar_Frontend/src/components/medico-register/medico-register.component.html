@@ -1,0 +1,79 @@
+<div class="max-w-2xl mx-auto py-12 px-6">
+  <div class="bg-white rounded-lg shadow-md p-8">
+    <h1 class="text-3xl font-bold mb-2">Completar Registro - Médico</h1>
+    <p class="text-gray-600 mb-8">Preencha seus dados profissionais para finalizar o cadastro como médico.</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <div class="sm:col-span-4">
+            <label for="nome" class="block text-sm font-medium text-gray-700">Nome Completo *</label>
+            <input 
+              type="text" 
+              id="nome" 
+              name="nome"
+              [(ngModel)]="form.nome" 
+              required 
+              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 focus:border-blue-500 focus:ring-blue-500">
+          </div>
+          <div class="sm:col-span-2">
+            <label for="crm" class="block text-sm font-medium text-gray-700">CRM *</label>
+            <input 
+              type="text" 
+              id="crm" 
+              name="crm"
+              [(ngModel)]="form.crm" 
+              required 
+              placeholder="Ex: 123456/SP"
+              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 focus:border-blue-500 focus:ring-blue-500">
+          </div>
+          <div class="sm:col-span-6">
+            <label for="especialidade" class="block text-sm font-medium text-gray-700">Especialidade *</label>
+            <select 
+              id="especialidade" 
+              name="especialidade"
+              [(ngModel)]="form.especialidade"
+              required
+              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 focus:border-blue-500 focus:ring-blue-500">
+              <option value="">Selecione uma especialidade</option>
+              <option>Pediatria</option>
+              <option>Cardiologia</option>
+              <option>Clínica Geral</option>
+              <option>Dermatologia</option>
+              <option>Ortopedia</option>
+              <option>Cirurgia Geral</option>
+              <option>Neurologia</option>
+              <option>Psiquiatria</option>
+              <option>Oftalmologia</option>
+              <option>Otorrinolaringologia</option>
+              <option>Urologia</option>
+              <option>Ginecologia</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-6 flex justify-end gap-4">
+        <a href="/#/dashboard" class="px-6 py-2 rounded-md border border-gray-300 text-gray-700 font-medium hover:bg-gray-50">
+          Cancelar
+        </a>
+        <button 
+          type="submit" 
+          [disabled]="isLoading()"
+          class="px-6 py-2 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed">
+          @if(isLoading()) {
+            <span class="flex items-center gap-2">
+              <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Registrando...
+            </span>
+          } @else {
+            Registrar Médico
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

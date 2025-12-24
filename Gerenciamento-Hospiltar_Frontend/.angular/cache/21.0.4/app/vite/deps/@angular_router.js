@@ -123,7 +123,6 @@ import {
   __spreadValues
 } from "./chunk-46DXP6YY.js";
 
-// node_modules/@angular/router/fesm2022/_router-chunk.mjs
 var PRIMARY_OUTLET = "primary";
 var RouteTitleKey = Symbol("RouteTitle");
 var ParamsAsMap = class {
@@ -4796,7 +4795,6 @@ function validateCommands(commands) {
   }
 }
 
-// node_modules/@angular/router/fesm2022/_router_module-chunk.mjs
 var RouterLink = class _RouterLink {
   router;
   route;
@@ -5851,7 +5849,6 @@ function provideRouterInitializer() {
   }];
 }
 
-// node_modules/@angular/router/fesm2022/router.mjs
 function mapToCanMatch(providers) {
   return providers.map((provider) => (...params) => inject(provider).canMatch(...params));
 }

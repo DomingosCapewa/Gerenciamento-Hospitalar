@@ -3,7 +3,6 @@ import {
   __spreadValues
 } from "./chunk-46DXP6YY.js";
 
-// node_modules/@angular/core/fesm2022/_effect-chunk.mjs
 var activeConsumer = null;
 var inNotificationPhase = false;
 var epoch = 1;
@@ -406,7 +405,6 @@ function runEffect(node) {
   }
 }
 
-// node_modules/tslib/tslib.es6.mjs
 var extendStatics = function(d, b) {
   extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
     d2.__proto__ = b2;
@@ -621,7 +619,6 @@ function __asyncValues(o) {
   }
 }
 
-// node_modules/rxjs/dist/esm5/internal/util/isFunction.js
 function isFunction(value) {
   return typeof value === "function";
 }

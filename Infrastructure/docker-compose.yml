@@ -72,7 +72,7 @@ services:
     volumes:
       - keycloak_data:/opt/keycloak/data
       - ./keycloak:/opt/keycloak/data/import
-        - ./keycloak/themes:/opt/keycloak/themes
+      - ./keycloak/themes:/opt/keycloak/themes
     networks:
       - hospital-net
 
@@ -193,4 +193,5 @@ volumes:
   mysql_cirurgico_data:
   rabbitmq_data:
   keycloak_data:
+
   

@@ -64,9 +64,20 @@ export class AuthService {
       id: tokenParsed.sub ?? tokenParsed.preferred_username ?? 'unknown',
       name: displayName,
       cpf: (tokenParsed.preferred_username ?? '').toString(),
+      email: tokenParsed.email,
       role: selectedRole,
+      registrationCompleted: localStorage.getItem(`registration_${selectedRole}_${tokenParsed.sub}`) === 'true',
     };
     this.currentUser.set(user);
+  }
+
+  markRegistrationAsComplete(): void {
+    const user = this.currentUser();
+    if (user) {
+      user.registrationCompleted = true;
+      localStorage.setItem(`registration_${user.role}_${user.id}`, 'true');
+      this.currentUser.set(user);
+    }
   }
 
   async login(): Promise<void> {

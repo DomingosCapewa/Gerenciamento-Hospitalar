@@ -102,4 +102,14 @@ export class ApiService {
       status: c.diagnostico ? 'Atendido' : 'Marcado'
     } as Appointment));
   }
+
+  async registerPatient(data: any): Promise<any> {
+    const url = `${this.baseUrl}/api/pacientes`;
+    return this.http.post(url, data).toPromise();
+  }
+
+  async registerMedico(data: any): Promise<any> {
+    const url = `${this.baseUrl}/api/medicos`;
+    return this.http.post(url, data).toPromise();
+  }
 }

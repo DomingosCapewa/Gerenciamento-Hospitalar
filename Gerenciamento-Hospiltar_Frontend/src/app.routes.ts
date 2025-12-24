@@ -9,6 +9,8 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { AppointmentsComponent } from './components/appointments/appointments.component';
 import { AttendComponent } from './components/doctor/attend/attend.component';
 import { ProceduresComponent } from './components/procedures/procedures.component';
+import { PatientRegisterComponent } from './components/patient-register/patient-register.component';
+import { MedicoRegisterComponent } from './components/medico-register/medico-register.component';
 import { AuthService } from './services/auth.service';
 
 const authGuard: CanActivateFn = async () => {
@@ -20,6 +22,17 @@ const authGuard: CanActivateFn = async () => {
   if (logged) {
     if (!authService.currentUser()) {
       await authService.syncUserFromKeycloak();
+    }
+    // Redirecionar para registro se for primeira vez
+    const user = authService.currentUser();
+    if (user && !user.registrationCompleted) {
+      if (user.role === 'Usuario') {
+        router.navigate(['/patient-register']);
+        return false;
+      } else if (user.role === 'Medico') {
+        router.navigate(['/medico-register']);
+        return false;
+      }
     }
     return true;
   }
@@ -49,6 +62,8 @@ const medicoGuard: CanActivateFn = async () => {
 
 export const APP_ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'patient-register', component: PatientRegisterComponent, canActivate: [authGuard] },
+  { path: 'medico-register', component: MedicoRegisterComponent, canActivate: [authGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'schedule', component: ScheduleComponent, canActivate: [authGuard] },
   { path: 'appointments', component: AppointmentsComponent, canActivate: [authGuard] },

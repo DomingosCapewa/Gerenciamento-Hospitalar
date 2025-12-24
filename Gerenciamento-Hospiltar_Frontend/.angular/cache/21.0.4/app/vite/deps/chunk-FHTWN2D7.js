@@ -51,7 +51,6 @@ import {
   __spreadValues
 } from "./chunk-46DXP6YY.js";
 
-// node_modules/@angular/common/fesm2022/_module-chunk.mjs
 var HttpHeaders = class _HttpHeaders {
   headers;
   normalizedNames = /* @__PURE__ */ new Map();
@@ -2072,7 +2071,6 @@ var HttpClientJsonpModule = class _HttpClientJsonpModule {
   }], null, null);
 })();
 
-// node_modules/@angular/common/fesm2022/http.mjs
 var httpResource = (() => {
   const jsonFn = makeHttpResourceFn("json");
   jsonFn.arrayBuffer = makeHttpResourceFn("arraybuffer");

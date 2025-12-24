@@ -2087,7 +2087,6 @@ function bytesToBase64(bytes) {
   return btoa(binString);
 }
 
-// node_modules/keycloak-angular/fesm2022/keycloak-angular.mjs
 var KeycloakEventTypeLegacy;
 (function(KeycloakEventTypeLegacy2) {
   KeycloakEventTypeLegacy2[KeycloakEventTypeLegacy2["OnAuthError"] = 0] = "OnAuthError";

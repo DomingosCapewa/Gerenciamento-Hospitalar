@@ -92,4 +92,22 @@ public class AgendamentosController : ControllerBase
         await _service.ExcluirExameAsync(id);
         return NoContent();
     }
+
+    [HttpPost("~/api/pacientes")]
+    [Authorize(Policy = "Usuario")]
+    [SwaggerOperation(Summary = "Criar/Registrar paciente", Description = "Registra um novo paciente após login/cadastro no Keycloak.")]
+    public async Task<IActionResult> RegistrarPaciente([FromBody] CreatePacienteDto dto)
+    {
+        // TODO: Persistir dados do paciente em uma tabela de Pacientes se necessário
+        // Por enquanto, apenas validamos e retornamos sucesso
+        if (string.IsNullOrWhiteSpace(dto.CPF) || string.IsNullOrWhiteSpace(dto.Nome))
+            return BadRequest(new { mensagem = "CPF e Nome são obrigatórios." });
+
+        var cpfLimpo = System.Text.RegularExpressions.Regex.Replace(dto.CPF, @"\D", "");
+        if (cpfLimpo.Length != 11)
+            return BadRequest(new { mensagem = "CPF inválido (deve ter 11 dígitos)." });
+
+        // Sucesso: paciente registrado
+        return Ok(new { mensagem = "Paciente registrado com sucesso.", data = new { cpf = cpfLimpo, nome = dto.Nome } });
+    }
 }

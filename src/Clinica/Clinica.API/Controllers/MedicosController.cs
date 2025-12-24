@@ -44,5 +44,17 @@ namespace Clinica.API.Controllers
             var createdMedico = await _medicoRepository.AddMedicoAsync(medico);
             return CreatedAtAction(nameof(GetMedicoById), new { id = createdMedico.IdMedico }, new { message = "Medico created successfully", data = createdMedico });
         }
+
+        [HttpPost("~/api/medicos")]
+        [AllowAnonymous]
+        [SwaggerOperation(Summary = "Registrar médico", Description = "Registra um novo médico após login/cadastro no Keycloak.")]
+        public async Task<IActionResult> RegistrarMedico([FromBody] Medico medico)
+        {
+            if (string.IsNullOrWhiteSpace(medico.Nome) || string.IsNullOrWhiteSpace(medico.CRM) || string.IsNullOrWhiteSpace(medico.Especialidade))
+                return BadRequest(new { mensagem = "Nome, CRM e Especialidade são obrigatórios." });
+
+            var createdMedico = await _medicoRepository.AddMedicoAsync(medico);
+            return Ok(new { mensagem = "Médico registrado com sucesso.", data = createdMedico });
+        }
     }
 }

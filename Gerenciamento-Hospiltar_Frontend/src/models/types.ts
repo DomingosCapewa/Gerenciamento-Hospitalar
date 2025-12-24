@@ -3,7 +3,9 @@ export interface User {
   id: string;
   name: string;
   cpf: string;
+  email?: string;
   role: 'Usuario' | 'Medico' | 'Admin';
+  registrationCompleted?: boolean;
 }
 
 export interface Appointment {
