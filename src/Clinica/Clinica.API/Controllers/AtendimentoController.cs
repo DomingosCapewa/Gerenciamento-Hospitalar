@@ -59,7 +59,6 @@ namespace Clinica.API.Controllers
 
             consulta.Sintomas = sintomasConsulta;
 
-            // Sugestão de diagnóstico e tratamento com base nas doenças associadas aos sintomas
             var idsSintomas = sintomasConsulta.Select(s => s.SintomaId).Distinct().ToList();
             var doencasSugeridas = (await _sintomasRepo.SugerirDoencasPorSintomasAsync(idsSintomas)).ToList();
             if (doencasSugeridas.Count > 0)
@@ -188,7 +187,6 @@ namespace Clinica.API.Controllers
             });
         }
 
-        // Alias compatível com o desafio: POST /api/clinica/AtenderConsulta
         [HttpPost("~/api/clinica/AtenderConsulta")]
         [SwaggerOperation(Summary = "Atender consulta (alias)", Description = "Aceita atendimento por CPF+horário ou por código.")]
         public async Task<IActionResult> AtenderConsultaAlias([FromBody] AtenderConsultaRequestDto body)

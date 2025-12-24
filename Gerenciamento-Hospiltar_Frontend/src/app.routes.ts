@@ -13,23 +13,25 @@ import { PatientRegisterComponent } from './components/patient-register/patient-
 import { MedicoRegisterComponent } from './components/medico-register/medico-register.component';
 import { AuthService } from './services/auth.service';
 
-const authGuard: CanActivateFn = async () => {
+const authGuard: CanActivateFn = async (route, state) => {
   const authService = inject(AuthService);
   const keycloak = inject(KeycloakService);
   const router: Router = inject(Router);
+  const target = state?.url ?? '';
 
   const logged = await keycloak.isLoggedIn();
   if (logged) {
     if (!authService.currentUser()) {
       await authService.syncUserFromKeycloak();
     }
-    // Redirecionar para registro se for primeira vez
     const user = authService.currentUser();
     if (user && !user.registrationCompleted) {
       if (user.role === 'Usuario') {
+        if (target.includes('patient-register')) return true;
         router.navigate(['/patient-register']);
         return false;
       } else if (user.role === 'Medico') {
+        if (target.includes('medico-register')) return true;
         router.navigate(['/medico-register']);
         return false;
       }

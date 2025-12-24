@@ -18,7 +18,7 @@ export class AttendComponent {
 
   mode = signal<'horario'|'codigo'>('horario');
   pacienteCPF = '';
-  horario = ''; // ISO string
+  horario = '';
   consultaId?: number;
   sintomasText = '';
 

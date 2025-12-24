@@ -93,7 +93,7 @@ namespace Clinica.API.Controllers
             {
                 var response = await client.PostAsJsonAsync("/integrations/consultas", payload);
             }
-            catch { } // To do: log failure
+            catch { }
         }
 
     }

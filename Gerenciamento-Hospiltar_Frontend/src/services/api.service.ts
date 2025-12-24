@@ -74,7 +74,7 @@ export class ApiService {
     if (medicoId) params.set('medicoId', String(medicoId));
     const url = `${this.baseUrl}/clinica/api/clinica/agenda/disponibilidade?${params.toString()}`;
     await this.http.get(url).toPromise();
-    return true; // retorna true se 200 OK
+    return true;
   }
 
   async updateProcedimentoPrioridade(idExameAgendamento: number, prioridade: string, atualizadoPor?: string): Promise<any> {

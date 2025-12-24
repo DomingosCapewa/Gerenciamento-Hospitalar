@@ -34,7 +34,6 @@ namespace Cirurgico.API.Controllers
             if (procedimento == null)
                 return NotFound(new { mensagem = "Exame não encontrado. Registre o procedimento primeiro.", codigoExame = body.CodigoExame });
 
-            // Regra de Emergencial: pode marcar mesmo com conflito, exceto se já houver outro EMERGENCIAL no mesmo horário
             var tipoLower = procedimento.TipoProcedimento.ToLower();
             var existeEmergencialMesmoHorario = await _db.Exames.AsNoTracking()
                 .AnyAsync(e => e.Horario == body.HorarioDesejado && e.TipoProcedimento.ToLower() == tipoLower && e.Prioridade == Shared.Contracts.Enums.PrioridadeSintoma.Emergencial);

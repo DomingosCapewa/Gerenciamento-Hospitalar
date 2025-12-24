@@ -32,7 +32,6 @@ namespace Cirurgico.API.Controllers
             if (dto == null || string.IsNullOrWhiteSpace(dto.Cpf) || string.IsNullOrWhiteSpace(dto.Exame))
                 return BadRequest(new { mensagem = "Informe CPF e tipo de exame." });
 
-            // Registrar o exame para posterior marcação
             var entity = new ProcedimentoExame
             {
                 CpfPaciente = dto.Cpf,
@@ -44,7 +43,6 @@ namespace Cirurgico.API.Controllers
             _db.Exames.Add(entity);
             await _db.SaveChangesAsync();
 
-            // Usa o Id gerado como código de agendamento, garantindo unicidade
             entity.IdExameAgendamento = entity.Id;
             await _db.SaveChangesAsync();
 

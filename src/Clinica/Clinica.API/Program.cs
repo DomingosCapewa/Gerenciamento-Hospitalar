@@ -41,7 +41,6 @@ builder.Services.AddHttpClient("CirurgicoApi", c =>
 builder.Services.Configure<RabbitMqOptions>(builder.Configuration.GetSection("RabbitMQ"));
 builder.Services.AddSingleton<IRabbitPublisher, RabbitMqPublisher>();
 
-// Consumer baseado no padrão compartilhado
 builder.Services.AddHostedService<Clinica.Infrastructure.Messaging.ConsultaCriadaConsumer>();
 
 builder.Services.AddKeycloakJwtAuth(builder.Configuration);

@@ -33,8 +33,8 @@ export class ScheduleComponent implements OnInit {
       sexo: 'Masculino'
     },
     horario: '',
-    medico: '', // será preenchido com o nome do médico selecionado
-    exame: '' // usuário escolhe
+    medico: '',
+    exame: ''
   };
 
   async ngOnInit(): Promise<void> {
@@ -107,7 +107,6 @@ export class ScheduleComponent implements OnInit {
         const response = await this.apiService.schedule(payload);
         if (response.success) {
             this.notificationService.show(response.message, 'success');
-            // Reset form could go here
         } else {
             this.notificationService.show(response.message, 'error');
         }
