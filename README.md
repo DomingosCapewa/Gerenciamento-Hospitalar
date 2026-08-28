@@ -27,7 +27,6 @@ Plataforma modular para gestão hospitalar composta por três microserviços ind
 | Agendamentos API | 7264 | http://localhost:7264 |
 | Clínica API | 7265 | http://localhost:7265 |
 | Cirúrgico API | 7108 | http://localhost:7108 |
-| KInício Rápido
 
 ### Pré-requisitos
 - Docker Desktop 4.0+
@@ -212,32 +211,9 @@ lsof -i :8085
 - [Clínica API](src/Clinica/README.md)
 - [Cirúrgico API](src/Cirurgico/README.md)
 
-## Roadmap
-
-- [ ] Implementar frontend completo
-- [ ] Adicionar testes unitários e de integração
-- [ ] Implementar autenticação via frontend
-- [ ] Dashboard administrativo
-- [ ] Relatórios e analytics
-- [ ] Notificações em tempo real (SignalR)
-- [ ] CI/CD com GitHub Actions
-- [ ] Kubernetes deployment
-
 ## Contribuição
 
 Este é um projeto acadêmico/demonstrativo. Sugestões e melhorias são bem-vindas.
-
-## Licença
-
-MIT Licensepital`.
-2. Crie o Client `hospital-api` (confidencial ou público – para backend, público costuma ser suficiente para validação de token):
-   - Access Type: Public.
-   - Valid Redirect URIs: pode deixar vazio por enquanto (sem frontend).
-   - Web Origins: `*` (ambiente dev).
-3. Crie Realm Roles: `Usuario`, `Medico`, `Admin`.
-4. Crie usuários e atribua roles conforme necessidade.
-
-Observação: as APIs mapeiam `realm_access.roles` e `resource_access.hospital-api.roles` para claims de role do ASP.NET.
 
 ## Testes rápidos (via Gateway)
 1. Obtenha um token (Password Grant) do Keycloak:
@@ -282,9 +258,3 @@ Observação: as APIs mapeiam `realm_access.roles` e `resource_access.hospital-a
 - 401/403 pelo Gateway: confira roles do usuário no Keycloak e o `Audience` (`hospital-api`).
 - Filas: RabbitMQ em http://localhost:15672 (guest/guest). Verifique que consumidores das APIs estão “running”.
 - Conexões MySQL: variáveis definidas no [Infrastructure/docker-compose.yml](Infrastructure/docker-compose.yml). Aguarde bancos subirem antes de subir as APIs.
-
-## Tecnologias
-- .NET 9, ASP.NET Core, EF Core (Pomelo MySQL)
-- RabbitMQ
-- Keycloak (JWT)
-- YARP (API Gateway)
