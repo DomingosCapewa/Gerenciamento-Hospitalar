@@ -252,9 +252,3 @@ Este é um projeto acadêmico/demonstrativo. Sugestões e melhorias são bem-vin
 - [src/Agendamentos/README.md](src/Agendamentos/README.md)
 - [src/Clinica/README.md](src/Clinica/README.md)
 - [src/Cirurgico/README.md](src/Cirurgico/README.md)
-
-## Troubleshooting
-- HTTP/HTTPS: nos containers `DisableHttpsRedirection=true` mantém HTTP simples; em dev local pode usar HTTPS. 
-- 401/403 pelo Gateway: confira roles do usuário no Keycloak e o `Audience` (`hospital-api`).
-- Filas: RabbitMQ em http://localhost:15672 (guest/guest). Verifique que consumidores das APIs estão “running”.
-- Conexões MySQL: variáveis definidas no [Infrastructure/docker-compose.yml](Infrastructure/docker-compose.yml). Aguarde bancos subirem antes de subir as APIs.
