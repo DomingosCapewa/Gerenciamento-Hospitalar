@@ -1,0 +1,27 @@
+# .NET
+**/bin/
+**/obj/
+**/.vs/
+*.user
+*.suo
+
+# Node / Angular
+**/node_modules/
+**/.angular/
+**/dist/
+npm-debug.log*
+
+# Local configuration and databases
+**/appsettings.Development.json
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+!.env.example
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
